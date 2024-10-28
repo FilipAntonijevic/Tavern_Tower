@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://dqpmnjodkaqb3"]
+
+[ext_resource type="Script" path="res://scripts/card_piles.gd" id="1_d6i3b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fw62i"]
+size = Vector2(45, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vpha5"]
+size = Vector2(45, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mobu1"]
+size = Vector2(45, 75)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8bgxr"]
+size = Vector2(45, 75)
+
+[node name="CardPiles" type="Node2D"]
+script = ExtResource("1_d6i3b")
+
+[node name="Spades_pile" type="Node2D" parent="."]
+position = Vector2(111, 40)
+
+[node name="spades" type="Area2D" parent="Spades_pile"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spades_pile/spades"]
+shape = SubResource("RectangleShape2D_fw62i")
+
+[node name="Diamonds_pile" type="Node2D" parent="."]
+position = Vector2(162, 40)
+
+[node name="diamonds" type="Area2D" parent="Diamonds_pile"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Diamonds_pile/diamonds"]
+shape = SubResource("RectangleShape2D_vpha5")
+
+[node name="Clubs_pile" type="Node2D" parent="."]
+position = Vector2(213, 40)
+
+[node name="clubs" type="Area2D" parent="Clubs_pile"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Clubs_pile/clubs"]
+shape = SubResource("RectangleShape2D_mobu1")
+
+[node name="Hearts_pile" type="Node2D" parent="."]
+position = Vector2(264, 40)
+
+[node name="hearts" type="Area2D" parent="Hearts_pile"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hearts_pile/hearts"]
+shape = SubResource("RectangleShape2D_8bgxr")
+
+[connection signal="mouse_entered" from="Spades_pile/spades" to="." method="_on_spades_mouse_entered"]
+[connection signal="mouse_exited" from="Spades_pile/spades" to="." method="_on_spades_mouse_exited"]
+[connection signal="mouse_entered" from="Diamonds_pile/diamonds" to="." method="_on_diamonds_mouse_entered"]
+[connection signal="mouse_exited" from="Diamonds_pile/diamonds" to="." method="_on_diamonds_mouse_exited"]
+[connection signal="mouse_entered" from="Clubs_pile/clubs" to="." method="_on_clubs_mouse_entered"]
+[connection signal="mouse_exited" from="Clubs_pile/clubs" to="." method="_on_clubs_mouse_exited"]
+[connection signal="mouse_entered" from="Hearts_pile/hearts" to="." method="_on_hearts_mouse_entered"]
+[connection signal="mouse_exited" from="Hearts_pile/hearts" to="." method="_on_hearts_mouse_exited"]

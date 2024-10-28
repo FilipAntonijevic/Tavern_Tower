@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmu7wt0forte7"]
+
+[ext_resource type="Script" path="res://scripts/stacks.gd" id="1_8iutt"]
+[ext_resource type="PackedScene" uid="uid://bwcxi6bljh3k4" path="res://scenes/stack.tscn" id="2_s4y7w"]
+
+[node name="Stacks" type="Node2D"]
+script = ExtResource("1_8iutt")
+
+[node name="Stack1" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(270, 200)
+
+[node name="Stack2" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(370, 200)
+
+[node name="Stack3" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(170, 200)
+
+[node name="Stack4" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(470, 200)
+
+[node name="Stack5" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(270, 120)
+
+[node name="Stack6" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(370, 120)
+
+[node name="Stack7" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(270, 280)
+
+[node name="Stack8" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(370, 280)
+
+[node name="Stack9" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(170, 120)
+
+[node name="Stack10" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(470, 120)
+
+[node name="Stack11" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(170, 280)
+
+[node name="Stack12" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(470, 280)
+
+[node name="Stack13" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(70, 200)
+
+[node name="Stack14" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(570, 200)
+
+[node name="Stack15" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(70, 120)
+
+[node name="Stack16" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(570, 120)
+
+[node name="Stack17" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(70, 280)
+
+[node name="Stack18" parent="." instance=ExtResource("2_s4y7w")]
+position = Vector2(570, 280)

@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpv6w6a3ppdvy"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_6d68x"]
+[ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_hm3g2"]
+[ext_resource type="PackedScene" uid="uid://cci7r3hjubrnr" path="res://scenes/game_controller.tscn" id="3_pqqrr"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_6d68x")
+
+[node name="Ui" parent="." instance=ExtResource("2_hm3g2")]
+
+[node name="GameController" parent="." instance=ExtResource("3_pqqrr")]
+
+[node name="Button3" type="Button" parent="."]
+offset_left = 449.0
+offset_top = 18.0
+offset_right = 614.0
+offset_bottom = 68.0
+text = "deal cards"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 195.0
+offset_top = 142.0
+offset_right = 426.0
+offset_bottom = 231.0
+text = "VICTORY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]
