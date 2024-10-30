@@ -7,9 +7,12 @@ extends Node2D
 
 var origin_stack: Stack = null
 var current_selected_card_for_movement: Card = null
-var current_selected_card_for_movement_index: int = -1
 var current_selected_card_for_movement_position: Vector2 = Vector2.ZERO
 var original_deck: Deck = null
+var double_click_timer: Timer
+var card_dealing_timer: Timer
+var timer: Timer  # Global timer variable
+
 
 @onready var spades_pile: Node2D = card_piles.spades_pile
 @onready var diamonds_pile: Node2D = card_piles.diamonds_pile
@@ -34,58 +37,73 @@ func set_deck(new_deck: Deck):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	double_click_timer = Timer.new()
+	double_click_timer.wait_time = 0.25 # Adjust wait time for double-click threshold
+	double_click_timer.one_shot = true
+	add_child(double_click_timer)
 	
+	card_dealing_timer = Timer.new()
+	card_dealing_timer.wait_time = 0.25
+	card_dealing_timer.one_shot = true
+	add_child(card_dealing_timer)
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func _input(event):
-
-	if event.is_action_pressed("right_mouse_click") && is_dragging == false && stacks.current_selected_stack != null && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
-		origin_stack = stacks.current_selected_stack
-		place_card_to_a_pile_via_right_click()
+	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT && event.pressed:
+		if double_click_timer.is_stopped():
+			double_click_timer.start()
+		else:
+			place_card_to_according_pile()
+			
+	if event.is_action_pressed("right_mouse_click"):
+		place_card_to_according_pile()
 		
 	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				if stacks.current_selected_stack != null && stacks.current_selected_stack.current_selected_card_index >= 0 && current_selected_card_for_movement == null && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
-					origin_stack = stacks.current_selected_stack
-					select_card_to_move()
-					is_dragging = true
-					for stack in stacks.get_children():
-						if stack:
-							stack.is_dragging = true
-					current_selected_card_for_movement.z_index = 100  # Bring to front while dragging
+				drag_selected_card()
 			elif is_dragging == true:
 					is_dragging = false
-					for stack in stacks.get_children():
-						if stack:
-							stack.is_dragging = false
-					if current_selected_card_for_movement != null:
-						assign_new_position_to_previously_dragged_card()
-						current_selected_card_for_movement.z_index = 0
+					assign_new_position_to_previously_dragged_card()
 					current_selected_card_for_movement = null
 	elif event is InputEventMouseMotion and is_dragging == true and current_selected_card_for_movement != null:
 		current_selected_card_for_movement.global_position = get_global_mouse_position()
 
+
+func drag_selected_card():
+	if stacks.current_selected_stack != null && stacks.current_selected_stack.current_selected_card_index >= 0 && current_selected_card_for_movement == null && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
+		origin_stack = stacks.current_selected_stack
+		select_card_to_move()
+		is_dragging = true
+		current_selected_card_for_movement.z_index = 100  
+	
 func assign_new_position_to_previously_dragged_card():
+	if current_selected_card_for_movement == null:
+		return
+		
 	if check_conditions_for_piles():
 		place_card_to_a_pile()
 	elif check_conditions_for_stacks():
-		stacks.move_card_to_this_stack(origin_stack, current_selected_card_for_movement, stacks.current_selected_stack)
-		current_selected_card_for_movement_position = Vector2.ZERO
-		stacks.current_selected_stack.reposition_cards()
+		if origin_stack != stacks.current_selected_stack:
+			stacks.move_card_to_this_stack(origin_stack, current_selected_card_for_movement, stacks.current_selected_stack)
+			current_selected_card_for_movement_position = Vector2.ZERO
+			stacks.current_selected_stack.reposition_cards()
 	else:
 		current_selected_card_for_movement.global_position = current_selected_card_for_movement_position
-		origin_stack.reposition_cards()
+		if origin_stack != stacks.current_selected_stack:
+			origin_stack.reposition_cards()
+	current_selected_card_for_movement.z_index = 0
 
 func place_card_to_a_pile():	
 	stacks.move_card_to_according_pile(original_deck, origin_stack, current_selected_card_for_movement)
 	origin_stack.current_selected_card_index = -1
-	
-func place_card_to_a_pile_via_right_click():
-		stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, current_selected_card_for_movement_index)
-		stacks.current_selected_stack.current_selected_card_index = -1
+
+func place_card_to_according_pile():
+		if is_dragging == false && stacks.current_selected_stack != null && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
+			stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
+			stacks.current_selected_stack.current_selected_card_index = -1
+			origin_stack = stacks.current_selected_stack
 
 func check_conditions_for_piles() -> bool:
 	if card_piles.current_selected_pile == spades_pile:
@@ -124,15 +142,21 @@ func select_card_to_move():
 	current_selected_card_for_movement_position = current_selected_card_for_movement.global_position
 	stacks.current_selected_stack.current_selected_card_index = -1
 	
-func place_cards_from_deck_on_the_table(deck: Deck):
-	
+func place_cards_from_deck_on_the_table(deck: Deck) -> void:
 	deck = shuffle_deck(deck)
-	var i: int = 0
-	while i != deck.card_collection.size():
+	timer = Timer.new()
+	timer.wait_time = 0.015
+	timer.one_shot = true
+	add_child(timer)
+	
+	for i in range(deck.card_collection.size()):
 		var card = deck.get_card(i)
 		stacks.add_card(card)
-		card.set_card_sprite(card.card_path)	
-		i += 1
+		card.set_card_sprite(card.card_path)
+
+		timer.start()
+		await timer.timeout
+	timer.queue_free()
 
 func add_card_to_deck(deck: Deck, suit: String, value: int, path: String):
 	var card = card_scene.instantiate()

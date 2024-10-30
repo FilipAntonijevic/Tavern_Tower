@@ -7,55 +7,55 @@
 script = ExtResource("1_8iutt")
 
 [node name="Stack1" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(270, 200)
+position = Vector2(249, 174)
 
 [node name="Stack2" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(370, 200)
+position = Vector2(349, 174)
 
 [node name="Stack3" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(170, 200)
+position = Vector2(149, 174)
 
 [node name="Stack4" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(470, 200)
+position = Vector2(449, 174)
 
 [node name="Stack5" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(270, 120)
+position = Vector2(249, 109)
 
 [node name="Stack6" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(370, 120)
+position = Vector2(349, 109)
 
 [node name="Stack7" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(270, 280)
+position = Vector2(249, 239)
 
 [node name="Stack8" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(370, 280)
+position = Vector2(349, 239)
 
 [node name="Stack9" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(170, 120)
+position = Vector2(149, 109)
 
 [node name="Stack10" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(470, 120)
+position = Vector2(449, 109)
 
 [node name="Stack11" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(170, 280)
+position = Vector2(149, 239)
 
 [node name="Stack12" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(470, 280)
+position = Vector2(449, 239)
 
 [node name="Stack13" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(70, 200)
+position = Vector2(49, 174)
 
 [node name="Stack14" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(570, 200)
+position = Vector2(549, 174)
 
 [node name="Stack15" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(70, 120)
+position = Vector2(49, 109)
 
 [node name="Stack16" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(570, 120)
+position = Vector2(549, 109)
 
 [node name="Stack17" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(70, 280)
+position = Vector2(49, 239)
 
 [node name="Stack18" parent="." instance=ExtResource("2_s4y7w")]
-position = Vector2(570, 280)
+position = Vector2(549, 239)

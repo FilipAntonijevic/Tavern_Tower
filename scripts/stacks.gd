@@ -27,10 +27,8 @@ var array_of_stacks: Array = [Stack]
 var current_selected_stack: Stack = null
 
 func move_card_to_according_pile(original_deck: Deck, origin_stack: Stack, current_selected_card_for_movement: Card):
-	
 	origin_stack.remove_card_from_deck_and_table_via_card(original_deck, current_selected_card_for_movement)
-	print(origin_stack)
-			
+
 func connect_stack_signals(stack: Stack):
 	if not stack.mouse_entered_stack.is_connected(handle_stack_touched):
 		stack.mouse_entered_stack.connect(handle_stack_touched)
@@ -115,7 +113,7 @@ func check_if_card_can_be_moved_via_value(card: Card, destination_stack: Stack) 
 	elif destination_stack.cards_in_stack.size() == 1:
 		destination_card = destination_stack.cards_in_stack[0]
 		
-	if card.card_value == destination_card.card_value:
+	if destination_card != null && card.card_value == destination_card.card_value:
 		return true
 	return false
 

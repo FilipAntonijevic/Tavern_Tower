@@ -4,10 +4,7 @@ var cards_in_stack: Array = []
 var touched_cards: Array = []
 var current_selected_card_index: int = -1
 
-var is_dragging: bool = false
-
 @onready var collision_shape: CollisionShape2D = $Area2D/CollisionShape2D
-#@onready var card_scene: PackedScene = preload("res://scenes/card.tscn")
 
 signal mouse_entered_stack(stack: Stack)
 signal mouse_exited_stack(stack: Stack)
@@ -44,8 +41,7 @@ func remove_card_from_deck_and_table(deck: Deck, index: int):
 	if index < cards_in_stack.size():
 		var removing_card = cards_in_stack[index]
 		if check_if_card_can_be_placed_on_pile(removing_card):
-			cards_in_stack.remove_at(index)
-			remove_child(removing_card)
+			remove_card_from_table(index)
 			deck.remove_card_by_value(removing_card)
 			place_card_on_according_pile(removing_card)
 			update_card_position(removing_card,0)
@@ -104,8 +100,7 @@ func reposition_cards():
 	var x: float = 0
 	for card in cards_in_stack:
 		update_card_position(card, x)
-		x -= 13
-		
+		x += 20
 
 func update_card_position(card: Node2D, x: float):
 	card.set_position(get_card_position(x))
@@ -161,49 +156,35 @@ func _process(delta: float) -> void:
 		if highest_touched_index >= 0 && highest_touched_index < cards_in_stack.size():
 			cards_in_stack[highest_touched_index].highlight()
 			current_selected_card_index = highest_touched_index
-			set_current_card_index(current_selected_card_index)
-			
-func set_current_card_index(value: int):
-	var ui_node = get_parent().get_parent()  
-	if ui_node:
-		ui_node.current_selected_card_for_movement_index = value
+	
 
 func _on_area_2d_mouse_entered() -> void:
 	mouse_entered_stack.emit(self)
-	if cards_in_stack.size() == 4: #ovo je ako dodam da moze 4 karte na stack ikad
-		update_card_position(cards_in_stack[3], -25) #npr
-		update_card_position(cards_in_stack[1], -13)
-		update_card_position(cards_in_stack[0], 0)
-	if cards_in_stack.size() == 3:
-		update_card_position(cards_in_stack[1], -3)
-		update_card_position(cards_in_stack[0], 20)
-	if cards_in_stack.size() == 2:
-		update_card_position(cards_in_stack[0], 13)
-	set_collision_shape_properties(114,170,-5,0)
+	handle_stack_entered()
 
+func handle_stack_entered():
+	if cards_in_stack.size() == 3:
+		update_card_position(cards_in_stack[1], 15)
+		update_card_position(cards_in_stack[0], -10)
+		set_collision_shape_properties(90,57,15,0)
+	if cards_in_stack.size() == 2:
+		update_card_position(cards_in_stack[0], -5)
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_exited_stack.emit()
-	if cards_in_stack.size() == 4: #ovo je ako dodam da moze 4 karte na stack ikad
-		update_card_position(cards_in_stack[3], -35) #npr
-		update_card_position(cards_in_stack[1], -12)
-		update_card_position(cards_in_stack[0], 0)
+	handle_stack_exited()
+
+func handle_stack_exited():
 	if cards_in_stack.size() == 3:
-		update_card_position(cards_in_stack[1], -12)
+		update_card_position(cards_in_stack[1], 20)
 		update_card_position(cards_in_stack[0], 0)
+		set_collision_shape_properties(80,57,20,0)
 	if cards_in_stack.size() == 2:
 		update_card_position(cards_in_stack[0], 0)
-	set_collision_shape_properties(114,130,-25,0)
 	#TODO da napravim da i za 2 karte radi pixel perfect a ne ovako odokativno (i za 4 ako dodam to)
 	
-func set_collision_shape_properties(height: float, width: float, x: float, y: float):
+func set_collision_shape_properties(width: float,height: float, x: float, y: float):
 
 	var rect_shape = collision_shape.shape as RectangleShape2D
-	collision_shape.position = Vector2(x, y)
-	if is_dragging == true:
-		rect_shape.extents = Vector2(15 + width / 2, 15 + height / 2)
-	else:
-		rect_shape.extents = Vector2(width / 2, height / 2)
-
-func set_is_dragging(is_dragging_ui: bool):
-	is_dragging = is_dragging_ui
+	collision_shape.position = Vector2(x, y) #ovo stvara previse bagova
+	rect_shape.extents = Vector2(width / 2, height / 2)

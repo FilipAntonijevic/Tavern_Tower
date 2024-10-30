@@ -6,7 +6,6 @@ signal mouse_exited_card(card: Card)
 
 @export var card_value: int = 0
 @export var card_suit: String = "Card Suit"
-@export var card_effect: String = "Spell Effect"
 @export var card_path: String = "Card Path"
 @onready var card_sprite: Sprite2D = $Sprite2D
 
@@ -44,7 +43,8 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_area_2d_mouse_entered() -> void:
-	mouse_entered_card.emit(self)
+	if get_parent().get_parent().get_parent().is_dragging == false:
+		mouse_entered_card.emit(self)
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_exited_card.emit(self )
