@@ -182,7 +182,7 @@ func handle_stack_exited():
 	if cards_in_stack.size() == 2:
 		update_card_position(cards_in_stack[0], 0)
 	#TODO da napravim da i za 2 karte radi pixel perfect a ne ovako odokativno (i za 4 ako dodam to)
-	
+
 func set_collision_shape_properties(width: float,height: float, x: float, y: float):
 
 	var rect_shape = collision_shape.shape as RectangleShape2D

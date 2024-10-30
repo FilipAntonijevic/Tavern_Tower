@@ -66,6 +66,7 @@ func _input(event):
 			elif is_dragging == true:
 					is_dragging = false
 					assign_new_position_to_previously_dragged_card()
+					origin_stack.reposition_cards()
 					current_selected_card_for_movement = null
 	elif event is InputEventMouseMotion and is_dragging == true and current_selected_card_for_movement != null:
 		current_selected_card_for_movement.global_position = get_global_mouse_position()
