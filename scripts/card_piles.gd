@@ -21,27 +21,58 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func set_current_card_value_on_spades_pile(value: int):
+	current_card_value_on_spades_pile = value
+
+func set_current_card_value_on_clubs_pile(value: int):
+	current_card_value_on_spades_pile = value
+
+func set_current_card_value_on_diamonds_pile(value: int):
+	current_card_value_on_spades_pile = value
+	
+func set_current_card_value_on_hearts_pile(value: int):
+	current_card_value_on_spades_pile = value
 
 func _on_spades_mouse_entered() -> void:
+	print('pik uso')
 	current_selected_pile = spades_pile
-	
+	highlight_card_that_can_be_played_on_this_pile(current_card_value_on_spades_pile + 1, "spades")
+
 func _on_spades_mouse_exited() -> void:
+	print('pik izaso')
+	get_parent().stacks.touched_card_value = 0
 	current_selected_pile = null
 	
 func _on_diamonds_mouse_entered() -> void:
+	print('karo uso')
+	highlight_card_that_can_be_played_on_this_pile(current_card_value_on_diamonds_pile + 1, "diamonds")
 	current_selected_pile = diamonds_pile
 
 func _on_diamonds_mouse_exited() -> void:
+	print('karo izaso')
+	get_parent().stacks.touched_card_value = 0
 	current_selected_pile = null
 
 func _on_clubs_mouse_entered() -> void:
+	highlight_card_that_can_be_played_on_this_pile(current_card_value_on_clubs_pile + 1, "clubs")	
 	current_selected_pile = clubs_pile
 
 func _on_clubs_mouse_exited() -> void:
+	get_parent().stacks.touched_card_value = 0
 	current_selected_pile = null
 
 func _on_hearts_mouse_entered() -> void:
+	highlight_card_that_can_be_played_on_this_pile(current_card_value_on_hearts_pile + 1, "hearts")
 	current_selected_pile = hearts_pile
 
 func _on_hearts_mouse_exited() -> void:
+	get_parent().stacks.touched_card_value = 0
 	current_selected_pile = null
+
+func highlight_card_that_can_be_played_on_this_pile(value: int, suit: String):
+	var deck = get_parent().original_deck.card_collection
+	for key in deck:
+		var card = deck[key]
+		if card != null && card.card_sprite != null && card.card_value == value && card.card_suit == suit:
+			get_parent().stacks.touched_card_value = value
+			card.card_sprite.set_modulate(Color(1,1,0.6,1))

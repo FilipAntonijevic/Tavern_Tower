@@ -9,7 +9,6 @@ signal mouse_exited_card(card: Card)
 @export var card_path: String = "Card Path"
 @onready var card_sprite: Sprite2D = $Sprite2D
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
@@ -33,11 +32,11 @@ func set_card_path(path: String):
 	card_path = path
 	
 func highlight():
-	card_sprite.set_modulate(Color(1,1,0.77,1))
+	card_sprite.set_modulate(Color(0.7,1,0.7,1))
 
 func unhighlight():
 	card_sprite.set_modulate(Color(1,1,1,1))
-	
+		
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass

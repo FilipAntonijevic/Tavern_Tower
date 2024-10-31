@@ -21,6 +21,8 @@ extends Node2D
 
 @onready var card_scene: PackedScene = preload("res://scenes/card.tscn")
 
+var touched_card_value = 0
+
 var cards_on_the_table: Array = []
 var array_of_stacks: Array = [Stack]
 

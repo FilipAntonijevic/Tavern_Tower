@@ -51,7 +51,6 @@ func remove_card_from_deck_and_table(deck: Deck, index: int):
 func remove_card_from_deck_and_table_via_card(deck: Deck, removing_card: Card):
 
 	if check_if_card_can_be_placed_on_pile(removing_card):
-		print('moze')
 		cards_in_stack.remove_at(cards_in_stack.find(removing_card))
 		remove_child(removing_card)
 		deck.remove_card_by_value(removing_card)
@@ -68,15 +67,19 @@ func check_if_card_can_be_placed_on_pile(card: Card) -> bool:
 		
 	if card.card_suit == "spades" && (spades_pile_value + 1) == card.card_value:
 		get_parent().get_parent().spades_pile_value += 1
+		get_parent().get_parent().card_piles.current_card_value_on_spades_pile += 1
 		return true
 	if card.card_suit == "diamonds" && (diamonds_pile_value + 1) == card.card_value:
 		get_parent().get_parent().diamonds_pile_value += 1
+		get_parent().get_parent().card_piles.current_card_value_on_diamonds_pile += 1
 		return true
 	if card.card_suit == "clubs" && (clubs_pile_value + 1) == card.card_value:
 		get_parent().get_parent().clubs_pile_value += 1
+		get_parent().get_parent().card_piles.current_card_value_on_clubs_pile += 1
 		return true
 	if card.card_suit == "hearts" && (hearts_pile_value + 1) == card.card_value:
 		get_parent().get_parent().hearts_pile_value += 1
+		get_parent().get_parent().card_piles.current_card_value_on_hearts_pile += 1
 		return true
 	return false
 	
@@ -116,15 +119,22 @@ func check_if_card_can_be_added() -> bool:
 	else:
 		return true
 
-func handle_card_touched(card: Card):
+func handle_card_touched(card: Card):	
 	touched_cards.push_back(card)
 
+func highlight_cards_of_same_value(original_touched_card: Card):
+	get_parent().touched_card_value = original_touched_card.card_value
+	var deck = get_parent().get_parent().original_deck.card_collection
+	for key in deck:
+		var card = deck[key]
+		if card != null && card.card_sprite != null && card.card_value == original_touched_card.card_value && card != original_touched_card:
+			card.card_sprite.set_modulate(Color(1,1,0.6,1))
 
 func handle_card_untouched(card: Card):
+	get_parent().touched_card_value = 0
 	var index: int = touched_cards.find(card)
 	if index >= 0:
 		touched_cards.remove_at(index)
-
 		
 func check_if_card_is_on_top_of_the_stack(card_index: int) -> bool:
 	if card_index == 2:
@@ -145,7 +155,8 @@ func _process(delta: float) -> void:
 	
 	for card in cards_in_stack:
 		current_selected_card_index = -1
-		card.unhighlight()
+		if get_parent().touched_card_value != card.card_value:
+			card.unhighlight()
 		
 	if !touched_cards.is_empty():
 		var highest_touched_index: int = -1
@@ -155,6 +166,7 @@ func _process(delta: float) -> void:
 		
 		if highest_touched_index >= 0 && highest_touched_index < cards_in_stack.size():
 			cards_in_stack[highest_touched_index].highlight()
+			highlight_cards_of_same_value(cards_in_stack[highest_touched_index])
 			current_selected_card_index = highest_touched_index
 	
 
