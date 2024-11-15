@@ -1,4 +1,4 @@
-extends Node2D
+class_name Ui extends Node2D
 
 @onready var card_scene: PackedScene = preload("res://scenes/card.tscn")
 @onready var card_piles: Card_piles = $CardPiles
@@ -19,21 +19,15 @@ var timer: Timer  # Global timer variable
 @onready var clubs_pile: Node2D = card_piles.clubs_pile
 @onready var hearts_pile: Node2D = card_piles.hearts_pile
 
-@onready var spades_pile_value: int = card_piles.current_card_value_on_spades_pile
-@onready var diamonds_pile_value: int = card_piles.current_card_value_on_diamonds_pile
-@onready var clubs_pile_value: int = card_piles.current_card_value_on_clubs_pile
-@onready var hearts_pile_value: int = card_piles.current_card_value_on_hearts_pile
-
 var is_dragging: bool = false
 
 func check_if_you_won() -> bool:
-	if spades_pile_value == 13 && diamonds_pile_value == 13 && clubs_pile_value == 13 && hearts_pile_value == 13:
+	if card_piles.current_card_value_on_spades_pile == 13 && card_piles.current_card_value_on_diamonds_pile == 13 && card_piles.current_card_value_on_clubs_pile == 13 &&  card_piles.current_card_value_on_hearts_pile == 13:
 		return true
 	return false
 
 func set_deck(new_deck: Deck):
 	original_deck = new_deck 
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -73,7 +67,7 @@ func _input(event):
 
 
 func drag_selected_card():
-	if stacks.current_selected_stack != null && stacks.current_selected_stack.current_selected_card_index >= 0 && current_selected_card_for_movement == null && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
+	if stacks.current_selected_stack != null && stacks.current_selected_stack.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && current_selected_card_for_movement == null && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
 		origin_stack = stacks.current_selected_stack
 		select_card_to_move()
 		is_dragging = true
@@ -83,13 +77,14 @@ func assign_new_position_to_previously_dragged_card():
 	if current_selected_card_for_movement == null:
 		return
 		
-	if check_conditions_for_piles():
+	if check_conditions_for_piles() && check_if_card_can_be_placed_on_pile(current_selected_card_for_movement):
 		place_card_to_a_pile()
 	elif check_conditions_for_stacks():
 		if origin_stack != stacks.current_selected_stack:
 			stacks.move_card_to_this_stack(origin_stack, current_selected_card_for_movement, stacks.current_selected_stack)
 			current_selected_card_for_movement_position = Vector2.ZERO
 			stacks.current_selected_stack.reposition_cards()
+			get_parent().end_turn()
 	else:
 		current_selected_card_for_movement.global_position = current_selected_card_for_movement_position
 		if origin_stack != stacks.current_selected_stack:
@@ -99,29 +94,56 @@ func assign_new_position_to_previously_dragged_card():
 func place_card_to_a_pile():	
 	stacks.move_card_to_according_pile(original_deck, origin_stack, current_selected_card_for_movement)
 	origin_stack.current_selected_card_index = -1
+	get_parent().end_turn()
 
 func place_card_to_according_pile():
-		if is_dragging == false && stacks.current_selected_stack != null && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
-			stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
-			stacks.current_selected_stack.current_selected_card_index = -1
-			origin_stack = stacks.current_selected_stack
+	if is_dragging == false && stacks.current_selected_stack != null && stacks.current_selected_stack.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]):
+		calculate_and_deal_dmg(stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index])
+		stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
+		stacks.current_selected_stack.current_selected_card_index = -1
+		origin_stack = stacks.current_selected_stack
+		get_parent().end_turn()
 
+func calculate_and_deal_dmg(card: Card):
+	deal_dmg(card.card_value)
+	
+func deal_dmg(value: int):
+	var enemy: Enemy = get_parent().enemy
+	enemy.set_health_value(enemy.health - value)
+	print('enemy took ' + str(value) + 'dmg and now has' + str(enemy.health) + 'health')
+
+func check_if_card_can_be_placed_on_pile(card: Card) -> bool:
+		
+	if card.card_suit == "spades" && (card_piles.current_card_value_on_spades_pile + 1) == card.card_value:
+		#card_piles.current_card_value_on_spades_pile += 1
+		return true
+	if card.card_suit == "diamonds" && (card_piles.current_card_value_on_diamonds_pile + 1) == card.card_value:
+		#card_piles.current_card_value_on_diamonds_pile += 1
+		return true
+	if card.card_suit == "clubs" && (card_piles.current_card_value_on_clubs_pile + 1) == card.card_value:
+		#card_piles.current_card_value_on_clubs_pile += 1
+		return true
+	if card.card_suit == "hearts" && (card_piles.current_card_value_on_hearts_pile + 1) == card.card_value:
+		#card_piles.current_card_value_on_hearts_pile += 1
+		return true
+	return false
+	
 func check_conditions_for_piles() -> bool:
 	if card_piles.current_selected_pile == spades_pile:
 		if current_selected_card_for_movement.card_suit == 'spades':
-			if current_selected_card_for_movement.card_value == spades_pile_value + 1:
+			if current_selected_card_for_movement.card_value == card_piles.current_card_value_on_spades_pile + 1:
 				return true
 	if card_piles.current_selected_pile == clubs_pile:
 		if current_selected_card_for_movement.card_suit == 'clubs':
-			if current_selected_card_for_movement.card_value == clubs_pile_value + 1:
+			if current_selected_card_for_movement.card_value == card_piles.current_card_value_on_clubs_pile + 1:
 				return true
 	if card_piles.current_selected_pile == diamonds_pile:
 		if current_selected_card_for_movement.card_suit == 'diamonds':
-			if current_selected_card_for_movement.card_value == diamonds_pile_value + 1:
+			if current_selected_card_for_movement.card_value == card_piles.current_card_value_on_diamonds_pile + 1:
 				return true
 	if card_piles.current_selected_pile == hearts_pile:
 		if current_selected_card_for_movement.card_suit == 'hearts':
-			if current_selected_card_for_movement.card_value == hearts_pile_value + 1:
+			if current_selected_card_for_movement.card_value == card_piles.current_card_value_on_hearts_pile + 1:
 				return true
 	return false
 		

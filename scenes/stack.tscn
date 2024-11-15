@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bwcxi6bljh3k4"]
+[gd_scene load_steps=4 format=3 uid="uid://bwcxi6bljh3k4"]
 
 [ext_resource type="Script" path="res://scripts/stack.gd" id="1_yo68s"]
+[ext_resource type="Texture2D" uid="uid://dgke853t8fyf7" path="res://sprites/lock.png" id="2_nhbai"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fnwbf"]
 size = Vector2(80, 57)
@@ -15,6 +16,13 @@ script = ExtResource("1_yo68s")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(20, 0)
 shape = SubResource("RectangleShape2D_fnwbf")
+
+[node name="lock_sprite" type="Sprite2D" parent="."]
+visible = false
+z_index = 1
+position = Vector2(20, 0)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_nhbai")
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -1,9 +1,11 @@
+@tool
 class_name Stack extends Node2D
 
 var cards_in_stack: Array = []
 var touched_cards: Array = []
 var current_selected_card_index: int = -1
-
+var locked = false
+@onready var lock_sprite: Sprite2D = $lock_sprite
 @onready var collision_shape: CollisionShape2D = $Area2D/CollisionShape2D
 
 signal mouse_entered_stack(stack: Stack)
@@ -40,49 +42,23 @@ func remove_card_from_table(index: int):
 func remove_card_from_deck_and_table(deck: Deck, index: int):
 	if index < cards_in_stack.size():
 		var removing_card = cards_in_stack[index]
-		if check_if_card_can_be_placed_on_pile(removing_card):
-			remove_card_from_table(index)
-			deck.remove_card_by_value(removing_card)
-			place_card_on_according_pile(removing_card)
-			update_card_position(removing_card,0)
-			removing_card.unhighlight()
-			reposition_cards()
-			
-func remove_card_from_deck_and_table_via_card(deck: Deck, removing_card: Card):
-
-	if check_if_card_can_be_placed_on_pile(removing_card):
-		cards_in_stack.remove_at(cards_in_stack.find(removing_card))
-		remove_child(removing_card)
+		remove_card_from_table(index)
 		deck.remove_card_by_value(removing_card)
 		place_card_on_according_pile(removing_card)
 		update_card_position(removing_card,0)
 		removing_card.unhighlight()
 		reposition_cards()
 			
-func check_if_card_can_be_placed_on_pile(card: Card) -> bool:
-	var spades_pile_value = get_parent().get_parent().spades_pile_value
-	var diamonds_pile_value = get_parent().get_parent().diamonds_pile_value
-	var clubs_pile_value = get_parent().get_parent().clubs_pile_value
-	var hearts_pile_value = get_parent().get_parent().hearts_pile_value
-		
-	if card.card_suit == "spades" && (spades_pile_value + 1) == card.card_value:
-		get_parent().get_parent().spades_pile_value += 1
-		get_parent().get_parent().card_piles.current_card_value_on_spades_pile += 1
-		return true
-	if card.card_suit == "diamonds" && (diamonds_pile_value + 1) == card.card_value:
-		get_parent().get_parent().diamonds_pile_value += 1
-		get_parent().get_parent().card_piles.current_card_value_on_diamonds_pile += 1
-		return true
-	if card.card_suit == "clubs" && (clubs_pile_value + 1) == card.card_value:
-		get_parent().get_parent().clubs_pile_value += 1
-		get_parent().get_parent().card_piles.current_card_value_on_clubs_pile += 1
-		return true
-	if card.card_suit == "hearts" && (hearts_pile_value + 1) == card.card_value:
-		get_parent().get_parent().hearts_pile_value += 1
-		get_parent().get_parent().card_piles.current_card_value_on_hearts_pile += 1
-		return true
-	return false
-	
+func move_card_from_stack_to_a_pile(deck: Deck, removing_card: Card):
+
+	cards_in_stack.remove_at(cards_in_stack.find(removing_card))
+	remove_child(removing_card)
+	deck.remove_card_by_value(removing_card)
+	place_card_on_according_pile(removing_card)
+	update_card_position(removing_card,0)
+	removing_card.unhighlight()
+	reposition_cards()
+
 func place_card_on_according_pile(card: Card):
 		var spades_pile = get_parent().get_parent().spades_pile
 		var diamonds_pile = get_parent().get_parent().diamonds_pile
@@ -91,13 +67,18 @@ func place_card_on_according_pile(card: Card):
 		
 		if card.card_suit == "spades":
 			spades_pile.add_child(card)
+			get_parent().get_parent().card_piles.current_card_value_on_spades_pile += 1
 		if card.card_suit == "diamonds":
 			diamonds_pile.add_child(card)
+			get_parent().get_parent().card_piles.current_card_value_on_diamonds_pile += 1
 		if card.card_suit == "clubs":
 			clubs_pile.add_child(card)
+			get_parent().get_parent().card_piles.current_card_value_on_clubs_pile += 1
 		if card.card_suit == "hearts":
 			hearts_pile.add_child(card)
-
+			get_parent().get_parent().card_piles.current_card_value_on_hearts_pile += 1
+		
+		get_parent().get_parent().get_parent().handle_jokers('on_card_played', card)
 
 func reposition_cards():
 	var x: float = 0

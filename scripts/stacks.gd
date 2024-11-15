@@ -1,4 +1,4 @@
-extends Node2D
+class_name Stacks extends Node2D
 
 @onready var stack1 = $Stack1
 @onready var stack2 = $Stack2
@@ -29,7 +29,7 @@ var array_of_stacks: Array = [Stack]
 var current_selected_stack: Stack = null
 
 func move_card_to_according_pile(original_deck: Deck, origin_stack: Stack, current_selected_card_for_movement: Card):
-	origin_stack.remove_card_from_deck_and_table_via_card(original_deck, current_selected_card_for_movement)
+	origin_stack.move_card_from_stack_to_a_pile(original_deck, current_selected_card_for_movement)
 
 func connect_stack_signals(stack: Stack):
 	if not stack.mouse_entered_stack.is_connected(handle_stack_touched):
@@ -134,7 +134,6 @@ func clear_stacks():
 		array_of_stacks[stack_index].remove_card_from_table(0)
 		array_of_stacks[stack_index].remove_card_from_table(0)
 		array_of_stacks[stack_index].remove_card_from_table(0)
-		array_of_stacks[stack_index].remove_card_from_table(0) #ovo je ako ikad napravimd a moze na stacku da bude po 4 karte pa da ne lupam glavu sto zabada
 		array_of_stacks[stack_index].touched_cards = []
 		stack_index += 1
 	cards_on_the_table = []

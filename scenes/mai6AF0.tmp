@@ -1,12 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=6 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_6d68x"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_hm3g2"]
 [ext_resource type="PackedScene" uid="uid://cci7r3hjubrnr" path="res://scenes/game_controller.tscn" id="3_pqqrr"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="4_3edky"]
 [ext_resource type="PackedScene" uid="uid://dbsc2nhwtbwi" path="res://scenes/jokers/aces_joker.tscn" id="5_f3h0l"]
-[ext_resource type="PackedScene" uid="uid://lpqxhqnlksco" path="res://scenes/jokers/balance_joker.tscn" id="6_xm0x5"]
-[ext_resource type="PackedScene" uid="uid://b1xnbl1swpgpi" path="res://scenes/jokers/OneOfEach_joker.tscn" id="7_w25bx"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_6d68x")
@@ -70,11 +68,5 @@ value = 1.0
 position = Vector2(120, 314)
 
 [node name="AcesJoker" parent="Jokers" instance=ExtResource("5_f3h0l")]
-
-[node name="BalanceJoker" parent="Jokers" instance=ExtResource("6_xm0x5")]
-position = Vector2(70, 0)
-
-[node name="OneOfEachJoker" parent="Jokers" instance=ExtResource("7_w25bx")]
-position = Vector2(140, 0)
 
 [connection signal="pressed" from="Button3" to="." method="_on_button_3_pressed"]

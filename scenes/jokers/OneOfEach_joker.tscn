@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1xnbl1swpgpi"]
+
+[ext_resource type="Script" path="res://scripts/joker.gd" id="1_cduhw"]
+[ext_resource type="Texture2D" uid="uid://xggpqh15fgsl" path="res://sprites/joker_sprites/OneOfEach_joker.png" id="2_cyej1"]
+[ext_resource type="Script" path="res://scripts/jokers/OneOfEach_joker.gd" id="2_haq55"]
+
+[node name="OneOfEachJoker" type="Node2D" node_paths=PackedStringArray("effect")]
+script = ExtResource("1_cduhw")
+effect = NodePath("effect")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_cyej1")
+
+[node name="effect" type="Node2D" parent="."]
+script = ExtResource("2_haq55")
