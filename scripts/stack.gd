@@ -50,7 +50,8 @@ func remove_card_from_deck_and_table(deck: Deck, index: int):
 		reposition_cards()
 			
 func move_card_from_stack_to_a_pile(deck: Deck, removing_card: Card):
-
+	
+	removing_card.z_index = 0
 	cards_in_stack.remove_at(cards_in_stack.find(removing_card))
 	remove_child(removing_card)
 	deck.remove_card_by_value(removing_card)
@@ -65,6 +66,7 @@ func place_card_on_according_pile(card: Card):
 		var clubs_pile = get_parent().get_parent().clubs_pile
 		var hearts_pile = get_parent().get_parent().hearts_pile
 		
+		card.z_index = 0
 		if card.card_suit == "spades":
 			spades_pile.add_child(card)
 			get_parent().get_parent().card_piles.current_card_value_on_spades_pile += 1
@@ -82,9 +84,12 @@ func place_card_on_according_pile(card: Card):
 
 func reposition_cards():
 	var x: float = 0
+	var z = 0
 	for card in cards_in_stack:
+		card.z_index = z
 		update_card_position(card, x)
 		x += 20
+		z += 1
 
 func update_card_position(card: Node2D, x: float):
 	card.set_position(get_card_position(x))

@@ -1,64 +1,66 @@
-extends Node2D
+class_name Main extends Node2D
 
-@onready var ui = $Ui
-@onready var original_deck: Deck = Deck.new()
+var original_deck: Deck = Deck.new()
 
-@onready var game_control: GameController = $GameController
+var current_scene: Node = null 
 
-@onready var enemy: Enemy = $enemy
+@onready var jokers = $Jokers
 
-@onready var jokers = $Jokers.get_children()
+func _ready():
+	original_deck.initialize_deck()
+	load_scene("res://scenes/Shop.tscn") 
 
-func restart_game():
-	enemy.unlock_stacks()
-	game_control.current_state = GameController.GameState.PLAYER_TURN
-	ui.reset(original_deck)
+func add_joker(card: Card) -> void:
+	var path: String = "res://scenes/jokers/Joker_" + str(card.card_value) + "_" + str(card.card_suit) + ".tscn"
+	var joker_scene = load(path)
+	if joker_scene:
+		var joker = joker_scene.instantiate()
+		if joker:
+			jokers.add_child(joker)
+			var joker_position_path: String = "joker_place_" + str(jokers.get_child_count() - 1)
+			joker.position = jokers.get_node("places").get_node(joker_position_path).position	
+			joker.card_value = card.card_value
+			joker.card_suit = card.card_suit
+			joker.card_path = card.card_path
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	ui.set_deck(original_deck)
-	ui.initialize_deck()
-	$Label.visible = false
+func load_scene(scene_path: String) -> void:
+	if current_scene:
+		current_scene.queue_free() 
+		current_scene = null
+	
+	var new_scene = load(scene_path).instantiate()
+	
+	var deck_copy = copy_deck() 
+	new_scene.set_deck(deck_copy)
+
+	add_child(new_scene)
+	current_scene = new_scene
+
+	if scene_path == "res://scenes/Board.tscn":
+		new_scene.set_jokers(jokers)
+		new_scene.connect("show_shop", Callable(self, "_on_show_shop"))
+		jokers.hide()
+	elif scene_path == "res://scenes/Shop.tscn":
+		new_scene.connect("show_board", Callable(self, "_on_show_board"))
+		jokers.show()
+	
+func copy_deck() -> Deck:
+	var deck_copy = Deck.new()
+
+	for card_id in original_deck.card_collection.keys():
+		var card = original_deck.card_collection[card_id]
+		if is_instance_valid(card):
+			var new_card = card.duplicate() 
+			deck_copy.add_card(new_card)
+	
+	return deck_copy
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if game_control.current_state == GameController.GameState.ENEMY_TURN:
-		enemy.ability()
-		game_control.transition(GameController.GameState.PLAYER_TURN)
-		pass
-		
-	if !game_control.is_running:
-		return
-	
-	if ui.check_if_you_won():
-		$Label.visible = true
-		
-func handle_jokers(activation_window: String, card: Card):
-	for joker in jokers:
-		joker.activate(activation_window,original_deck, ui, card)
-		var timer1 = Timer.new()
-		timer1.wait_time = 0.3
-		timer1.one_shot = true
-		add_child(timer1)
-		timer1.start()
-		await timer1.timeout
-		timer1.queue_free()	
-		
-func _on_button_3_pressed() -> void:
-	restart_game()
-	ui.place_cards_from_deck_on_the_table(original_deck)
-	
-	var timer = Timer.new()
-	timer.wait_time = 1 #treba tacno 0.78 s da se podele sve karte pa tek onda da pocnu da rade jokeri da se ne zbune al bode ako je 0.79 iz nekog razloga
-	timer.one_shot = true
-	add_child(timer)
-	timer.start()
-	await timer.timeout
-	timer.queue_free()
-	
-	handle_jokers('on_cards_dealt', null)
+	pass
 
-func end_turn() -> void:
-	if game_control.current_state == GameController.GameState.PLAYER_TURN:
-		game_control.transition(GameController.GameState.ENEMY_TURN)
+func _on_show_board() -> void:
+	load_scene("res://scenes/Board.tscn")
+	
+func _on_show_shop() -> void:
+	load_scene("res://scenes/Shop.tscn")

@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dbsc2nhwtbwi"]
+
+[ext_resource type="Script" path="res://scripts/joker.gd" id="1_u2enq"]
+[ext_resource type="Texture2D" uid="uid://e1t8qa8lsn60" path="res://sprites/card_sprites/1_hearts.png" id="2_8ethv"]
+[ext_resource type="Script" path="res://scripts/jokers/Joker_1_hearts.gd" id="3_lqmuk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aobfw"]
+size = Vector2(39, 57)
+
+[node name="1_hearts" type="Node2D" node_paths=PackedStringArray("effect")]
+script = ExtResource("1_u2enq")
+effect = NodePath("effect")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_8ethv")
+
+[node name="effect" type="Node2D" parent="."]
+script = ExtResource("3_lqmuk")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_aobfw")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

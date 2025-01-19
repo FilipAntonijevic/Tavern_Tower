@@ -11,13 +11,13 @@ signal mouse_exited_card(card: Card)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	pass 
 
-func get_card(name: String, path: String) -> Card:
-	var card: Card = Card.new()
-	set_card_suit(name)
-	set_card_sprite(path)
-	return card
+#func get_card(suit: String, path: String) -> Card:
+#	var card: Card = Card.new()
+#	set_card_suit(suit)
+#	set_card_sprite(path)
+#	return card
 	
 func set_card_sprite(path: String):
 	card_sprite.texture = load(path)
@@ -37,16 +37,19 @@ func highlight():
 func unhighlight():
 	card_sprite.set_modulate(Color(1,1,1,1))
 		
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func _on_area_2d_mouse_entered() -> void:
-	if get_parent().get_parent().get_parent().is_dragging == false:
+	if is_instance_valid(get_parent()) and get_parent() is CardPlace:
 		mouse_entered_card.emit(self)
+	else:
+		if get_parent().get_parent().get_parent().is_dragging == false:
+			mouse_entered_card.emit(self)
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_exited_card.emit(self )
+
 
 func update_card_position(x: float, y: float):
 	self.set_position(Vector2(int(x),int(y)))

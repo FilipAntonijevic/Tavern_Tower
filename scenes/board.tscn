@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpv6w6a3ppdvy"]
+
+[ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
+[ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
+[ext_resource type="PackedScene" uid="uid://cci7r3hjubrnr" path="res://scenes/game_controller.tscn" id="3_71d23"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="4_sfmmc"]
+
+[node name="board" type="Node2D"]
+script = ExtResource("1_ebwuy")
+
+[node name="Ui" parent="." instance=ExtResource("2_rfb5n")]
+
+[node name="Label" type="Label" parent="Ui"]
+offset_left = 319.0
+offset_top = 44.0
+offset_right = 392.0
+offset_bottom = 67.0
+text = "difficulty:"
+
+[node name="Label2" type="Label" parent="Ui"]
+offset_left = 337.0
+offset_top = 20.0
+offset_right = 387.0
+offset_bottom = 43.0
+text = "health:"
+
+[node name="GameController" parent="." instance=ExtResource("3_71d23")]
+
+[node name="deal_cards" type="Button" parent="."]
+offset_left = 525.0
+offset_top = 303.0
+offset_right = 619.0
+offset_bottom = 339.0
+text = "deal cards"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 195.0
+offset_top = 142.0
+offset_right = 426.0
+offset_bottom = 231.0
+text = "VICTORY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="enemy" type="Node2D" parent="."]
+position = Vector2(471, 31)
+script = ExtResource("4_sfmmc")
+
+[node name="health_bar" type="ProgressBar" parent="enemy"]
+offset_left = -74.0
+offset_top = -4.0
+offset_right = 76.0
+offset_bottom = 6.0
+step = 1.0
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="HSlider" type="HSlider" parent="enemy"]
+offset_left = -71.0
+offset_top = 19.0
+offset_right = 76.0
+offset_bottom = 35.0
+max_value = 17.0
+value = 1.0
+
+[node name="Go_to_shop" type="Button" parent="."]
+offset_left = 445.0
+offset_top = 304.0
+offset_right = 516.0
+offset_bottom = 341.0
+text = "shop"
+
+[connection signal="pressed" from="deal_cards" to="." method="_on_deal_cards_pressed"]
+[connection signal="pressed" from="Go_to_shop" to="." method="_on_go_to_shop_pressed"]

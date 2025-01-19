@@ -12,6 +12,7 @@ var original_deck: Deck = null
 var double_click_timer: Timer
 var card_dealing_timer: Timer
 var timer: Timer  # Global timer variable
+var current_selected_joker = null
 
 
 @onready var spades_pile: Node2D = card_piles.spades_pile
@@ -89,9 +90,8 @@ func assign_new_position_to_previously_dragged_card():
 		current_selected_card_for_movement.global_position = current_selected_card_for_movement_position
 		if origin_stack != stacks.current_selected_stack:
 			origin_stack.reposition_cards()
-	current_selected_card_for_movement.z_index = 0
 
-func place_card_to_a_pile():	
+func place_card_to_a_pile():
 	stacks.move_card_to_according_pile(original_deck, origin_stack, current_selected_card_for_movement)
 	origin_stack.current_selected_card_index = -1
 	get_parent().end_turn()
@@ -103,6 +103,49 @@ func place_card_to_according_pile():
 		stacks.current_selected_stack.current_selected_card_index = -1
 		origin_stack = stacks.current_selected_stack
 		get_parent().end_turn()
+		
+	for joker in get_parent().jokers.get_children():
+		if joker.name != "places": 
+			if joker.mouse_is_inside_this_joker == true:
+				place_joker_on_according_pile(joker)
+				get_parent().end_turn()
+
+func place_joker_on_according_pile(joker: Joker) -> void:
+	var card = turn_joker_into_a_card(joker)
+	if is_dragging == false and check_if_card_can_be_placed_on_pile(card):
+		calculate_and_deal_dmg(card)
+		place_card_on_according_pile(card)
+		card.set_card_sprite(card.card_path)
+		remove_joker_from_jokers_array(joker)
+					
+func place_card_on_according_pile(card: Card):
+		if card.card_suit == "spades":
+			spades_pile.add_child(card)
+			card_piles.current_card_value_on_spades_pile += 1
+		if card.card_suit == "diamonds":
+			diamonds_pile.add_child(card)
+			card_piles.current_card_value_on_diamonds_pile += 1
+		if card.card_suit == "clubs":
+			clubs_pile.add_child(card)
+			card_piles.current_card_value_on_clubs_pile += 1
+		if card.card_suit == "hearts":
+			hearts_pile.add_child(card)
+			card_piles.current_card_value_on_hearts_pile += 1
+		
+		get_parent().handle_jokers('on_card_played', card)
+
+
+func remove_joker_from_jokers_array(joker: Joker) -> void:
+	get_parent().jokers.remove_child(joker)
+		
+func turn_joker_into_a_card(joker: Joker) -> Card:	
+	var card: Card = card_scene.instantiate()
+	card.set_card_value(joker.card_value)
+	card.set_card_suit(joker.card_suit)
+	card.set_card_path(joker.card_path)
+
+	return card
+
 
 func calculate_and_deal_dmg(card: Card):
 	deal_dmg(card.card_value)
@@ -110,21 +153,17 @@ func calculate_and_deal_dmg(card: Card):
 func deal_dmg(value: int):
 	var enemy: Enemy = get_parent().enemy
 	enemy.set_health_value(enemy.health - value)
-	print('enemy took ' + str(value) + 'dmg and now has' + str(enemy.health) + 'health')
+	print('enemy took ' + str(value) + ' dmg and now has ' + str(enemy.health) + ' health')
 
 func check_if_card_can_be_placed_on_pile(card: Card) -> bool:
 		
 	if card.card_suit == "spades" && (card_piles.current_card_value_on_spades_pile + 1) == card.card_value:
-		#card_piles.current_card_value_on_spades_pile += 1
 		return true
 	if card.card_suit == "diamonds" && (card_piles.current_card_value_on_diamonds_pile + 1) == card.card_value:
-		#card_piles.current_card_value_on_diamonds_pile += 1
 		return true
 	if card.card_suit == "clubs" && (card_piles.current_card_value_on_clubs_pile + 1) == card.card_value:
-		#card_piles.current_card_value_on_clubs_pile += 1
 		return true
 	if card.card_suit == "hearts" && (card_piles.current_card_value_on_hearts_pile + 1) == card.card_value:
-		#card_piles.current_card_value_on_hearts_pile += 1
 		return true
 	return false
 	
@@ -165,32 +204,25 @@ func select_card_to_move():
 	current_selected_card_for_movement_position = current_selected_card_for_movement.global_position
 	stacks.current_selected_stack.current_selected_card_index = -1
 	
-func place_cards_from_deck_on_the_table(deck: Deck) -> void:
-	deck = shuffle_deck(deck)
+func place_cards_from_deck_on_the_table() -> void:
+	original_deck = shuffle_deck(original_deck)
 	timer = Timer.new()
 	timer.wait_time = 0.015
 	timer.one_shot = true
 	add_child(timer)
 	
-	for i in range(deck.card_collection.size()):
-		var card = deck.get_card(i)
-		stacks.add_card(card)
+	for i in range(original_deck.card_collection.size()):
+		var card = original_deck.get_card(i)
+		stacks.add_card_to_a_stack(card)
 		card.set_card_sprite(card.card_path)
 
 		timer.start()
 		await timer.timeout
 	timer.queue_free()
 
-func add_card_to_deck(deck: Deck, suit: String, value: int, path: String):
-	var card = card_scene.instantiate()
-	card.set_card_value(value)
-	card.set_card_suit(suit)
-	card.set_card_path(path)
-	deck.add_card(card)
-
 func add_card(path: String):
-	var card = card_scene.instantiate()
-	stacks.add_card(card)	
+	var card: Card = card_scene.instantiate()
+	stacks.add_card(card)
 	card.set_card_sprite(path)
 	
 func shuffle_deck(deck: Deck) -> Deck:
@@ -206,63 +238,6 @@ func shuffle_deck(deck: Deck) -> Deck:
 	deck.card_collection = shuffled_deck
 	return deck
 	
-func reset(deck: Deck):
+func clear_stacks():
 	stacks.clear_stacks()
 	
-func initialize_deck():
-	original_deck.card_collection.clear()
-	add_card_to_deck(original_deck, "spades", 1, "res://sprites/card_sprites/1_spades.png")
-	add_card_to_deck(original_deck, "spades", 2, "res://sprites/card_sprites/2_spades.png")
-	add_card_to_deck(original_deck, "spades", 3, "res://sprites/card_sprites/3_spades.png")
-	add_card_to_deck(original_deck, "spades", 4, "res://sprites/card_sprites/4_spades.png")
-	add_card_to_deck(original_deck, "spades", 5, "res://sprites/card_sprites/5_spades.png")
-	add_card_to_deck(original_deck, "spades", 6, "res://sprites/card_sprites/6_spades.png")
-	add_card_to_deck(original_deck, "spades", 7, "res://sprites/card_sprites/7_spades.png")
-	add_card_to_deck(original_deck, "spades", 8, "res://sprites/card_sprites/8_spades.png")
-	add_card_to_deck(original_deck, "spades", 9, "res://sprites/card_sprites/9_spades.png")
-	add_card_to_deck(original_deck, "spades", 10, "res://sprites/card_sprites/10_spades.png")
-	add_card_to_deck(original_deck, "spades", 11, "res://sprites/card_sprites/j_spades.png")
-	add_card_to_deck(original_deck, "spades", 12, "res://sprites/card_sprites/q_spades.png")
-	add_card_to_deck(original_deck, "spades", 13, "res://sprites/card_sprites/k_spades.png")
-	
-	add_card_to_deck(original_deck, "diamonds", 1,  "res://sprites/card_sprites/1_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 2, "res://sprites/card_sprites/2_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 3, "res://sprites/card_sprites/3_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 4, "res://sprites/card_sprites/4_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 5, "res://sprites/card_sprites/5_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 6, "res://sprites/card_sprites/6_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 7, "res://sprites/card_sprites/7_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 8, "res://sprites/card_sprites/8_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 9, "res://sprites/card_sprites/9_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 10, "res://sprites/card_sprites/10_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 11, "res://sprites/card_sprites/j_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 12, "res://sprites/card_sprites/q_diamonds.png")
-	add_card_to_deck(original_deck, "diamonds", 13, "res://sprites/card_sprites/k_diamonds.png")
-	
-	add_card_to_deck(original_deck, "clubs", 1, "res://sprites/card_sprites/1_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 2, "res://sprites/card_sprites/2_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 3, "res://sprites/card_sprites/3_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 4, "res://sprites/card_sprites/4_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 5, "res://sprites/card_sprites/5_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 6, "res://sprites/card_sprites/6_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 7, "res://sprites/card_sprites/7_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 8, "res://sprites/card_sprites/8_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 9, "res://sprites/card_sprites/9_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 10, "res://sprites/card_sprites/10_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 11, "res://sprites/card_sprites/j_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 12, "res://sprites/card_sprites/q_clubs.png")
-	add_card_to_deck(original_deck, "clubs", 13, "res://sprites/card_sprites/k_clubs.png")
-
-	add_card_to_deck(original_deck, "hearts", 1, "res://sprites/card_sprites/1_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 2, "res://sprites/card_sprites/2_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 3, "res://sprites/card_sprites/3_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 4, "res://sprites/card_sprites/4_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 5, "res://sprites/card_sprites/5_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 6, "res://sprites/card_sprites/6_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 7, "res://sprites/card_sprites/7_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 8, "res://sprites/card_sprites/8_hearts.png" )
-	add_card_to_deck(original_deck, "hearts", 9, "res://sprites/card_sprites/9_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 10, "res://sprites/card_sprites/10_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 11, "res://sprites/card_sprites/j_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 12, "res://sprites/card_sprites/q_hearts.png")
-	add_card_to_deck(original_deck, "hearts", 13, "res://sprites/card_sprites/k_hearts.png")

@@ -1,0 +1,54 @@
+[gd_scene load_steps=2 format=3 uid="uid://bf74mxp6eobj7"]
+
+[ext_resource type="Script" path="res://scripts/shop.gd" id="1_nk2n8"]
+
+[node name="Shop" type="Node2D"]
+script = ExtResource("1_nk2n8")
+
+[node name="Button" type="Button" parent="."]
+anchors_preset = -1
+anchor_top = 6.175
+anchor_right = 8.55
+anchor_bottom = 6.175
+offset_left = 454.0
+offset_top = 307.0
+offset_right = 624.0
+offset_bottom = 347.0
+text = "next"
+
+[node name="spawnpoints" type="Node2D" parent="."]
+
+[node name="spawnpoint1" type="Node2D" parent="spawnpoints"]
+position = Vector2(73.1471, 100)
+
+[node name="spawnpoint2" type="Node2D" parent="spawnpoints"]
+position = Vector2(146, 100)
+
+[node name="spawnpoint3" type="Node2D" parent="spawnpoints"]
+position = Vector2(214, 100)
+
+[node name="spawnpoint4" type="Node2D" parent="spawnpoints"]
+position = Vector2(284, 100)
+
+[node name="spawnpoint5" type="Node2D" parent="spawnpoints"]
+position = Vector2(355, 100)
+
+[node name="spawnpoint6" type="Node2D" parent="spawnpoints"]
+position = Vector2(427, 100)
+
+[node name="spawnpoint7" type="Node2D" parent="spawnpoints"]
+position = Vector2(499, 100)
+
+[node name="spawnpoint8" type="Node2D" parent="spawnpoints"]
+position = Vector2(568, 100)
+
+[node name="exacuviate" type="Button" parent="."]
+offset_left = 455.0
+offset_top = 260.0
+offset_right = 623.0
+offset_bottom = 299.0
+text = "exacuvate cards
+"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="exacuviate" to="." method="_on_exacuviate_pressed"]

@@ -83,7 +83,7 @@ func initialize_stacks():
 	stack17 = connect_stack_signals(stack17)
 	stack18 = connect_stack_signals(stack18)
 	
-func add_card(card: Node2D) -> bool:
+func add_card_to_a_stack(card: Node2D) -> bool:
 		
 	if cards_on_the_table.size() < 52:
 		var stack_index: int = int(cards_on_the_table.size()/3) + 1 #tradicionalno deljenje
