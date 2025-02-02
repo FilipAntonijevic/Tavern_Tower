@@ -5,7 +5,8 @@ var drawn_cards = []
 var original_deck: Deck = null
 @onready var desk: Sprite2D = $desk
 @onready var jokers = $Jokers
-@onready var joker_effect_label = $Label
+@onready var joker_effect_label = $ColorRect/joker_effect_label
+@onready var gold_ammount_label = $gold_ammount_label
 
 signal show_board
 
@@ -74,6 +75,7 @@ func _ready() -> void:
 	joker_effect_label.z_index = 100
 	load_jokers()
 	
+	gold_ammount_label.set_text(str(get_parent().total_gold))
 	for card_place in spawnpoints:
 		card_place.connect("joker_bought", Callable(self, "_on_joker_bought"))
 	

@@ -1,6 +1,8 @@
 class_name Joker_1_hearts extends Node2D
 
 var joker_effect = "Play all other aces"
+var joker_price: int = 3
+
 var activation_window = 'on_cards_dealt'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 	if activation_window == _activation_window:

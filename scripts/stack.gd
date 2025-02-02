@@ -80,7 +80,6 @@ func place_card_on_according_pile(card: Card):
 			hearts_pile.add_child(card)
 			get_parent().get_parent().card_piles.current_card_value_on_hearts_pile += 1
 		
-		get_parent().get_parent().get_parent().handle_jokers('on_card_played', card)
 
 func reposition_cards():
 	var x: float = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bf74mxp6eobj7"]
+[gd_scene load_steps=10 format=3 uid="uid://bf74mxp6eobj7"]
 
 [ext_resource type="Script" path="res://scripts/shop.gd" id="1_nk2n8"]
 [ext_resource type="PackedScene" uid="uid://ce465tmrrukmt" path="res://scenes/card_place.tscn" id="2_kfu8g"]
@@ -6,9 +6,14 @@
 [ext_resource type="Texture2D" uid="uid://chxyejk3e8l72" path="res://sprites/card_back_template.png" id="3_ajps5"]
 [ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_7k8mn"]
 [ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="6_5hdlj"]
+[ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="7_vfk6f"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sl2fx"]
 font = ExtResource("6_5hdlj")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ebq5h"]
+font = ExtResource("6_5hdlj")
+font_color = Color(0.73552, 0.735228, 1.54018e-06, 1)
 
 [node name="Shop" type="Node2D"]
 script = ExtResource("1_nk2n8")
@@ -108,15 +113,28 @@ offset_right = 296.0
 offset_bottom = 286.0
 color = Color(0, 0, 0, 0.588235)
 
-[node name="Label" type="Label" parent="."]
+[node name="joker_effect_label" type="Label" parent="ColorRect"]
 z_index = 10
-offset_left = 49.0
-offset_top = 164.0
-offset_right = 288.0
-offset_bottom = 282.0
+offset_left = 8.0
+offset_top = 1.0
+offset_right = 247.0
+offset_bottom = 119.0
 text = "Hower a card to see its joker effect"
 label_settings = SubResource("LabelSettings_sl2fx")
 autowrap_mode = 3
+
+[node name="gold_ammount_label" type="Label" parent="."]
+offset_left = 484.0
+offset_top = 22.0
+offset_right = 525.0
+offset_bottom = 58.0
+text = "0"
+label_settings = SubResource("LabelSettings_ebq5h")
+horizontal_alignment = 2
+
+[node name="coin" type="Sprite2D" parent="gold_ammount_label"]
+position = Vector2(56, 7)
+texture = ExtResource("7_vfk6f")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="exacuviate" to="." method="_on_exacuviate_pressed"]

@@ -4,7 +4,8 @@ var original_deck: Deck = Deck.new()
 
 var current_scene: Node = null 
 
-var total_gold: int = 0
+var total_gold: int = 10
+var enemy_gold: int = 5
 
 @onready var jokers = $Jokers
 

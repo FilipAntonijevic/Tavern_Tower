@@ -1,6 +1,7 @@
 class_name Joker_11_hearts extends Node
 
 var joker_effect = "When cards on all 4 piles have the same value, deal 15 dmg"
+var joker_price: int = 3
 
 var activation_window: String = 'on_card_played'
 var array_of_possible_equal_numbers: Array = [1,2,3,4,5,6,7,8,9,10,11,12,13]

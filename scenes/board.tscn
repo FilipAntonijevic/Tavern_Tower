@@ -67,8 +67,6 @@ vertical_alignment = 1
 [node name="enemy" type="Node2D" parent="."]
 position = Vector2(471, 31)
 script = ExtResource("4_sfmmc")
-score = null
-goal = null
 
 [node name="score_text_label" type="Label" parent="enemy"]
 z_index = 10
@@ -139,48 +137,48 @@ texture = ExtResource("6_ddkuv")
 position = Vector2(547, 31)
 
 [node name="coin1" type="Sprite2D" parent="coins"]
-position = Vector2(-58, 17)
+position = Vector2(-61, -11)
 texture = ExtResource("5_twevn")
 flip_h = true
 
 [node name="coin2" type="Sprite2D" parent="coins"]
-position = Vector2(-59, -9)
+position = Vector2(-34, -11)
 texture = ExtResource("5_twevn")
 
 [node name="coin3" type="Sprite2D" parent="coins"]
-position = Vector2(-7, -12)
+position = Vector2(-8, -13)
 texture = ExtResource("5_twevn")
 
 [node name="coin4" type="Sprite2D" parent="coins"]
-position = Vector2(-33, -10)
+position = Vector2(18, -11)
 texture = ExtResource("5_twevn")
 flip_h = true
 
 [node name="coin5" type="Sprite2D" parent="coins"]
-position = Vector2(-4, 16)
+position = Vector2(46, -10)
 texture = ExtResource("5_twevn")
 flip_h = true
 
 [node name="coin6" type="Sprite2D" parent="coins"]
-position = Vector2(24, 15)
+position = Vector2(-56, 17)
 texture = ExtResource("5_twevn")
 
 [node name="coin7" type="Sprite2D" parent="coins"]
-position = Vector2(45, -11)
+position = Vector2(-27, 20)
 texture = ExtResource("5_twevn")
 flip_h = true
 
 [node name="coin8" type="Sprite2D" parent="coins"]
-position = Vector2(18, -12)
+position = Vector2(-1, 15)
 texture = ExtResource("5_twevn")
 flip_h = true
 
 [node name="coin9" type="Sprite2D" parent="coins"]
-position = Vector2(-31, 19)
+position = Vector2(27, 20)
 texture = ExtResource("5_twevn")
 
 [node name="coin10" type="Sprite2D" parent="coins"]
-position = Vector2(48, 16)
+position = Vector2(51, 15)
 texture = ExtResource("5_twevn")
 flip_h = true
 

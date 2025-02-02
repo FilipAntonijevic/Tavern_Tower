@@ -2,10 +2,12 @@ extends Node2D
 
 @onready var ui = $Ui
 var original_deck: Deck = null
+var enemy_gold: int = 0
 
 @onready var game_control: GameController = $GameController
 
 @onready var enemy: Enemy = $enemy
+@onready var coins = $coins
 
 var jokers = null
 
@@ -19,10 +21,28 @@ func restart_game():
 	game_control.current_state = GameController.GameState.PLAYER_TURN
 	ui.clear_stacks()
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Label.visible = false
 	ui.set_deck(original_deck)
+	enemy_gold = get_parent().enemy_gold
+	hide_coins(10)
+	show_coins()
+
+func hide_coins(k: int) -> void:
+	var i = 0
+	for coin in coins.get_children():
+		coin.hide()
+		i += 1
+		if i == k:
+			return
+	
+func show_coins() -> void:
+	var i = 0
+	for coin in coins.get_children():
+		coin.show()
+		i += 1
+		if i == enemy_gold:
+			return
 
 func _process(delta: float) -> void:
 	if game_control.current_state == GameController.GameState.ENEMY_TURN:
@@ -33,9 +53,19 @@ func _process(delta: float) -> void:
 	if !game_control.is_running:
 		return
 	
+	if check_if_you_beat_enemy():
+		get_parent().total_gold += enemy_gold
+		emit_signal("show_shop")
+		hide() 
+		
 	if ui.check_if_you_won():
 		$Label.visible = true
-
+		
+func check_if_you_beat_enemy() -> bool:
+	if enemy.goal <= 0:
+		return true
+	return false 
+	
 func set_jokers(jokers_parent: Node) -> void:
 	jokers = jokers_parent.duplicate()  
 	add_child(jokers)  
@@ -50,7 +80,8 @@ func handle_jokers(activation_window: String, card: Card):
 			add_child(timer1)
 			timer1.start()
 			await timer1.timeout
-			timer1.queue_free()	
+			timer1.queue_free()
+	end_turn()
 		
 func _on_deal_cards_pressed() -> void:
 	restart_game()
