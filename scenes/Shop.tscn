@@ -1,10 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://bf74mxp6eobj7"]
+[gd_scene load_steps=8 format=3 uid="uid://bf74mxp6eobj7"]
 
 [ext_resource type="Script" path="res://scripts/shop.gd" id="1_nk2n8"]
 [ext_resource type="PackedScene" uid="uid://ce465tmrrukmt" path="res://scenes/card_place.tscn" id="2_kfu8g"]
 [ext_resource type="Texture2D" uid="uid://dtddgnsc00sxx" path="res://sprites/shop_desk.png" id="2_lcwta"]
 [ext_resource type="Texture2D" uid="uid://chxyejk3e8l72" path="res://sprites/card_back_template.png" id="3_ajps5"]
 [ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_7k8mn"]
+[ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="6_5hdlj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sl2fx"]
+font = ExtResource("6_5hdlj")
 
 [node name="Shop" type="Node2D"]
 script = ExtResource("1_nk2n8")
@@ -111,6 +115,7 @@ offset_top = 164.0
 offset_right = 288.0
 offset_bottom = 282.0
 text = "Hower a card to see its joker effect"
+label_settings = SubResource("LabelSettings_sl2fx")
 autowrap_mode = 3
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -7,7 +7,8 @@ signal joker_bought(card: Card)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	buy_button.hide()
-	buy_button.connect("pressed", Callable(self, "_on_buy_button_pressed"))
+	if not buy_button.is_connected("pressed", Callable(self, "_on_buy_button_pressed")):
+		buy_button.connect("pressed", Callable(self, "_on_buy_button_pressed"))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -23,7 +24,6 @@ func _on_area_2d_mouse_entered() -> void:
 		card.position.y -= 2
 		card.highlight()
 		buy_button.show()
-		#await get_tree().create_timer(0.08).timeout
 		buy_button.position.y += 21
 	
 	

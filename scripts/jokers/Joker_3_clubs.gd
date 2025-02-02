@@ -2,7 +2,6 @@ class_name Joker_3_clubs extends Node2D
 
 var joker_effect = "Sort all clubs cards in each stack"
 
-#at the start of the game places all aces on acording piles
 var activation_window = 'on_cards_dealt'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 	if activation_window == _activation_window:

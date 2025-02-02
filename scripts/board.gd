@@ -22,14 +22,13 @@ func restart_game():
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	$Label.visible = false
-	$enemy/health_bar.add_theme_color_override("scrollbar_color", Color.DARK_RED)
 	ui.set_deck(original_deck)
 
 func _process(delta: float) -> void:
 	if game_control.current_state == GameController.GameState.ENEMY_TURN:
+		enemy.reduce_goal_by_score_ammount()
 		enemy.ability()
 		game_control.transition(GameController.GameState.PLAYER_TURN)
-		pass
 		
 	if !game_control.is_running:
 		return

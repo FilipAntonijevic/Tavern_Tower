@@ -17,8 +17,10 @@ func activate(_activation_window: String, deck: Deck, ui: Ui, card: Card):
 	
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	area_2d.connect("mouse_entered", Callable(self, "_on_area_2d_mouse_entered"))
-	area_2d.connect("mouse_exited", Callable(self, "_on_area_2d_mouse_exited"))
+	if not area_2d.is_connected("mouse_entered", Callable(self, "_on_area_2d_mouse_entered")):
+		area_2d.connect("mouse_entered", Callable(self, "_on_area_2d_mouse_entered"))
+	if not area_2d.is_connected("mouse_exited", Callable(self, "_on_area_2d_mouse_exited")):
+		area_2d.connect("mouse_exited", Callable(self, "_on_area_2d_mouse_exited"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

@@ -1,15 +1,14 @@
-class_name Joker_13_diamonds extends Node
+class_name Joker_13_clubs extends Node
 
-var joker_effect = "When you play 3 diamonds deal 10 dmg"
+var joker_effect = "When you play 3 clubs deal 10 dmg"
 
-#when a spade, club , diamond, and a heart card are placed on a pile, deal 10 dmg (repeatable) 
 var activation_window: String = 'on_card_played'
 var suit_counter: int = 3
 
 func activate(_activation_window: String, deck: Deck, ui: Ui, card: Card):
 	
 	if activation_window == _activation_window:
-		if card.card_suit == 'diamonds':
+		if card.card_suit == 'clubs':
 			suit_counter -= 1
 			if suit_counter == 0:
 				suit_counter = 3

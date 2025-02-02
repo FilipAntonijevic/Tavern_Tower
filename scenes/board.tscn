@@ -1,9 +1,37 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=14 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
 [ext_resource type="PackedScene" uid="uid://cci7r3hjubrnr" path="res://scenes/game_controller.tscn" id="3_71d23"]
+[ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="3_cgx21"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="4_sfmmc"]
+[ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="5_twevn"]
+[ext_resource type="Texture2D" uid="uid://dmvfutelsf0pv" path="res://sprites/paper.png" id="6_ddkuv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_r56b3"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.0142752, 0.0142752, 0.0142752, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rty6a"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.243137, 0.231373, 0.239216, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1t3gt"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.241903, 0.229738, 0.240595, 1)
+shadow_size = 0
+
+[sub_resource type="LabelSettings" id="LabelSettings_wefor"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.243137, 0.231373, 0.239216, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ghmby"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.376171, 0.480599, 0.229245, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_rolv7"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.832334, 0.0685794, 0.217519, 1)
 
 [node name="board" type="Node2D"]
 script = ExtResource("1_ebwuy")
@@ -11,18 +39,12 @@ script = ExtResource("1_ebwuy")
 [node name="Ui" parent="." instance=ExtResource("2_rfb5n")]
 
 [node name="Label" type="Label" parent="Ui"]
-offset_left = 319.0
-offset_top = 44.0
-offset_right = 392.0
-offset_bottom = 67.0
+offset_left = 27.0
+offset_top = 281.0
+offset_right = 100.0
+offset_bottom = 304.0
 text = "difficulty:"
-
-[node name="Label2" type="Label" parent="Ui"]
-offset_left = 337.0
-offset_top = 20.0
-offset_right = 387.0
-offset_bottom = 43.0
-text = "health:"
+label_settings = SubResource("LabelSettings_r56b3")
 
 [node name="GameController" parent="." instance=ExtResource("3_71d23")]
 
@@ -45,22 +67,60 @@ vertical_alignment = 1
 [node name="enemy" type="Node2D" parent="."]
 position = Vector2(471, 31)
 script = ExtResource("4_sfmmc")
+score = null
+goal = null
 
-[node name="health_bar" type="ProgressBar" parent="enemy"]
-offset_left = -74.0
-offset_top = -4.0
-offset_right = 76.0
-offset_bottom = 6.0
-step = 1.0
-value = 100.0
-rounded = true
-show_percentage = false
+[node name="score_text_label" type="Label" parent="enemy"]
+z_index = 10
+offset_left = -125.0
+offset_top = 4.0
+offset_right = -78.0
+offset_bottom = 27.0
+text = "score:"
+label_settings = SubResource("LabelSettings_rty6a")
+
+[node name="goal_text_label" type="Label" parent="enemy"]
+z_index = 10
+offset_left = -123.0
+offset_top = -16.0
+offset_right = -81.0
+offset_bottom = 7.0
+text = "goal:
+"
+label_settings = SubResource("LabelSettings_1t3gt")
+
+[node name="score_label" type="Label" parent="enemy"]
+z_index = 10
+offset_left = -72.0
+offset_top = 5.0
+offset_right = -32.0
+offset_bottom = 28.0
+text = "0"
+label_settings = SubResource("LabelSettings_wefor")
+
+[node name="goal_label" type="Label" parent="enemy"]
+z_index = 10
+offset_left = -95.0
+offset_top = -15.0
+offset_right = -43.0
+offset_bottom = 4.0
+text = "100"
+label_settings = SubResource("LabelSettings_ghmby")
+horizontal_alignment = 1
+
+[node name="visual_aid_label" type="Label" parent="enemy"]
+z_index = 10
+offset_left = -49.0
+offset_top = 4.0
+offset_right = -20.0
+offset_bottom = 26.0
+label_settings = SubResource("LabelSettings_rolv7")
 
 [node name="HSlider" type="HSlider" parent="enemy"]
-offset_left = -71.0
-offset_top = 19.0
-offset_right = 76.0
-offset_bottom = 35.0
+offset_left = -454.0
+offset_top = 286.0
+offset_right = -354.0
+offset_bottom = 302.0
 max_value = 17.0
 value = 1.0
 
@@ -70,6 +130,59 @@ offset_top = 304.0
 offset_right = 516.0
 offset_bottom = 341.0
 text = "shop"
+
+[node name="paper" type="Sprite2D" parent="."]
+position = Vector2(390, 7)
+texture = ExtResource("6_ddkuv")
+
+[node name="coins" type="Node2D" parent="."]
+position = Vector2(547, 31)
+
+[node name="coin1" type="Sprite2D" parent="coins"]
+position = Vector2(-58, 17)
+texture = ExtResource("5_twevn")
+flip_h = true
+
+[node name="coin2" type="Sprite2D" parent="coins"]
+position = Vector2(-59, -9)
+texture = ExtResource("5_twevn")
+
+[node name="coin3" type="Sprite2D" parent="coins"]
+position = Vector2(-7, -12)
+texture = ExtResource("5_twevn")
+
+[node name="coin4" type="Sprite2D" parent="coins"]
+position = Vector2(-33, -10)
+texture = ExtResource("5_twevn")
+flip_h = true
+
+[node name="coin5" type="Sprite2D" parent="coins"]
+position = Vector2(-4, 16)
+texture = ExtResource("5_twevn")
+flip_h = true
+
+[node name="coin6" type="Sprite2D" parent="coins"]
+position = Vector2(24, 15)
+texture = ExtResource("5_twevn")
+
+[node name="coin7" type="Sprite2D" parent="coins"]
+position = Vector2(45, -11)
+texture = ExtResource("5_twevn")
+flip_h = true
+
+[node name="coin8" type="Sprite2D" parent="coins"]
+position = Vector2(18, -12)
+texture = ExtResource("5_twevn")
+flip_h = true
+
+[node name="coin9" type="Sprite2D" parent="coins"]
+position = Vector2(-31, 19)
+texture = ExtResource("5_twevn")
+
+[node name="coin10" type="Sprite2D" parent="coins"]
+position = Vector2(48, 16)
+texture = ExtResource("5_twevn")
+flip_h = true
 
 [connection signal="pressed" from="deal_cards" to="." method="_on_deal_cards_pressed"]
 [connection signal="pressed" from="Go_to_shop" to="." method="_on_go_to_shop_pressed"]

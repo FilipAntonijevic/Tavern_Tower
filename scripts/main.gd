@@ -4,9 +4,12 @@ var original_deck: Deck = Deck.new()
 
 var current_scene: Node = null 
 
+var total_gold: int = 0
+
 @onready var jokers = $Jokers
 
 func _ready():
+	Engine.max_fps = 60
 	original_deck.initialize_deck()
 	load_scene("res://scenes/Shop.tscn") 
 
@@ -58,7 +61,7 @@ func copy_deck() -> Deck:
 
 func _process(delta: float) -> void:
 	pass
-
+	
 func _on_show_board() -> void:
 	load_scene("res://scenes/Board.tscn")
 	

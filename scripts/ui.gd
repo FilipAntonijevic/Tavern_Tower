@@ -46,23 +46,24 @@ func _process(delta: float) -> void:
 	pass
 
 func _input(event):
-	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT && event.pressed:
-		if double_click_timer.is_stopped():
-			double_click_timer.start()
-		else:
-			place_card_to_according_pile()
+		
 			
 	if event.is_action_pressed("right_mouse_click"):
 		place_card_to_according_pile()
 		
 	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				drag_selected_card()
-			elif is_dragging == true:
-					is_dragging = false
-					assign_new_position_to_previously_dragged_card()
-					origin_stack.reposition_cards()
-					current_selected_card_for_movement = null
+		
+		if event.pressed:
+			if double_click_timer.is_stopped():
+				double_click_timer.start()
+			else:
+				place_card_to_according_pile()
+			drag_selected_card()	
+		elif is_dragging == true:
+			is_dragging = false
+			assign_new_position_to_previously_dragged_card()
+			origin_stack.reposition_cards()
+			current_selected_card_for_movement = null
 	elif event is InputEventMouseMotion and is_dragging == true and current_selected_card_for_movement != null:
 		current_selected_card_for_movement.global_position = get_global_mouse_position()
 
@@ -98,7 +99,7 @@ func place_card_to_a_pile():
 
 func place_card_to_according_pile():
 	if is_dragging == false && stacks.current_selected_stack != null && stacks.current_selected_stack.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]):
-		calculate_and_deal_dmg(stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index])
+		calculate_and_add_to_score(stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index])
 		stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
 		stacks.current_selected_stack.current_selected_card_index = -1
 		origin_stack = stacks.current_selected_stack
@@ -113,11 +114,13 @@ func place_card_to_according_pile():
 func place_joker_on_according_pile(joker: Joker) -> void:
 	var card = turn_joker_into_a_card(joker)
 	if is_dragging == false and check_if_card_can_be_placed_on_pile(card):
-		calculate_and_deal_dmg(card)
+		get_parent().handle_jokers('on_this_card_played', card)
+		calculate_and_add_to_score(card)
 		place_card_on_according_pile(card)
 		card.set_card_sprite(card.card_path)
 		remove_joker_from_jokers_array(joker)
-					
+		get_parent().handle_jokers('on_card_played', card)
+
 func place_card_on_according_pile(card: Card):
 		if card.card_suit == "spades":
 			spades_pile.add_child(card)
@@ -147,13 +150,13 @@ func turn_joker_into_a_card(joker: Joker) -> Card:
 	return card
 
 
-func calculate_and_deal_dmg(card: Card):
-	deal_dmg(card.card_value)
+func calculate_and_add_to_score(card: Card):
+	add_to_score(card.card_value)
 	
-func deal_dmg(value: int):
+func add_to_score(value: int):
 	var enemy: Enemy = get_parent().enemy
-	enemy.set_health_value(enemy.health - value)
-	print('enemy took ' + str(value) + ' dmg and now has ' + str(enemy.health) + ' health')
+	enemy.set_score_value(enemy.score + value)
+	print('added ' + str(value) + ' to the score, and now score is: ' + str(enemy.score))
 
 func check_if_card_can_be_placed_on_pile(card: Card) -> bool:
 		

@@ -1,17 +1,19 @@
 class_name Joker_13_hearts extends Node
 
-var joker_effect = "When cards on all 4 piles have the same value, deal 15 dmg"
+var joker_effect = "When you play 3 hearts deal 10 dmg"
 
-#when cards on all 4 of the piles, have same value, deal 15 dmg
+#when a spade, club , diamond, and a heart card are placed on a pile, deal 10 dmg (repeatable) 
 var activation_window: String = 'on_card_played'
-var array_of_possible_equal_numbers: Array = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+var suit_counter: int = 3
+
 func activate(_activation_window: String, deck: Deck, ui: Ui, card: Card):
 	
 	if activation_window == _activation_window:
-		if ui.card_piles.current_card_value_on_spades_pile == ui.card_piles.current_card_value_on_diamonds_pile && ui.card_piles.current_card_value_on_diamonds_pile == ui.card_piles.current_card_value_on_clubs_pile && ui.card_piles.current_card_value_on_clubs_pile == ui.card_piles.current_card_value_on_hearts_pile:
-			if ui.card_piles.current_card_value_on_spades_pile in array_of_possible_equal_numbers:
-				array_of_possible_equal_numbers.erase(ui.card_piles.current_card_value_on_spades_pile)
-				ui.deal_dmg(15)
+		if card.card_suit == 'hearts':
+			suit_counter -= 1
+			if suit_counter == 0:
+				suit_counter = 3
+				ui.add_to_score(10)
 				highlight()
 
 func highlight():

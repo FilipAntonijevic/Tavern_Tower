@@ -2,21 +2,32 @@
 class_name Enemy extends Node2D
 
 @export var max_health: int = 100
-@export var health: int = 100
+@export var score: int = 0
+@export var goal: int = 100
+@onready var score_label = $score_label
+@onready var goal_label = $goal_label
+@onready var visual_aid_label = $visual_aid_label
 
-func set_health_value(_health: int):
-	health = _health
-	update_health_bar()
+func set_score_value(_score: int):
+	score = _score
+	score_label.set_text(str(score))
 	
-func set_max_health_value(_max_health: int):
-	max_health = _max_health
-	update_health_bar()
+func set_goal_value(new_goal: int):
+	goal = new_goal
+	goal_label.set_text(str(goal))
+	
+		
+func set_visual_aid_label(aid: String):
+	visual_aid_label.set_text(str(aid))
 
-func update_health_bar():
-	if ($health_bar as ProgressBar).value != health:
-		($health_bar as ProgressBar).value = health
-	if ($health_bar as ProgressBar).max_value != max_health:
-		($health_bar as ProgressBar).max_value = max_health
+func reduce_goal_by_score_ammount():
+	await get_tree().create_timer(0.5).timeout
+	while score != 0:
+		score -= 1
+		goal -= 1
+		set_goal_value(goal)
+		set_score_value(score)
+		await get_tree().create_timer(0.1).timeout
 
 func ability():
 	unlock_stacks()
