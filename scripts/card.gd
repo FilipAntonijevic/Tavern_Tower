@@ -8,8 +8,27 @@ signal mouse_exited_card(card: Card)
 @export var card_suit: String = "Card Suit"
 @export var card_path: String = "Card Path"
 @onready var card_sprite: Sprite2D = $Sprite2D
+@onready var chains: Sprite2D = $chains
 
-# Called when the node enters the scene tree for the first time.
+var emerald: bool = false #when played, this card plays again (with 0 base value)
+var topaz: bool = false #cannot be frozen
+var ruby: bool = false #this cards base value is +10
+var sapphire: bool = false #this card can be moved to any card with the same suit
+var locked: bool = false
+
+func highlight_emerald_card() -> void:
+	card_sprite.set_modulate(Color(0.8, 1.0, 0.8, 1)) 
+
+func highlight_topaz_card() -> void:
+	card_sprite.set_modulate(Color(1.0, 0.9, 0.7, 1))  
+
+func highlight_ruby_card() -> void:
+	card_sprite.set_modulate(Color(1.0, 0.7, 0.7, 1)) 
+
+func highlight_sapphire_card() -> void:
+	card_sprite.set_modulate(Color(0.7, 0.8, 1.0, 1)) 
+
+	
 func _ready() -> void:
 	pass 
 
@@ -32,10 +51,18 @@ func set_card_path(path: String):
 	card_path = path
 	
 func highlight():
-	card_sprite.set_modulate(Color(0.7,1,0.7,1))
+	card_sprite.set_modulate(Color(0.3,0.3,0.3,1))
 
 func unhighlight():
 	card_sprite.set_modulate(Color(1,1,1,1))
+	if emerald:
+		highlight_emerald_card()
+	if topaz:
+		highlight_topaz_card()
+	if ruby:
+		highlight_ruby_card()
+	if sapphire:
+		highlight_sapphire_card()
 		
 func _process(delta: float) -> void:
 	pass

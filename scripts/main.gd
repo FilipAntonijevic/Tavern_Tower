@@ -4,7 +4,7 @@ var original_deck: Deck = Deck.new()
 
 var current_scene: Node = null 
 
-var total_gold: int = 10
+var total_gold: int = 300
 var enemy_gold: int = 5
 
 @onready var jokers = $Jokers
@@ -20,12 +20,14 @@ func add_joker(card: Card) -> void:
 	if joker_scene:
 		var joker = joker_scene.instantiate()
 		if joker:
-			jokers.add_child(joker)
+			if jokers.get_child_count() < 6:
+				jokers.add_child(joker)
 			var joker_position_path: String = "joker_place_" + str(jokers.get_child_count() - 1)
-			joker.position = jokers.get_node("places").get_node(joker_position_path).position	
-			joker.card_value = card.card_value
-			joker.card_suit = card.card_suit
-			joker.card_path = card.card_path
+			if jokers.has_node("places") and jokers.get_node("places").has_node(joker_position_path):
+				joker.position = jokers.get_node("places").get_node(joker_position_path).position
+				joker.card_value = card.card_value
+				joker.card_suit = card.card_suit
+				joker.card_path = card.card_path
 
 func load_scene(scene_path: String) -> void:
 	if current_scene:
@@ -34,8 +36,7 @@ func load_scene(scene_path: String) -> void:
 	
 	var new_scene = load(scene_path).instantiate()
 	
-	var deck_copy = copy_deck() 
-	new_scene.set_deck(deck_copy)
+	new_scene.set_deck(copy_deck())
 
 	add_child(new_scene)
 	current_scene = new_scene
@@ -48,6 +49,7 @@ func load_scene(scene_path: String) -> void:
 		new_scene.connect("show_board", Callable(self, "_on_show_board"))
 		jokers.show()
 	
+
 func copy_deck() -> Deck:
 	var deck_copy = Deck.new()
 
@@ -55,6 +57,14 @@ func copy_deck() -> Deck:
 		var card = original_deck.card_collection[card_id]
 		if is_instance_valid(card):
 			var new_card = card.duplicate() 
+			if card.topaz:
+				new_card.topaz = true
+			if card.emerald:
+				new_card.emerald = true
+			if card.ruby:
+				new_card.ruby = true
+			if card.sapphire:
+				new_card.sapphire = true
 			deck_copy.add_card(new_card)
 	
 	return deck_copy

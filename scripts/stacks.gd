@@ -117,6 +117,8 @@ func check_if_card_can_be_moved_via_value(card: Card, destination_stack: Stack) 
 		
 	if destination_card != null && card.card_value == destination_card.card_value:
 		return true
+	if card.sapphire: #sapphire cards can be moved to any card with same suit
+		return true
 	return false
 
 		

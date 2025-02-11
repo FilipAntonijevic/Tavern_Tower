@@ -8,9 +8,14 @@ class_name Joker extends Node2D
 @onready var area_2d: Area2D = $Area2D
 @onready var card_sprite: Sprite2D = $Sprite2D
 
+var is_dragging: bool = false
+
 var mouse_is_inside_this_joker: bool = false
 signal mouse_entered_joker(joker)
 signal mouse_exited_joker()
+signal joker_sold(joker)
+
+var this_jokers_position = null
 
 func activate(_activation_window: String, deck: Deck, ui: Ui, card: Card):
 	effect.activate(_activation_window, deck, ui, card)
@@ -21,8 +26,10 @@ func _ready() -> void:
 		area_2d.connect("mouse_entered", Callable(self, "_on_area_2d_mouse_entered"))
 	if not area_2d.is_connected("mouse_exited", Callable(self, "_on_area_2d_mouse_exited")):
 		area_2d.connect("mouse_exited", Callable(self, "_on_area_2d_mouse_exited"))
+	if not is_connected("joker_sold", Callable(self, "_on_joker_sold")):
+		connect("joker_sold", Callable(self, "_on_joker_sold"))
+		
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
@@ -37,9 +44,28 @@ func _on_area_2d_mouse_entered() -> void:
 	mouse_is_inside_this_joker = true
 	emit_signal("mouse_entered_joker", self) 
 	highlight()
+	position.y += 2
 
 
 func _on_area_2d_mouse_exited() -> void:
 	mouse_is_inside_this_joker = false
 	emit_signal("mouse_exited_joker")
 	unhighlight()
+	position.y -= 2
+
+func _input(event):
+	
+	if mouse_is_inside_this_joker and get_parent().get_parent().name == "Shop":
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and mouse_is_inside_this_joker:
+			emit_signal("joker_sold", self) 
+			
+		if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				get_parent().get_parent().drag_selected_joker(self)
+			elif is_dragging == true:
+				is_dragging = false
+				get_parent().get_parent().assign_new_position_to_previously_dragged_joker(self)
+				_on_area_2d_mouse_entered()
+				get_parent().get_parent().current_selected_joker_for_movement = null
+		elif event is InputEventMouseMotion and is_dragging == true and get_parent().get_parent().current_selected_joker_for_movement != null:
+			get_parent().get_parent().current_selected_joker_for_movement.global_position = get_global_mouse_position()

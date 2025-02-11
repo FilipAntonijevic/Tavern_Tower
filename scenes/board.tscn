@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=13 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
@@ -7,10 +7,6 @@
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="4_sfmmc"]
 [ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="5_twevn"]
 [ext_resource type="Texture2D" uid="uid://dmvfutelsf0pv" path="res://sprites/paper.png" id="6_ddkuv"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_r56b3"]
-font = ExtResource("3_cgx21")
-font_color = Color(0.0142752, 0.0142752, 0.0142752, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rty6a"]
 font = ExtResource("3_cgx21")
@@ -37,14 +33,6 @@ font_color = Color(0.832334, 0.0685794, 0.217519, 1)
 script = ExtResource("1_ebwuy")
 
 [node name="Ui" parent="." instance=ExtResource("2_rfb5n")]
-
-[node name="Label" type="Label" parent="Ui"]
-offset_left = 27.0
-offset_top = 281.0
-offset_right = 100.0
-offset_bottom = 304.0
-text = "difficulty:"
-label_settings = SubResource("LabelSettings_r56b3")
 
 [node name="GameController" parent="." instance=ExtResource("3_71d23")]
 
@@ -115,10 +103,10 @@ offset_bottom = 26.0
 label_settings = SubResource("LabelSettings_rolv7")
 
 [node name="HSlider" type="HSlider" parent="enemy"]
-offset_left = -454.0
-offset_top = 286.0
-offset_right = -354.0
-offset_bottom = 302.0
+offset_left = -144.0
+offset_top = 292.0
+offset_right = -44.0
+offset_bottom = 308.0
 max_value = 17.0
 value = 1.0
 

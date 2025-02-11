@@ -8,16 +8,16 @@ script = ExtResource("1_s43g1")
 [node name="places" type="Node2D" parent="."]
 
 [node name="joker_place_1" type="Node2D" parent="places"]
-position = Vector2(100, 320)
+position = Vector2(64, 320)
 
 [node name="joker_place_2" type="Node2D" parent="places"]
-position = Vector2(150, 320)
+position = Vector2(114, 320)
 
 [node name="joker_place_3" type="Node2D" parent="places"]
-position = Vector2(200, 320)
+position = Vector2(164, 320)
 
 [node name="joker_place_4" type="Node2D" parent="places"]
-position = Vector2(250, 320)
+position = Vector2(214, 320)
 
 [node name="joker_place_5" type="Node2D" parent="places"]
-position = Vector2(300, 320)
+position = Vector2(264, 320)

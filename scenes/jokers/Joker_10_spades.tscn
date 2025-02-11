@@ -1,21 +1,21 @@
-[gd_scene load_steps=5 format=3 uid="uid://c18q4230q1lbn"]
+[gd_scene load_steps=5 format=3 uid="uid://wdx0fomlcxyx"]
 
-[ext_resource type="Script" path="res://scripts/joker.gd" id="1_7m12u"]
-[ext_resource type="Texture2D" uid="uid://dmcsspo5xnafp" path="res://sprites/card_sprites/j_hearts.png" id="2_djnk0"]
-[ext_resource type="Script" path="res://scripts/jokers/Joker_11_hearts.gd" id="3_0ub4a"]
+[ext_resource type="Script" path="res://scripts/joker.gd" id="1_audxl"]
+[ext_resource type="Texture2D" uid="uid://ddp043fu8bk6" path="res://sprites/card_sprites/10_spades.png" id="2_tpx4p"]
+[ext_resource type="Script" path="res://scripts/jokers/Joker_10_spades.gd" id="3_ee4ui"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jy1em"]
 size = Vector2(39, 57)
 
-[node name="jack_hearts" type="Node2D" node_paths=PackedStringArray("effect")]
-script = ExtResource("1_7m12u")
+[node name="10_spades" type="Node2D" node_paths=PackedStringArray("effect")]
+script = ExtResource("1_audxl")
 effect = NodePath("effect")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_djnk0")
+texture = ExtResource("2_tpx4p")
 
 [node name="effect" type="Node2D" parent="."]
-script = ExtResource("3_0ub4a")
+script = ExtResource("3_ee4ui")
 
 [node name="Area2D" type="Area2D" parent="."]
 

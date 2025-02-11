@@ -46,19 +46,17 @@ func _process(delta: float) -> void:
 	pass
 
 func _input(event):
-		
 
 	if event.is_action_pressed("right_mouse_click"):
 		place_card_to_according_pile()
 		
 	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
-		
 		if event.pressed:
 			if double_click_timer.is_stopped():
 				double_click_timer.start()
 			else:
 				place_card_to_according_pile()
-			drag_selected_card()	
+			drag_selected_card()
 		elif is_dragging == true:
 			is_dragging = false
 			assign_new_position_to_previously_dragged_card()
@@ -69,11 +67,12 @@ func _input(event):
 
 
 func drag_selected_card():
-	if stacks.current_selected_stack != null && stacks.current_selected_stack.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && current_selected_card_for_movement == null && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
-		origin_stack = stacks.current_selected_stack
-		select_card_to_move()
-		is_dragging = true
-		current_selected_card_for_movement.z_index = 100  
+	if stacks.current_selected_stack != null && stacks.current_selected_stack.current_selected_card_index >= 0 && current_selected_card_for_movement == null && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
+		if stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index].locked == false:
+			origin_stack = stacks.current_selected_stack
+			select_card_to_move()
+			is_dragging = true
+			current_selected_card_for_movement.z_index = 100  
 	
 func assign_new_position_to_previously_dragged_card():
 	if current_selected_card_for_movement == null:
@@ -99,13 +98,18 @@ func place_card_to_a_pile():
 	origin_stack.current_selected_card_index = -1
 
 func place_card_to_according_pile():
-	if is_dragging == false && stacks.current_selected_stack != null && stacks.current_selected_stack.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]):
-		calculate_and_add_to_score(stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index])
-		get_parent().handle_jokers('on_card_played', stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index])
-		stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
-		stacks.current_selected_stack.current_selected_card_index = -1
-		origin_stack = stacks.current_selected_stack
-
+	
+	if stacks.current_selected_stack:
+		var card = stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]
+		if is_dragging == false && stacks.current_selected_stack != null && card.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(card):
+			calculate_and_add_to_score(card)
+			get_parent().handle_jokers('on_card_played', card)
+			if card.emerald:
+				get_parent().handle_jokers('on_card_played', card)
+			stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
+			stacks.current_selected_stack.current_selected_card_index = -1
+			origin_stack = stacks.current_selected_stack
+		
 		
 	for joker in get_parent().jokers.get_children():
 		if joker.name != "places": 
@@ -116,14 +120,17 @@ func place_joker_on_according_pile(joker: Joker) -> void:
 	var card = turn_joker_into_a_card(joker)
 	if is_dragging == false and check_if_card_can_be_placed_on_pile(card):
 		get_parent().handle_jokers('on_this_card_played', card)
-		calculate_and_add_to_score(card)
 		place_card_on_according_pile(card)
+		calculate_and_add_to_score(card)
 		card.set_card_sprite(card.card_path)
 		remove_joker_from_jokers_array(joker)
 		get_parent().handle_jokers('on_card_played', card)
 	
 
 func place_card_on_according_pile(card: Card):
+		if card.emerald:
+				get_parent().handle_jokers('on_card_played', card)
+				print('eto')
 		if card.card_suit == "spades":
 			spades_pile.add_child(card)
 			card_piles.current_card_value_on_spades_pile += 1
@@ -139,7 +146,14 @@ func place_card_on_according_pile(card: Card):
 		
 		get_parent().handle_jokers('on_card_played', card)
 
-
+	#if activation_window == _activation_window:
+	#	if _card.card_suit == 'spades' and _card.card_value > highest_replayed_card_value:
+	#		highest_replayed_card_value += 1 
+	#		ui.add_to_score(_card.card_value)
+	#		ui.card_piles.current_card_value_on_spades_pile -= 1
+	#		ui.place_card_on_according_pile(_card)
+	#		highlight()
+	
 func remove_joker_from_jokers_array(joker: Joker) -> void:
 	get_parent().jokers.remove_child(joker)
 		
@@ -153,7 +167,10 @@ func turn_joker_into_a_card(joker: Joker) -> Card:
 
 
 func calculate_and_add_to_score(card: Card):
-	add_to_score(card.card_value)
+	if card.ruby: #ruby cards deal 10 more base dmg
+		add_to_score(card.card_value + 10)
+	else:
+		add_to_score(card.card_value)
 	
 func add_to_score(value: int):
 	var enemy: Enemy = get_parent().enemy
@@ -193,7 +210,6 @@ func check_conditions_for_piles() -> bool:
 		
 func check_conditions_for_stacks() -> bool:
 	if stacks.current_selected_stack == null:
-		print('stack == null\n')
 		return false
 
 	if current_selected_card_for_movement == null:
@@ -220,9 +236,16 @@ func place_cards_from_deck_on_the_table() -> void:
 		var card = original_deck.get_card(i)
 		stacks.add_card_to_a_stack(card)
 		card.set_card_sprite(card.card_path)
-
 		timer.start()
 		await timer.timeout
+		if card.topaz:
+			card.highlight_topaz_card()
+		if card.emerald:
+			card.highlight_emerald_card()
+		if card.ruby:
+			card.highlight_ruby_card()
+		if card.sapphire:
+			card.highlight_sapphire_card()
 	timer.queue_free()
 
 func add_card(path: String):

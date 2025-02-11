@@ -1,22 +1,58 @@
 class_name CardPlace extends Node2D
 
 var card: Card = null
+var mouse_is_inside_the_card: bool = false
 signal joker_bought(card: Card) 
 @onready var buy_button = $Buy_button
 @onready var gold_cost = $gold_cost
 @onready var gold_cost_label = $gold_cost/gold_cost_label
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	buy_button.hide()
 	gold_cost.hide()
 	if not buy_button.is_connected("pressed", Callable(self, "_on_buy_button_pressed")):
 		buy_button.connect("pressed", Callable(self, "_on_buy_button_pressed"))
 		
+func _input(event):
 
+	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT and event.pressed and mouse_is_inside_the_card:
+		if get_parent().get_parent().topaz_touch == true:
+			if card:
+				card.highlight_topaz_card()
+				card.topaz = true
+				card.emerald = false
+				card.ruby = false
+				card.sapphire = false
+			get_parent().get_parent().topaz_touch = false
+			
+		if get_parent().get_parent().emerald_touch == true:
+			if card:
+				card.highlight_emerald_card()
+				card.topaz = false
+				card.emerald = true
+				card.ruby = false
+				card.sapphire = false
+			get_parent().get_parent().emerald_touch = false
+			
+		if get_parent().get_parent().ruby_touch == true:
+			if card:
+				card.highlight_ruby_card()
+				card.topaz = false
+				card.emerald = false
+				card.ruby = true
+				card.sapphire = false
+			get_parent().get_parent().ruby_touch = false
+			
+		if get_parent().get_parent().sapphire_touch == true:
+			if card:
+				card.highlight_sapphire_card()
+				card.topaz = false
+				card.emerald = false
+				card.ruby = false
+				card.sapphire = true
+			get_parent().get_parent().sapphire_touch = false
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
@@ -44,6 +80,7 @@ func turn_card_into_a_joker(card: Card) -> Joker:
 	
 func _on_area_2d_mouse_entered() -> void:
 	if card != null:
+		mouse_is_inside_the_card = true
 		card.position.y -= 2
 		gold_cost.position.y -= 2
 		card.highlight()
@@ -56,6 +93,7 @@ func _on_area_2d_mouse_entered() -> void:
 	
 func _on_area_2d_mouse_exited() -> void:
 	if card != null:
+		mouse_is_inside_the_card = false
 		card.position.y += 2
 		gold_cost.position.y += 2
 		card.unhighlight()
@@ -68,6 +106,7 @@ func _on_buy_button_pressed() -> void:
 	var total_gold = get_parent().get_parent().get_parent().total_gold
 	var cost = int(gold_cost_label.get_text())
 	if cost <= total_gold:
+		mouse_is_inside_the_card = false
 		get_parent().get_parent().get_parent().total_gold -= cost
 		emit_signal("joker_bought", card)
 		remove_child(card)
