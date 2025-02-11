@@ -65,16 +65,19 @@ func check_if_card_can_be_excavated(new_card: Card) -> bool:
 func load_jokers() -> void:
 	var main_jokers = get_tree().get_root().get_node("Main").jokers
 	if main_jokers:
-		for joker in main_jokers.get_children():
-			if joker.name != "places": 
-				var new_joker = joker.duplicate()
-				jokers.add_child(new_joker)
-				new_joker.position = jokers.jokers_positions[jokers.get_child_count() - 2]
-				new_joker.this_jokers_position = new_joker.position
-				new_joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
-				new_joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
-				new_joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
-
+		for joker_place in main_jokers.get_children():
+			if joker_place.joker != null: 
+				var new_joker = joker_place.joker.duplicate()
+				for new_joker_place in jokers.get_children():
+					if new_joker_place.joker == null:
+						new_joker_place.set_joker(new_joker)
+						#new_joker.position = jokers.jokers_positions[jokers.get_child_count() - 2]
+						new_joker.this_jokers_position = new_joker.position
+						new_joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
+						new_joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
+						new_joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
+						break
+						
 func _on_mouse_entered_joker(joker: Joker) -> void:
 	if joker.has_node("effect"):
 		var child = joker.get_node("effect")
@@ -91,19 +94,22 @@ func _on_mouse_exited_joker() -> void:
 	sell_joker_label.set_text('')
 
 func _on_joker_sold(joker: Joker) -> void:
-	jokers.remove_child(joker)
-	var card = turn_joker_into_a_card(joker)
-	original_deck.add_card(card)
-	get_parent().total_gold += int(joker.effect.joker_price / 2)
-	gold_ammount_label.set_text(str(get_parent().total_gold))
+	for joker_place in jokers.get_children():
+		if joker_place.joker == joker:
+			joker_place.remove_child(joker)
+			joker_place.joker = null
+			var card = turn_joker_into_a_card(joker)
+			original_deck.add_card(card)
+			get_parent().total_gold += int(joker.effect.joker_price / 2)
+			gold_ammount_label.set_text(str(get_parent().total_gold))
 
 func turn_joker_into_a_card(joker: Joker) -> Card:
 	var card: Card = card_scene.instantiate()
 	card.set_card_value(joker.card_value)
 	card.set_card_suit(joker.card_suit)
 	card.set_card_path(joker.card_path)
-
 	return card
+	
 func _ready() -> void:
 	
 	excavation_cost = 1
@@ -187,17 +193,18 @@ func add_joker(card: Card) -> void:
 	if joker_scene:
 		var joker = joker_scene.instantiate()
 		if joker:
-			jokers.add_child(joker)
-			if jokers.get_child_count() <= 6:
-				joker.position = jokers.jokers_positions[jokers.get_child_count() - 2]
-				joker.this_jokers_position = joker.position
-				joker.card_value = card.card_value
-				joker.card_suit = card.card_suit
-				joker.card_path = card.card_path
-				joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
-				joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
-				joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
-
+			for joker_place in jokers.get_children():
+				if joker_place.joker == null:
+					joker_place.set_joker(joker)
+					joker.this_jokers_position = joker.position
+					joker.card_value = card.card_value
+					joker.card_suit = card.card_suit
+					joker.card_path = card.card_path
+					joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
+					joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
+					joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
+					return 
+					
 func _on_topaz_pressed() -> void:
 	topaz_touch = true
 
@@ -212,6 +219,8 @@ func _on_emerald_pressed() -> void:
 
 func drag_selected_joker(joker: Joker) -> void:
 	
+	joker.get_parent().joker = null
+#	joker.get_parent().remove_child(joker)
 	current_selected_joker_for_movement = joker
 	#current_selected_joker_for_movement_position = current_selected_joker_for_movement.global_position
 	is_dragging_a_joker = true
@@ -226,10 +235,112 @@ func assign_new_position_to_previously_dragged_joker(joker: Joker) -> void:
 	if check_if_joker_can_be_placed_on_a_joker_palce():
 		pass
 	else:
-		if joker.this_jokers_position:
-			joker.position = joker.this_jokers_position
+		for joker_place in jokers.get_children():
+			if joker_place.joker == null:
+			#if joker_place.position == joker.this_jokers_position:
+				joker.get_parent().remove_child(joker)
+				joker_place.remove_child(joker)
+				joker_place.set_joker(joker)
+				joker.global_position = joker_place.global_position
+				joker.z_index = 1
+				return
 		#current_selected_joker_for_movement.global_position = joker.last_joker_position
 
+func update_jokers_positions():
+	if is_dragging_a_joker:
+		var position_1: int = jokers.joker_place_1.global_position.x
+		var position_2: int = jokers.joker_place_2.global_position.x
+		var position_3: int = jokers.joker_place_3.global_position.x
+		var position_4: int = jokers.joker_place_4.global_position.x
+		var position_5: int = jokers.joker_place_5.global_position.x
+		var top_position = jokers.joker_place_1.global_position.y + 50
+		var bottom_position = jokers.joker_place_1.global_position.y - 50
+		var x = get_global_mouse_position().x
+		if get_global_mouse_position().y < top_position and get_global_mouse_position().y > bottom_position:
+			if x <= position_1: #less then 1
+				move_jokers_to_left_or_right(1, "right")
+				print("izmedju 0 i 1")
+			if x >= position_1 and x <= (position_1 + position_2)/2 : #more_then 1, less then half
+				print("izmedju 1 i 1.5")
+				pass
+			if x >= (position_1 + position_2)/2 and x <= position_2: #more then half, less then 2
+				print("izmedju 1.5 i 2")
+				move_jokers_to_left_or_right(2, "right")
+			if x >= position_2 and x <= (position_2 + position_3)/2 : #more then 2 less then half
+				print("izmedju 2 i 2.5")
+				move_jokers_to_left_or_right(2, "left")
+			if x >= (position_2 + position_3)/2 and x <= position_3:
+				print("izmedju 2.5 i 3")
+				move_jokers_to_left_or_right(3, "right")
+			if x >= position_3 and x <= (position_3 + position_4)/2 :
+				print("izmedju 3 i 3.5")
+				move_jokers_to_left_or_right(3, "left")
+			if x >= (position_3 + position_4)/2 and x <= position_4:
+				print("izmedju 3.5 i 4")
+				move_jokers_to_left_or_right(4, "right")
+			if x > position_4 and x < (position_4 + position_5)/2 :
+				print("izmedju 4 i 4.5")
+				move_jokers_to_left_or_right(4, "left")
+			if x >= (position_4 + position_5)/2 and x <= position_5:
+				print("izmedju 4.5 i 5")
+				pass
+			if x > position_5:
+				print("izmedju 5 i 6")
+				move_jokers_to_left_or_right(5, "left")
+				
+func move_jokers_to_left_or_right(starting_joker: int, side: String) -> void:
+	if side == "left":
+		move_jokers_to_the_left(starting_joker - 1)
+	if side == "right":
+		move_jokers_to_the_right(starting_joker - 1)
 
+func move_jokers_to_the_left(starting_joker_int):
+	var empty_joker_place = null
+	var empty_joker_place_int = -1
+	
+	for j in range(0, jokers.get_child_count()):
+		var joker_place = jokers.get_child(j)
+		if joker_place.joker == null:
+			empty_joker_place = joker_place
+			empty_joker_place_int = j
+		if j == starting_joker_int:
+			if empty_joker_place == null:
+				return false
+			else:
+				for i in range(empty_joker_place_int, starting_joker_int):
+					if i + 1 <= starting_joker_int:
+						var moving_joker_place = jokers.get_child(i + 1)
+						var joker = moving_joker_place.joker
+						moving_joker_place.remove_child(joker)
+						moving_joker_place.joker = null
+						var new_joker_place = jokers.get_child(i) 
+						new_joker_place.set_joker(joker)
+	return true
+
+
+func move_jokers_to_the_right(starting_joker_int: int) -> bool:
+	var empty_joker_place = null
+	var empty_joker_place_int = -1
+	
+	for j in range(jokers.get_child_count() - 1, -1, -1):
+		var joker_place = jokers.get_child(j)
+		if joker_place.joker == null:
+			empty_joker_place = joker_place
+			empty_joker_place_int = j
+		if j == starting_joker_int:
+			if empty_joker_place == null:
+				return false
+			else:
+				for i in range(empty_joker_place_int, starting_joker_int - 1, -1):
+					if i - 1 >= starting_joker_int:
+						var moving_joker_place = jokers.get_child(i - 1)
+						var joker = moving_joker_place.joker
+						moving_joker_place.remove_child(joker)
+						moving_joker_place.joker = null
+						var new_joker_place = jokers.get_child(i) 
+						new_joker_place.set_joker(joker)
+	return true
+
+	
 func check_if_joker_can_be_placed_on_a_joker_palce() -> bool:
 	return false

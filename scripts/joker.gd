@@ -46,7 +46,6 @@ func _on_area_2d_mouse_entered() -> void:
 	highlight()
 	position.y += 2
 
-
 func _on_area_2d_mouse_exited() -> void:
 	mouse_is_inside_this_joker = false
 	emit_signal("mouse_exited_joker")
@@ -55,17 +54,19 @@ func _on_area_2d_mouse_exited() -> void:
 
 func _input(event):
 	
-	if mouse_is_inside_this_joker and get_parent().get_parent().name == "Shop":
+	if mouse_is_inside_this_joker and get_parent().get_parent().get_parent().name == "Shop":
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and mouse_is_inside_this_joker:
 			emit_signal("joker_sold", self) 
 			
 		if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
-			if event.pressed:
-				get_parent().get_parent().drag_selected_joker(self)
-			elif is_dragging == true:
+			if event.pressed: #drag selected joker
+				get_parent().get_parent().get_parent().drag_selected_joker(self)
+			elif is_dragging == true: #drop this joker
 				is_dragging = false
-				get_parent().get_parent().assign_new_position_to_previously_dragged_joker(self)
+				get_parent().get_parent().get_parent().assign_new_position_to_previously_dragged_joker(self)
 				_on_area_2d_mouse_entered()
-				get_parent().get_parent().current_selected_joker_for_movement = null
-		elif event is InputEventMouseMotion and is_dragging == true and get_parent().get_parent().current_selected_joker_for_movement != null:
-			get_parent().get_parent().current_selected_joker_for_movement.global_position = get_global_mouse_position()
+				get_parent().get_parent().get_parent().current_selected_joker_for_movement = null
+		#dragging this joker
+		elif event is InputEventMouseMotion and is_dragging == true and get_parent().get_parent().get_parent().current_selected_joker_for_movement != null:
+			get_parent().get_parent().get_parent().current_selected_joker_for_movement.global_position = get_global_mouse_position()
+			get_parent().get_parent().get_parent().update_jokers_positions()

@@ -1,19 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://cplwodu4idh7r"]
+[gd_scene load_steps=3 format=3 uid="uid://cplwodu4idh7r"]
 
 [sub_resource type="GDScript" id="GDScript_q05lt"]
-script/source = "extends Node2D
+script/source = "class_name Joker_place extends Node2D
 
 var joker: Joker = null
 var mouse_is_inside_the_joker: bool = false
 signal joker_sold(card: Card) 
-@onready var sell_button = $sell_joker_button
 var shop = null
 
 func _ready() -> void:
 	shop = get_parent().get_parent()
-	sell_button.hide()
-	if not sell_button.is_connected(\"pressed\", Callable(self, \"_on_buy_button_pressed\")):
-		sell_button.connect(\"pressed\", Callable(self, \"_on_buy_button_pressed\"))
 
 func _process(delta: float) -> void:
 	pass
@@ -29,22 +25,12 @@ func turn_joker_into_a_card(joker: Joker) -> Card:
 func _on_area_2d_mouse_entered() -> void:
 	if joker != null:
 		mouse_is_inside_the_joker = true
-		joker.position.y += 2
-		joker.highlight()
-		sell_button.show()
-		sell_button.position.y -= 21
-		
 		#get_parent().get_parent().joker_effect_label.set_text(joker.effect.joker_effect)
-	
-	
 
 func _on_area_2d_mouse_exited() -> void:
 	if joker != null:
 		mouse_is_inside_the_joker = false
-		joker.position.y -= 2
-		joker.unhighlight()
-		sell_button.position.y += 21
-		sell_button.hide()
+
 		#get_parent().get_parent().joker_effect_label.set_text('Hower a card to see its joker effect')
 
 func _on_sell_joker_button_pressed() -> void:
@@ -52,20 +38,21 @@ func _on_sell_joker_button_pressed() -> void:
 	shop.get_parent().total_gold += sell_value
 	#emit_signal(\"joker_sold\", card)
 	remove_child(joker)
-	sell_button.position.y += 21
-	sell_button.hide()
+
 	#get_parent().get_parent().joker_effect_label.set_text('Hower a card to see its joker effect')
 #	remove_child(buy_button)
 "
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h86rj"]
+size = Vector2(40, 60)
+
 [node name="JokerPlace" type="Node2D"]
 script = SubResource("GDScript_q05lt")
 
-[node name="sell_joker_button" type="Button" parent="."]
-offset_left = -20.0
-offset_top = -43.0
-offset_right = 20.0
-offset_bottom = -12.0
-text = "Sell:"
+[node name="Area2D" type="Area2D" parent="."]
 
-[connection signal="pressed" from="sell_joker_button" to="." method="_on_sell_joker_button_pressed"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_h86rj")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

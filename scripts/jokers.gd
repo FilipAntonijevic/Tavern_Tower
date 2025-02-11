@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var joker_place_1 = $places/joker_place_1
-@onready var joker_place_2 = $places/joker_place_2
-@onready var joker_place_3 = $places/joker_place_3
-@onready var joker_place_4 = $places/joker_place_4
-@onready var joker_place_5 = $places/joker_place_5
+@onready var joker_place_1 = $JokerPlace1
+@onready var joker_place_2 = $JokerPlace2 
+@onready var joker_place_3 = $JokerPlace3
+@onready var joker_place_4 = $JokerPlace4
+@onready var joker_place_5 = $JokerPlace5
 
 var jokers_positions: Array = []
 # Called when the node enters the scene tree for the first time.

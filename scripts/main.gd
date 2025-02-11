@@ -20,15 +20,14 @@ func add_joker(card: Card) -> void:
 	if joker_scene:
 		var joker = joker_scene.instantiate()
 		if joker:
-			if jokers.get_child_count() < 6:
-				jokers.add_child(joker)
-			var joker_position_path: String = "joker_place_" + str(jokers.get_child_count() - 1)
-			if jokers.has_node("places") and jokers.get_node("places").has_node(joker_position_path):
-				joker.position = jokers.get_node("places").get_node(joker_position_path).position
-				joker.card_value = card.card_value
-				joker.card_suit = card.card_suit
-				joker.card_path = card.card_path
-
+			for joker_place in jokers.get_children():
+				if joker_place.joker == null:
+					joker_place.set_joker(joker)
+					joker.this_jokers_position = joker.position
+					joker.card_value = card.card_value
+					joker.card_suit = card.card_suit
+					joker.card_path = card.card_path
+					return
 func load_scene(scene_path: String) -> void:
 	if current_scene:
 		current_scene.queue_free() 
