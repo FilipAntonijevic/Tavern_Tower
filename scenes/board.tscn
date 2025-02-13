@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=14 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
 [ext_resource type="PackedScene" uid="uid://cci7r3hjubrnr" path="res://scenes/game_controller.tscn" id="3_71d23"]
 [ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="3_cgx21"]
+[ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_4vy5w"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="4_sfmmc"]
 [ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="5_twevn"]
 [ext_resource type="Texture2D" uid="uid://dmvfutelsf0pv" path="res://sprites/paper.png" id="6_ddkuv"]
@@ -35,6 +36,8 @@ script = ExtResource("1_ebwuy")
 [node name="Ui" parent="." instance=ExtResource("2_rfb5n")]
 
 [node name="GameController" parent="." instance=ExtResource("3_71d23")]
+
+[node name="Jokers" parent="." instance=ExtResource("4_4vy5w")]
 
 [node name="deal_cards" type="Button" parent="."]
 offset_left = 525.0

@@ -1,57 +1,17 @@
 [gd_scene load_steps=3 format=3 uid="uid://cplwodu4idh7r"]
 
-[sub_resource type="GDScript" id="GDScript_q05lt"]
-script/source = "class_name Joker_place extends Node2D
-
-var joker: Joker = null
-var mouse_is_inside_the_joker: bool = false
-signal joker_sold(card: Card) 
-var shop = null
-
-func _ready() -> void:
-	shop = get_parent().get_parent()
-
-func _process(delta: float) -> void:
-	pass
-
-func set_joker(_joker: Joker) -> void:
-	add_child(_joker)
-	joker = _joker
-
-func turn_joker_into_a_card(joker: Joker) -> Card:
-	return null
-
-
-func _on_area_2d_mouse_entered() -> void:
-	if joker != null:
-		mouse_is_inside_the_joker = true
-		#get_parent().get_parent().joker_effect_label.set_text(joker.effect.joker_effect)
-
-func _on_area_2d_mouse_exited() -> void:
-	if joker != null:
-		mouse_is_inside_the_joker = false
-
-		#get_parent().get_parent().joker_effect_label.set_text('Hower a card to see its joker effect')
-
-func _on_sell_joker_button_pressed() -> void:
-	var sell_value = 2
-	shop.get_parent().total_gold += sell_value
-	#emit_signal(\"joker_sold\", card)
-	remove_child(joker)
-
-	#get_parent().get_parent().joker_effect_label.set_text('Hower a card to see its joker effect')
-#	remove_child(buy_button)
-"
+[ext_resource type="Script" path="res://scripts/joker_place.gd" id="1_lktmi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h86rj"]
-size = Vector2(40, 60)
+size = Vector2(40, 56)
 
 [node name="JokerPlace" type="Node2D"]
-script = SubResource("GDScript_q05lt")
+script = ExtResource("1_lktmi")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+z_index = 10
 shape = SubResource("RectangleShape2D_h86rj")
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

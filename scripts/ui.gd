@@ -111,10 +111,10 @@ func place_card_to_according_pile():
 			origin_stack = stacks.current_selected_stack
 		
 		
-	for joker in get_parent().jokers.get_children():
-		if joker.name != "places": 
-			if joker.mouse_is_inside_this_joker == true:
-				place_joker_on_according_pile(joker)
+	for joker_place in get_parent().jokers.get_children():
+		if joker_place.joker != null: 
+			if joker_place.joker.mouse_is_inside_this_joker == true:
+				place_joker_on_according_pile(joker_place.joker)
 
 func place_joker_on_according_pile(joker: Joker) -> void:
 	var card = turn_joker_into_a_card(joker)
@@ -155,7 +155,9 @@ func place_card_on_according_pile(card: Card):
 	#		highlight()
 	
 func remove_joker_from_jokers_array(joker: Joker) -> void:
-	get_parent().jokers.remove_child(joker)
+	joker.get_parent().joker = null
+	joker.get_parent().remove_child(joker)
+	#get_parent().jokers.remove_child(joker)
 		
 func turn_joker_into_a_card(joker: Joker) -> Card:	
 	var card: Card = card_scene.instantiate()

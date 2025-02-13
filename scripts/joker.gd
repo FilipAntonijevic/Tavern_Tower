@@ -43,6 +43,7 @@ func unhighlight():
 func _on_area_2d_mouse_entered() -> void:
 	mouse_is_inside_this_joker = true
 	emit_signal("mouse_entered_joker", self) 
+	print(str(self.get_parent().get_parent().get_parent().name))
 	highlight()
 	position.y += 2
 

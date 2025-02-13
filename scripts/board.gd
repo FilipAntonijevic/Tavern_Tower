@@ -9,7 +9,7 @@ var enemy_gold: int = 0
 @onready var enemy: Enemy = $enemy
 @onready var coins = $coins
 
-var jokers = null
+@onready var jokers = $Jokers
 
 signal show_shop
 
@@ -67,12 +67,17 @@ func check_if_you_beat_enemy() -> bool:
 	return false 
 	
 func set_jokers(jokers_parent: Node) -> void:
-	jokers = jokers_parent.duplicate()  
-	add_child(jokers)  
+	for i in range(0,5):
+		if jokers_parent.get_child(i).joker != null:
+			var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
+			jokers.get_child(i).remove_child(joker)
+			jokers.get_child(i).set_joker(joker)
+	add_child(jokers)
 		
 func handle_jokers(activation_window: String, card: Card):
-	for joker in jokers.get_children():
-		if joker.name != "places":
+	for joker_place in jokers.get_children():
+		if joker_place.joker != null:
+			var joker = joker_place.joker
 			joker.activate(activation_window,original_deck, ui, card)
 			var timer1 = Timer.new()
 			timer1.wait_time = 0.3
@@ -102,6 +107,12 @@ func end_turn() -> void:
 
 
 func _on_go_to_shop_pressed() -> void:
+	for joker_place in jokers.get_children():
+		if joker_place.joker != null:
+			#joker_place.remove_child(joker_place.joker)
+			joker_place.joker.card_sprite.texture = null
+			joker_place.joker.free()
+		joker_place.free()
 	emit_signal("show_shop") 
 	#reset_board()
 	hide()  
