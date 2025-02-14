@@ -65,17 +65,15 @@ func check_if_card_can_be_excavated(new_card: Card) -> bool:
 func load_jokers() -> void:
 	var main_jokers = get_tree().get_root().get_node("Main").jokers
 	if main_jokers:
-		main_jokers.hide()
 		for i in range(0,5):
 			if main_jokers.get_child(i).joker != null:
 				var joker = main_jokers.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
-				print(joker.effect.joker_effect)
+				print("ovo je polje broj: " + str(i))
 				joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
 				joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
 				joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
 				jokers.get_child(i).remove_child(joker)
 				jokers.get_child(i).set_joker(joker)
-		add_child(jokers)
 	
 	if false:
 		for joker_place in main_jokers.get_children():
@@ -118,6 +116,7 @@ func _on_joker_sold(joker: Joker) -> void:
 			gold_ammount_label.set_text(str(get_parent().total_gold))
 			joker_effect_label.set_text("Hover a card to see its joker effect")
 			sell_joker_label.set_text("")
+	
 
 func turn_joker_into_a_card(joker: Joker) -> Card:
 	var card: Card = card_scene.instantiate()
@@ -163,7 +162,6 @@ func _on_button_pressed() -> void:
 	for joker_place in jokers.get_children():
 		if joker_place.joker != null:
 			#joker_place.remove_child(joker_place.joker)
-			joker_place.joker.card_sprite.texture = null
 			joker_place.joker.free()
 		joker_place.free()
 	get_parent().original_deck = copy_deck()
@@ -343,10 +341,19 @@ func move_jokers_to_the_left(starting_joker_int):
 					if i + 1 <= starting_joker_int:
 						var moving_joker_place = jokers.get_child(i + 1)
 						var joker = moving_joker_place.joker
+						var new_joker_place = jokers.get_child(i) 
+						
+						#aniamtion
+						#var tween = get_tree().create_tween()
+						#tween.tween_property(joker, "global_position:x", new_joker_place.global_position.x, 0.5) \
+						#	.set_trans(Tween.TRANS_QUAD) \
+						#	.set_ease(Tween.EASE_OUT)
+						#await tween.finished
+						
 						moving_joker_place.remove_child(joker)
 						moving_joker_place.joker = null
-						var new_joker_place = jokers.get_child(i) 
 						new_joker_place.set_joker(joker)
+						
 	return true
 
 
@@ -367,10 +374,19 @@ func move_jokers_to_the_right(starting_joker_int: int) -> bool:
 					if i - 1 >= starting_joker_int:
 						var moving_joker_place = jokers.get_child(i - 1)
 						var joker = moving_joker_place.joker
+						var new_joker_place = jokers.get_child(i) 
+						
+						#aniamtion
+						#var tween = get_tree().create_tween()
+						#tween.tween_property(joker, "global_position:x", new_joker_place.global_position.x, 0.5) \
+						#	.set_trans(Tween.TRANS_QUAD) \
+						#	.set_ease(Tween.EASE_OUT)
+						#await tween.finished
+						
 						moving_joker_place.remove_child(joker)
 						moving_joker_place.joker = null
-						var new_joker_place = jokers.get_child(i) 
 						new_joker_place.set_joker(joker)
+						
 	return true
 
 	

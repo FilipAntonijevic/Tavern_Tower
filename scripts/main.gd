@@ -46,12 +46,11 @@ func load_scene(scene_path: String) -> void:
 			if joker_place.joker != null:
 				i+=1
 				joker_place.joker.z_index = 100
-		print('ima ovolko jokere: ' + str(i))
 		new_scene.set_jokers(jokers)
 		new_scene.connect("show_shop", Callable(self, "_on_show_shop"))
 	elif scene_path == "res://scenes/Shop.tscn":
 		new_scene.connect("show_board", Callable(self, "_on_show_board"))
-	
+
 
 func copy_deck() -> Deck:
 	var deck_copy = Deck.new()
@@ -73,10 +72,14 @@ func copy_deck() -> Deck:
 	return deck_copy
 
 func set_jokers(jokers_shop: Node) -> void:
+	for joker_place in jokers.get_children():
+		if joker_place.joker != null:
+			#joker_place.remove_child(joker_place.joker)
+			joker_place.joker.free()
+		
 	for i in range(0,5):
 		if jokers_shop.get_child(i).joker != null:
 			var joker = jokers_shop.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
-			jokers.get_child(i).remove_child(joker)
 			jokers.get_child(i).set_joker(joker)
 	add_child(jokers)
 	
