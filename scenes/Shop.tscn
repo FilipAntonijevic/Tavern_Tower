@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bf74mxp6eobj7"]
+[gd_scene load_steps=20 format=3 uid="uid://bf74mxp6eobj7"]
 
 [ext_resource type="Script" path="res://scripts/shop.gd" id="1_nk2n8"]
 [ext_resource type="PackedScene" uid="uid://ce465tmrrukmt" path="res://scenes/card_place.tscn" id="2_kfu8g"]
@@ -7,6 +7,14 @@
 [ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_7k8mn"]
 [ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="6_5hdlj"]
 [ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="7_vfk6f"]
+[ext_resource type="Texture2D" uid="uid://dygy5hebhsd2t" path="res://sprites/gems/medium_emerald.png" id="8_dxron"]
+[ext_resource type="Texture2D" uid="uid://cljn5dnkhvxbj" path="res://sprites/gems/medium_sapphire.png" id="9_4puuw"]
+[ext_resource type="Texture2D" uid="uid://cn6ja5k82jsc" path="res://sprites/gems/medium_ruby.png" id="10_c3spl"]
+[ext_resource type="Texture2D" uid="uid://dacp8ttb4ejq" path="res://sprites/gems/medium_topaz.png" id="11_48bmd"]
+[ext_resource type="Texture2D" uid="uid://och8p5ilv7o4" path="res://sprites/gems/small_emerald.png" id="12_ad6ns"]
+[ext_resource type="Texture2D" uid="uid://br5es8oi7tf81" path="res://sprites/gems/small_topaz.png" id="13_hddye"]
+[ext_resource type="Texture2D" uid="uid://dlwqf7hj8l073" path="res://sprites/gems/small_sapphire.png" id="14_21ujr"]
+[ext_resource type="Texture2D" uid="uid://xc4ap77kq8t3" path="res://sprites/gems/small_ruby.png" id="15_syspo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4i7ur"]
 font = ExtResource("6_5hdlj")
@@ -31,6 +39,18 @@ script = ExtResource("1_nk2n8")
 [node name="desk" type="Sprite2D" parent="."]
 position = Vector2(320, 180)
 texture = ExtResource("2_lcwta")
+
+[node name="gems_positions" type="Node2D" parent="desk"]
+position = Vector2(-35, -18)
+
+[node name="gem_1_position" type="Node2D" parent="desk/gems_positions"]
+position = Vector2(31.75, 51.25)
+
+[node name="gem_2_position" type="Node2D" parent="desk/gems_positions"]
+position = Vector2(89.5, 24.75)
+
+[node name="gem_3_position" type="Node2D" parent="desk/gems_positions"]
+position = Vector2(81.5, 76)
 
 [node name="excavation_cost_label" type="Label" parent="desk"]
 z_index = 10
@@ -153,37 +173,89 @@ horizontal_alignment = 2
 position = Vector2(56, 7)
 texture = ExtResource("7_vfk6f")
 
-[node name="emerald" type="Button" parent="."]
-offset_left = 325.0
-offset_top = 197.0
-offset_right = 406.0
-offset_bottom = 228.0
-text = "emerald"
+[node name="medium_emerald" type="Button" parent="."]
+offset_left = 224.0
+offset_top = 437.0
+offset_right = 269.0
+offset_bottom = 482.0
+focus_mode = 0
+icon = ExtResource("8_dxron")
+flat = true
+expand_icon = true
 
-[node name="sapphire" type="Button" parent="."]
-offset_left = 328.0
-offset_top = 263.0
-offset_right = 409.0
-offset_bottom = 292.0
-text = "sapphire"
+[node name="medium_sapphire" type="Button" parent="."]
+offset_left = 319.0
+offset_top = 439.0
+offset_right = 364.0
+offset_bottom = 484.0
+focus_mode = 0
+icon = ExtResource("9_4puuw")
+flat = true
+expand_icon = true
 
-[node name="ruby" type="Button" parent="."]
-offset_left = 327.0
-offset_top = 230.0
-offset_right = 408.0
-offset_bottom = 259.0
-text = "ruby"
+[node name="medium_ruby" type="Button" parent="."]
+offset_left = 271.0
+offset_top = 436.0
+offset_right = 316.0
+offset_bottom = 481.0
+focus_mode = 0
+icon = ExtResource("10_c3spl")
+flat = true
+expand_icon = true
 
-[node name="topaz" type="Button" parent="."]
-offset_left = 325.0
-offset_top = 164.0
-offset_right = 406.0
-offset_bottom = 195.0
-text = "topaz"
+[node name="medium_topaz" type="Button" parent="."]
+offset_left = 373.0
+offset_top = 440.0
+offset_right = 418.0
+offset_bottom = 485.0
+focus_mode = 0
+icon = ExtResource("11_48bmd")
+flat = true
+expand_icon = true
+
+[node name="small_emerald" type="Button" parent="."]
+offset_left = 233.0
+offset_top = 385.0
+offset_right = 278.0
+offset_bottom = 430.0
+focus_mode = 0
+icon = ExtResource("12_ad6ns")
+flat = true
+expand_icon = true
+
+[node name="small_topaz" type="Button" parent="."]
+offset_left = 374.0
+offset_top = 391.0
+offset_right = 419.0
+offset_bottom = 436.0
+focus_mode = 0
+icon = ExtResource("13_hddye")
+flat = true
+expand_icon = true
+
+[node name="small_sapphire" type="Button" parent="."]
+offset_left = 326.0
+offset_top = 385.0
+offset_right = 371.0
+offset_bottom = 430.0
+focus_mode = 0
+icon = ExtResource("14_21ujr")
+flat = true
+expand_icon = true
+
+[node name="small_ruby" type="Button" parent="."]
+offset_left = 273.0
+offset_top = 385.0
+offset_right = 318.0
+offset_bottom = 430.0
+focus_mode = 0
+icon = ExtResource("15_syspo")
+flat = true
+expand_icon = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="exacuviate" to="." method="_on_exacuviate_pressed"]
-[connection signal="pressed" from="emerald" to="." method="_on_emerald_pressed"]
-[connection signal="pressed" from="sapphire" to="." method="_on_sapphire_pressed"]
-[connection signal="pressed" from="ruby" to="." method="_on_ruby_pressed"]
-[connection signal="pressed" from="topaz" to="." method="_on_topaz_pressed"]
+[connection signal="pressed" from="medium_emerald" to="." method="_on_emerald_pressed"]
+[connection signal="pressed" from="medium_sapphire" to="." method="_on_sapphire_pressed"]
+[connection signal="pressed" from="medium_ruby" to="." method="_on_ruby_pressed"]
+[connection signal="pressed" from="medium_topaz" to="." method="_on_topaz_pressed"]

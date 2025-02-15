@@ -11,6 +11,23 @@ var original_deck: Deck = null
 @onready var gold_ammount_label = $gold_ammount_label
 @onready var excavation_cost_label = $desk/excavation_cost_label
 
+@onready var gem_1_position = $desk/gems_positions/gem_1_position
+@onready var gem_2_position = $desk/gems_positions/gem_2_position
+@onready var gem_3_position = $desk/gems_positions/gem_3_position
+
+@onready var small_topaz = $small_topaz
+@onready var small_sapphire = $small_sapphire
+@onready var small_emerald = $small_emerald
+@onready var small_ruby = $small_ruby
+
+@onready var medium_topaz = $medium_topaz
+@onready var medium_sapphire = $medium_sapphire
+@onready var medium_emerald = $medium_emerald
+@onready var medium_ruby = $medium_ruby
+
+var all_gems_list: Array 
+var chosen_gems: Array
+
 var topaz_touch: bool = false
 var emerald_touch: bool = false
 var ruby_touch: bool = false
@@ -124,8 +141,27 @@ func turn_joker_into_a_card(joker: Joker) -> Card:
 	card.set_card_suit(joker.card_suit)
 	card.set_card_path(joker.card_path)
 	return card
+
+func get_three_unique_gems():
+	var shuffled_gems = all_gems_list.duplicate()
+	shuffled_gems.shuffle() 
+	return shuffled_gems.slice(0, 3)
+	
 	
 func _ready() -> void:
+	
+	all_gems_list = [small_emerald, small_ruby, small_sapphire, small_topaz, medium_emerald, medium_ruby, medium_sapphire, medium_topaz]
+	chosen_gems = get_three_unique_gems()
+	chosen_gems[0].global_position = gem_1_position.global_position
+	chosen_gems[1].global_position = gem_2_position.global_position
+	chosen_gems[2].global_position = gem_3_position.global_position
+	
+	if chosen_gems[0] == null:
+		print('aa')
+	else:
+		print('bb')
+	
+	print(chosen_gems[0].name)
 	
 	excavation_cost = 1
 	excavation_cost_label.set_text(str(excavation_cost))

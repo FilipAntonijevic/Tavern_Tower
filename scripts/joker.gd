@@ -8,6 +8,7 @@ class_name Joker extends Node2D
 @onready var area_2d: Area2D = $Area2D
 @onready var card_sprite: Sprite2D = $Sprite2D
 
+
 var is_dragging: bool = false
 
 var mouse_is_inside_this_joker: bool = false
@@ -29,9 +30,10 @@ func _ready() -> void:
 	if not is_connected("joker_sold", Callable(self, "_on_joker_sold")):
 		connect("joker_sold", Callable(self, "_on_joker_sold"))
 		
-
+	
 func _process(delta: float) -> void:
 	pass
+
 
 func highlight():
 	card_sprite.set_modulate(Color(0.1,1,0.7,1))
