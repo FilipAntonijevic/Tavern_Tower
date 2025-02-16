@@ -81,7 +81,6 @@ func set_jokers(jokers_shop: Node) -> void:
 		if jokers_shop.get_child(i).joker != null:
 			var joker = jokers_shop.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
 			jokers.get_child(i).set_joker(joker)
-	add_child(jokers)
 	
 func _process(delta: float) -> void:
 	pass

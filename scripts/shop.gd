@@ -90,11 +90,9 @@ func load_jokers() -> void:
 		for i in range(0,5):
 			if main_jokers.get_child(i).joker != null:
 				var joker = main_jokers.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
-				print("ovo je polje broj: " + str(i))
 				joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
 				joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
 				joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
-				jokers.get_child(i).remove_child(joker)
 				jokers.get_child(i).set_joker(joker)
 	
 	if false:
@@ -160,13 +158,6 @@ func _ready() -> void:
 	chosen_gems[0].global_position = gem_1_position.global_position
 	chosen_gems[1].global_position = gem_2_position.global_position
 	chosen_gems[2].global_position = gem_3_position.global_position
-	
-	if chosen_gems[0] == null:
-		print('aa')
-	else:
-		print('bb')
-	
-	print(chosen_gems[0].name)
 	
 	excavation_cost = 1
 	excavation_cost_label.set_text(str(excavation_cost))

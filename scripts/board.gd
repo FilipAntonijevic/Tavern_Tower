@@ -70,9 +70,7 @@ func set_jokers(jokers_parent: Node) -> void:
 	for i in range(0,5):
 		if jokers_parent.get_child(i).joker != null:
 			var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
-			jokers.get_child(i).remove_child(joker)
 			jokers.get_child(i).set_joker(joker)
-	add_child(jokers)
 		
 func handle_jokers(activation_window: String, card: Card):
 	for joker_place in jokers.get_children():
@@ -88,7 +86,10 @@ func handle_jokers(activation_window: String, card: Card):
 			timer1.queue_free()
 	end_turn()
 		
-func _on_deal_cards_pressed() -> void:
+func _on_redeal_cards_pressed() -> void:
+	redeal_cards()
+	
+func redeal_cards() -> void:
 	restart_game()
 	ui.place_cards_from_deck_on_the_table()
 	var timer = Timer.new()

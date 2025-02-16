@@ -1,17 +1,13 @@
-class_name Joker_1_spades extends Node2D
+class_name Joker_8_clubs extends Node2D
 
-var joker_effect = "When you play this card, remove enemies upcomming attacks"
-
+var joker_effect = "If all your jokers are same suit, their effects trigger twice. -TODO"
 var joker_price: int = 3
 
-var activation_window = 'on_this_card_played'
+var activation_window = 'on_cards_dealt'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 	if activation_window == _activation_window:
-		if _card.card_suit == "spades" and _card.card_value == 1:
-			ui.get_parent().enemy.remove_upcomming_attacks()
-			highlight()
-
-
+		pass
+			
 func highlight():
 	$"../Sprite2D".set_modulate(Color(1,0.1,0.2,1))
 	var timer = Timer.new()

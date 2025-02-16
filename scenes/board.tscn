@@ -39,7 +39,7 @@ script = ExtResource("1_ebwuy")
 
 [node name="Jokers" parent="." instance=ExtResource("4_4vy5w")]
 
-[node name="deal_cards" type="Button" parent="."]
+[node name="redeal_cards" type="Button" parent="."]
 offset_left = 525.0
 offset_top = 303.0
 offset_right = 619.0
@@ -173,5 +173,5 @@ position = Vector2(51, 15)
 texture = ExtResource("5_twevn")
 flip_h = true
 
-[connection signal="pressed" from="deal_cards" to="." method="_on_deal_cards_pressed"]
+[connection signal="pressed" from="redeal_cards" to="." method="_on_redeal_cards_pressed"]
 [connection signal="pressed" from="Go_to_shop" to="." method="_on_go_to_shop_pressed"]
