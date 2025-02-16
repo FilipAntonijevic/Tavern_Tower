@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bf74mxp6eobj7"]
+[gd_scene load_steps=24 format=3 uid="uid://bf74mxp6eobj7"]
 
 [ext_resource type="Script" path="res://scripts/shop.gd" id="1_nk2n8"]
 [ext_resource type="PackedScene" uid="uid://ce465tmrrukmt" path="res://scenes/card_place.tscn" id="2_kfu8g"]
@@ -15,6 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://br5es8oi7tf81" path="res://sprites/gems/small_topaz.png" id="13_hddye"]
 [ext_resource type="Texture2D" uid="uid://dlwqf7hj8l073" path="res://sprites/gems/small_sapphire.png" id="14_21ujr"]
 [ext_resource type="Texture2D" uid="uid://xc4ap77kq8t3" path="res://sprites/gems/small_ruby.png" id="15_syspo"]
+[ext_resource type="Texture2D" uid="uid://8epo0bt7jv71" path="res://sprites/gems/big_emerald.png" id="16_ef1h7"]
+[ext_resource type="Texture2D" uid="uid://dc7et5bel0rqa" path="res://sprites/gems/big_topaz.png" id="17_shnmk"]
+[ext_resource type="Texture2D" uid="uid://dt6e6shvgk337" path="res://sprites/gems/big_sapphire.png" id="18_x0cxq"]
+[ext_resource type="Texture2D" uid="uid://4iton36lfdvr" path="res://sprites/gems/big_ruby.png" id="19_tqa2l"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4i7ur"]
 font = ExtResource("6_5hdlj")
@@ -253,9 +257,81 @@ icon = ExtResource("15_syspo")
 flat = true
 expand_icon = true
 
+[node name="big_emerald" type="Button" parent="."]
+offset_left = 211.0
+offset_top = 493.0
+offset_right = 261.0
+offset_bottom = 543.0
+focus_mode = 0
+icon = ExtResource("16_ef1h7")
+flat = true
+expand_icon = true
+
+[node name="big_topaz" type="Button" parent="."]
+offset_left = 388.0
+offset_top = 490.0
+offset_right = 438.0
+offset_bottom = 540.0
+focus_mode = 0
+icon = ExtResource("17_shnmk")
+flat = true
+expand_icon = true
+
+[node name="big_sapphire" type="Button" parent="."]
+offset_left = 332.0
+offset_top = 491.0
+offset_right = 382.0
+offset_bottom = 541.0
+focus_mode = 0
+icon = ExtResource("18_x0cxq")
+flat = true
+expand_icon = true
+
+[node name="big_ruby" type="Button" parent="."]
+offset_left = 271.0
+offset_top = 494.0
+offset_right = 321.0
+offset_bottom = 544.0
+focus_mode = 0
+icon = ExtResource("19_tqa2l")
+flat = true
+expand_icon = true
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="exacuviate" to="." method="_on_exacuviate_pressed"]
-[connection signal="pressed" from="medium_emerald" to="." method="_on_emerald_pressed"]
-[connection signal="pressed" from="medium_sapphire" to="." method="_on_sapphire_pressed"]
-[connection signal="pressed" from="medium_ruby" to="." method="_on_ruby_pressed"]
-[connection signal="pressed" from="medium_topaz" to="." method="_on_topaz_pressed"]
+[connection signal="mouse_entered" from="medium_emerald" to="." method="_on_medium_emerald_mouse_entered"]
+[connection signal="mouse_exited" from="medium_emerald" to="." method="_on_medium_emerald_mouse_exited"]
+[connection signal="pressed" from="medium_emerald" to="." method="_on_medium_emerald_pressed"]
+[connection signal="mouse_entered" from="medium_sapphire" to="." method="_on_medium_sapphire_mouse_entered"]
+[connection signal="mouse_exited" from="medium_sapphire" to="." method="_on_medium_sapphire_mouse_exited"]
+[connection signal="pressed" from="medium_sapphire" to="." method="_on_medium_sapphire_pressed"]
+[connection signal="mouse_entered" from="medium_ruby" to="." method="_on_medium_ruby_mouse_entered"]
+[connection signal="mouse_exited" from="medium_ruby" to="." method="_on_medium_ruby_mouse_exited"]
+[connection signal="pressed" from="medium_ruby" to="." method="_on_medium_ruby_pressed"]
+[connection signal="mouse_entered" from="medium_topaz" to="." method="_on_medium_topaz_mouse_entered"]
+[connection signal="mouse_exited" from="medium_topaz" to="." method="_on_medium_topaz_mouse_exited"]
+[connection signal="pressed" from="medium_topaz" to="." method="_on_medium_topaz_pressed"]
+[connection signal="mouse_entered" from="small_emerald" to="." method="_on_small_emerald_mouse_entered"]
+[connection signal="mouse_exited" from="small_emerald" to="." method="_on_small_emerald_mouse_exited"]
+[connection signal="pressed" from="small_emerald" to="." method="_on_small_emerald_pressed"]
+[connection signal="mouse_entered" from="small_topaz" to="." method="_on_small_topaz_mouse_entered"]
+[connection signal="mouse_exited" from="small_topaz" to="." method="_on_small_topaz_mouse_exited"]
+[connection signal="pressed" from="small_topaz" to="." method="_on_small_topaz_pressed"]
+[connection signal="mouse_entered" from="small_sapphire" to="." method="_on_small_sapphire_mouse_entered"]
+[connection signal="mouse_exited" from="small_sapphire" to="." method="_on_small_sapphire_mouse_exited"]
+[connection signal="pressed" from="small_sapphire" to="." method="_on_small_sapphire_pressed"]
+[connection signal="mouse_entered" from="small_ruby" to="." method="_on_small_ruby_mouse_entered"]
+[connection signal="mouse_exited" from="small_ruby" to="." method="_on_small_ruby_mouse_exited"]
+[connection signal="pressed" from="small_ruby" to="." method="_on_small_ruby_pressed"]
+[connection signal="mouse_entered" from="big_emerald" to="." method="_on_big_emerald_mouse_entered"]
+[connection signal="mouse_exited" from="big_emerald" to="." method="_on_big_emerald_mouse_exited"]
+[connection signal="pressed" from="big_emerald" to="." method="_on_big_emerald_pressed"]
+[connection signal="mouse_entered" from="big_topaz" to="." method="_on_big_topaz_mouse_entered"]
+[connection signal="mouse_exited" from="big_topaz" to="." method="_on_big_topaz_mouse_exited"]
+[connection signal="pressed" from="big_topaz" to="." method="_on_big_topaz_pressed"]
+[connection signal="mouse_entered" from="big_sapphire" to="." method="_on_big_sapphire_mouse_entered"]
+[connection signal="mouse_exited" from="big_sapphire" to="." method="_on_big_sapphire_mouse_exited"]
+[connection signal="pressed" from="big_sapphire" to="." method="_on_big_sapphire_pressed"]
+[connection signal="mouse_entered" from="big_ruby" to="." method="_on_big_ruby_mouse_entered"]
+[connection signal="mouse_exited" from="big_ruby" to="." method="_on_big_ruby_mouse_exited"]
+[connection signal="pressed" from="big_ruby" to="." method="_on_big_ruby_pressed"]
