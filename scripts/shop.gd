@@ -85,7 +85,7 @@ func check_if_card_can_be_excavated(new_card: Card) -> bool:
 	return true
 
 func load_jokers() -> void:
-	var main_jokers = get_tree().get_root().get_node("Main").jokers
+	var main_jokers = get_parent().jokers
 	if main_jokers:
 		for i in range(0,5):
 			if main_jokers.get_child(i).joker != null:

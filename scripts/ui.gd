@@ -49,6 +49,7 @@ func _input(event):
 
 	if event.is_action_pressed("right_mouse_click"):
 		place_card_to_according_pile()
+		get_parent().end_turn()
 		
 	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
@@ -56,6 +57,7 @@ func _input(event):
 				double_click_timer.start()
 			else:
 				place_card_to_according_pile()
+				get_parent().end_turn()
 			drag_selected_card()
 		elif is_dragging == true:
 			is_dragging = false
@@ -80,6 +82,8 @@ func assign_new_position_to_previously_dragged_card():
 		
 	if check_conditions_for_piles() && check_if_card_can_be_placed_on_pile(current_selected_card_for_movement):
 		place_card_to_a_pile()
+		get_parent().end_turn()
+		
 	elif check_conditions_for_stacks():
 		if origin_stack != stacks.current_selected_stack:
 			stacks.move_card_to_this_stack(origin_stack, current_selected_card_for_movement, stacks.current_selected_stack)
@@ -130,7 +134,6 @@ func place_joker_on_according_pile(joker: Joker) -> void:
 func place_card_on_according_pile(card: Card):
 		if card.emerald:
 				get_parent().handle_jokers('on_card_played', card)
-				print('eto')
 		if card.card_suit == "spades":
 			spades_pile.add_child(card)
 			card_piles.current_card_value_on_spades_pile += 1
@@ -177,7 +180,6 @@ func calculate_and_add_to_score(card: Card):
 func add_to_score(value: int):
 	var enemy: Enemy = get_parent().enemy
 	enemy.set_score_value(enemy.score + value)
-	print('added ' + str(value) + ' to the score, and now score is: ' + str(enemy.score))
 
 func check_if_card_can_be_placed_on_pile(card: Card) -> bool:
 		

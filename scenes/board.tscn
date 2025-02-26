@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=15 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="4_sfmmc"]
 [ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="5_twevn"]
 [ext_resource type="Texture2D" uid="uid://dmvfutelsf0pv" path="res://sprites/paper.png" id="6_ddkuv"]
+[ext_resource type="PackedScene" uid="uid://d0o8haci7wx0s" path="res://scenes/debuff_place.tscn" id="7_g21js"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rty6a"]
 font = ExtResource("3_cgx21")
@@ -44,7 +45,15 @@ offset_left = 525.0
 offset_top = 303.0
 offset_right = 619.0
 offset_bottom = 339.0
-text = "deal cards"
+
+[node name="give_up" type="Button" parent="."]
+visible = false
+offset_left = 525.0
+offset_top = 303.0
+offset_right = 619.0
+offset_bottom = 339.0
+text = "give up
+"
 
 [node name="Label" type="Label" parent="."]
 offset_left = 195.0
@@ -61,57 +70,63 @@ script = ExtResource("4_sfmmc")
 
 [node name="score_text_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -125.0
-offset_top = 4.0
-offset_right = -78.0
-offset_bottom = 27.0
+offset_left = -149.0
+offset_top = -23.0
+offset_right = -101.0
 text = "score:"
 label_settings = SubResource("LabelSettings_rty6a")
 
 [node name="goal_text_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -123.0
-offset_top = -16.0
-offset_right = -81.0
-offset_bottom = 7.0
+offset_left = -74.0
+offset_top = -25.0
+offset_right = -32.0
+offset_bottom = -2.0
 text = "goal:
 "
 label_settings = SubResource("LabelSettings_1t3gt")
 
 [node name="score_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -72.0
-offset_top = 5.0
-offset_right = -32.0
-offset_bottom = 28.0
+offset_left = -129.0
+offset_top = -4.0
+offset_right = -89.0
+offset_bottom = 19.0
 text = "0"
 label_settings = SubResource("LabelSettings_wefor")
 
 [node name="goal_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -95.0
-offset_top = -15.0
-offset_right = -43.0
-offset_bottom = 4.0
+offset_left = -85.0
+offset_top = -4.0
+offset_right = -33.0
+offset_bottom = 15.0
 text = "100"
 label_settings = SubResource("LabelSettings_ghmby")
 horizontal_alignment = 1
 
 [node name="visual_aid_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -49.0
-offset_top = 4.0
-offset_right = -20.0
-offset_bottom = 26.0
+offset_left = -114.0
+offset_top = -7.0
+offset_right = -85.0
+offset_bottom = 15.0
 label_settings = SubResource("LabelSettings_rolv7")
 
-[node name="HSlider" type="HSlider" parent="enemy"]
-offset_left = -144.0
-offset_top = 292.0
-offset_right = -44.0
-offset_bottom = 308.0
-max_value = 17.0
-value = 1.0
+[node name="DebuffPlace1" parent="enemy" instance=ExtResource("7_g21js")]
+position = Vector2(-140, 27)
+
+[node name="DebuffPlace2" parent="enemy" instance=ExtResource("7_g21js")]
+position = Vector2(-110, 27)
+
+[node name="DebuffPlace3" parent="enemy" instance=ExtResource("7_g21js")]
+position = Vector2(-80, 27)
+
+[node name="DebuffPlace4" parent="enemy" instance=ExtResource("7_g21js")]
+position = Vector2(-50, 27)
+
+[node name="DebuffPlace5" parent="enemy" instance=ExtResource("7_g21js")]
+position = Vector2(-20, 27)
 
 [node name="Go_to_shop" type="Button" parent="."]
 offset_left = 445.0
@@ -121,7 +136,8 @@ offset_bottom = 341.0
 text = "shop"
 
 [node name="paper" type="Sprite2D" parent="."]
-position = Vector2(390, 7)
+position = Vector2(386, 10)
+scale = Vector2(1.30252, 1.01866)
 texture = ExtResource("6_ddkuv")
 
 [node name="coins" type="Node2D" parent="."]
@@ -174,4 +190,5 @@ texture = ExtResource("5_twevn")
 flip_h = true
 
 [connection signal="pressed" from="redeal_cards" to="." method="_on_redeal_cards_pressed"]
+[connection signal="pressed" from="give_up" to="." method="_on_give_up_pressed"]
 [connection signal="pressed" from="Go_to_shop" to="." method="_on_go_to_shop_pressed"]
