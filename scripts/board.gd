@@ -12,7 +12,7 @@ var jokers_are_frozen = false
 @onready var coins = $coins
 
 @onready var jokers = $Jokers
-
+@onready var goal_label = $enemy/goal_label
 @onready var redeal_cards_button = $redeal_cards
 @onready var give_up_button = $give_up
 
@@ -23,11 +23,13 @@ func set_deck(deck: Deck) -> void:
 
 func _ready() -> void:
 	$Label.visible = false
+	enemy.goal = get_parent().enemy_goal
+	goal_label.set_text(str(enemy.goal))
+	enemy.level_up()
 	ui.set_deck(original_deck)
 	update_coins(get_parent().enemy_gold)
 	redeal_cards()
-	handle_jokers('on_cards_dealt', null)
-	
+
 func _process(delta: float) -> void:
 	if game_control.current_state == GameController.GameState.ENEMY_TURN:
 		enemy.reduce_goal_by_score_ammount()
@@ -41,6 +43,7 @@ func _process(delta: float) -> void:
 	
 	if check_if_you_beat_enemy():
 		get_parent().total_gold += enemy_gold
+		get_parent().increase_enemy_strength()
 		emit_signal("show_shop")
 		hide() 
 		
@@ -111,7 +114,7 @@ func redeal_cards() -> void:
 	timer.start()
 	await timer.timeout
 	timer.queue_free()
-	
+	handle_jokers('on_cards_dealt', null)
 
 func end_turn() -> void:
 	jokers_are_frozen = false

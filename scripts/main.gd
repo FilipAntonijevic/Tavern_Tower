@@ -6,6 +6,7 @@ var current_scene: Node = null
 
 var total_gold: int = 300
 var enemy_gold: int = 5
+var enemy_goal: int = 75
 
 @onready var jokers = $Jokers
 
@@ -14,6 +15,9 @@ func _ready():
 	original_deck.initialize_deck()
 	load_scene("res://scenes/Shop.tscn") 
 
+func increase_enemy_strength():
+	enemy_goal += 25
+	
 func add_joker(card: Card) -> void:
 	var path: String = "res://scenes/jokers/Joker_" + str(card.card_value) + "_" + str(card.card_suit) + ".tscn"
 	var joker_scene = load(path)

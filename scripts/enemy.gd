@@ -1,9 +1,8 @@
 @tool
 class_name Enemy extends Node2D
 
-@export var max_health: int = 100
-@export var score: int = 0
-@export var goal: int = 100
+@onready var score: int = 0
+@onready var goal: int = 75
 @onready var score_label = $score_label
 @onready var goal_label = $goal_label
 @onready var visual_aid_label = $visual_aid_label
@@ -15,15 +14,27 @@ class_name Enemy extends Node2D
 @onready var attack_place_5 = $DebuffPlace5
 
 var attack_places: Array = []
-
 var level_1_attacks: Array = ["chain", "chain", "shuffle", "redeal", "freeze"]
 var level_2_attacks: Array = ["double_chain", "chain", "shuffle", "redeal", "freeze"]
 var level_3_attacks: Array = ["double_chain", "double_chain", "chain", "shuffle", "redeal", "freeze"]
 var level_4_attacks: Array = ["triple_chain", "double_chain", "double_chain", "shuffle", "redeal", "redeal", "freeze"]
 var level_5_attacks: Array = ["triple_chain", "triple_chain", "double_chain", "double_chain", "shuffle", "redeal", "redeal", "freeze"]
 var chosen_attacks: Array = []
-var level = 5
+var level = 0
 
+func level_up()-> void:
+	if goal >= 100 and goal < 200 and level == 0:
+		level += 1 # level 1
+	if goal > 200 and goal < 300 and level == 1:
+		level += 1 # level 2
+	if goal > 300 and goal < 400 and level == 2:
+		level += 1 # level 3
+	if goal > 400 and goal < 500 and level == 3:
+		level += 1 # level 4
+	if goal == 500 and level == 4:
+		level += 1 # level 5 (final boss)
+		
+	
 func set_score_value(_score: int):
 	score = _score
 	score_label.set_text(str(score))
@@ -128,30 +139,14 @@ func choose_attacks()-> void:
 	available_attacks.shuffle()
 	for i in range(0, level):
 		chosen_attacks.append(available_attacks.pop_front())
-	
-	print(chosen_attacks) 
+	 
 
 func remove_upcomming_attacks() -> void:
 	pass
 	
 func freeze_jokers():
 	get_parent().jokers_are_frozen = true
-	
-func shuffle_random_stack():
-	var possible_stacks = 0
-	for stack in get_parent().ui.stacks.get_children():
-		if stack.cards_in_stack.size() > 1:
-			possible_stacks += 1
-	if possible_stacks == 0:
-		return
-	var random_number = randi_range(0, possible_stacks)
-	for stack in get_parent().ui.stacks.get_children():
-		if stack.cards_in_stack.size() > 1:
-			if random_number == 0:
-				print('shuffle this stack')
-				pass
-			else:
-				random_number -= 1
+
 				
 func increase_the_cost_of_redeal():
 	get_parent().redeal_cost += 1
@@ -203,6 +198,7 @@ func unlock_stacks():
 		
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	#set_goal_value(goal)
 	attack_places = [attack_place_1, attack_place_2, attack_place_3, attack_place_4, attack_place_5]
 
 
