@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=18 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="5_twevn"]
 [ext_resource type="Texture2D" uid="uid://dmvfutelsf0pv" path="res://sprites/paper.png" id="6_ddkuv"]
 [ext_resource type="PackedScene" uid="uid://d0o8haci7wx0s" path="res://scenes/debuff_place.tscn" id="7_g21js"]
+[ext_resource type="Script" path="res://scripts/popup_window.gd" id="10_jpyxl"]
+[ext_resource type="Texture2D" uid="uid://dsq0vqel6guhf" path="res://sprites/popup_window.png" id="10_l6ngi"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_rty6a"]
 font = ExtResource("3_cgx21")
@@ -30,6 +32,10 @@ font_color = Color(0.376171, 0.480599, 0.229245, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_rolv7"]
 font = ExtResource("3_cgx21")
 font_color = Color(0.832334, 0.0685794, 0.217519, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dw6lh"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.556953, 0.556953, 0.556953, 1)
 
 [node name="board" type="Node2D"]
 script = ExtResource("1_ebwuy")
@@ -188,6 +194,26 @@ texture = ExtResource("5_twevn")
 position = Vector2(51, 15)
 texture = ExtResource("5_twevn")
 flip_h = true
+
+[node name="popup_window" type="Node2D" parent="."]
+visible = false
+position = Vector2(161, 233)
+script = ExtResource("10_jpyxl")
+
+[node name="popup_window_sprite" type="Sprite2D" parent="popup_window"]
+z_index = 101
+position = Vector2(-2.38419e-06, 2.6226e-06)
+scale = Vector2(1.50732, 1.61524)
+texture = ExtResource("10_l6ngi")
+
+[node name="effect_label" type="Label" parent="popup_window"]
+z_index = 102
+offset_left = -77.0
+offset_top = -42.0
+offset_right = 78.0
+offset_bottom = 43.0
+label_settings = SubResource("LabelSettings_dw6lh")
+autowrap_mode = 2
 
 [connection signal="pressed" from="redeal_cards" to="." method="_on_redeal_cards_pressed"]
 [connection signal="pressed" from="give_up" to="." method="_on_give_up_pressed"]

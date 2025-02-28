@@ -99,7 +99,7 @@ func _on_area_2d_mouse_exited() -> void:
 		card.unhighlight()
 		buy_button.position.y -= 21
 		buy_button.hide()
-		get_parent().get_parent().joker_effect_label.set_text('Hower a card to see its joker effect')
+		get_parent().get_parent().joker_effect_label.set_text('')
 
 
 func _on_buy_button_pressed() -> void:
@@ -113,6 +113,6 @@ func _on_buy_button_pressed() -> void:
 		buy_button.position.y -= 21
 		buy_button.hide()
 		gold_cost.hide()
-		get_parent().get_parent().joker_effect_label.set_text('Hower a card to see its joker effect')
+		get_parent().get_parent().joker_effect_label.set_text('')
 		get_parent().get_parent().gold_ammount_label.set_text(str(get_parent().get_parent().get_parent().total_gold))
 	#	remove_child(buy_button)

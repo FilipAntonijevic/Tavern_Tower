@@ -16,6 +16,8 @@ var jokers_are_frozen = false
 @onready var redeal_cards_button = $redeal_cards
 @onready var give_up_button = $give_up
 
+@onready var popup_window = $popup_window
+
 signal show_shop
 
 func set_deck(deck: Deck) -> void:

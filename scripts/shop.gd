@@ -220,7 +220,7 @@ func copy_deck() -> Deck:
 	return deck_copy
 	
 func _on_exacuviate_pressed() -> void:
-	if excavation_cost <= get_parent().total_gold:
+	if excavation_cost <= get_parent().total_gold and drawn_cards.size() < 8:
 		get_parent().total_gold -= excavation_cost
 		excavation_cost *= 2
 		excavation_cost_label.set_text(str(excavation_cost))

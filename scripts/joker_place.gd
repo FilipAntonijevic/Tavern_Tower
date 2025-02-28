@@ -5,6 +5,7 @@ var mouse_is_inside_the_joker_place: bool = false
 signal joker_sold(card: Card) 
 var shop = null
 
+
 func _ready() -> void:
 	shop = get_parent().get_parent()
 
@@ -21,10 +22,12 @@ func turn_joker_into_a_card(joker: Joker) -> Card:
 
 func _on_area_2d_mouse_entered() -> void:
 	mouse_is_inside_the_joker_place = true
-
+	if joker != null:
+		get_parent().show_popup_window()
+	
 func _on_area_2d_mouse_exited() -> void:
 	mouse_is_inside_the_joker_place = false
-		#get_parent().get_parent().joker_effect_label.set_text('Hower a card to see its joker effect')
+	get_parent().hide_popup_window()
 
 func _on_sell_joker_button_pressed() -> void:
 	var sell_value = 2
