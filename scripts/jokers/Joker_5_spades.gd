@@ -1,6 +1,6 @@
 class_name Joker_5_spades extends Node2D
 
-var joker_effect = " -TODO"
+var joker_effect = "Prevents cards from being shuffled by shuffle debuff."
 var joker_price: int = 3
 
 var activation_window = 'on_cards_dealt'

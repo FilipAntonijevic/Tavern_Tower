@@ -72,6 +72,7 @@ func show_coins() -> void:
 
 func update_coins(new_gold: int)-> void:
 	enemy_gold = new_gold
+	get_parent().enemy_gold = new_gold
 	hide_coins(10)
 	show_coins()
 	check_if_redeal_cards_button_should_turn_into_give_up_button()

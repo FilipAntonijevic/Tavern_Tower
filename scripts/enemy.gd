@@ -25,15 +25,20 @@ var level = 0
 func level_up()-> void:
 	if goal >= 100 and goal < 200 and level == 0:
 		level += 1 # level 1
+		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal > 200 and goal < 300 and level == 1:
 		level += 1 # level 2
+		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal > 300 and goal < 400 and level == 2:
 		level += 1 # level 3
+		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal > 400 and goal < 500 and level == 3:
 		level += 1 # level 4
+		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal == 500 and level == 4:
 		level += 1 # level 5 (final boss)
-		
+		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
+	
 	
 func set_score_value(_score: int):
 	score = _score
@@ -127,7 +132,15 @@ func ability():
 		i += 1
 		
 func shuffle_all_cards_from_the_table()-> void:
-	get_parent().redeal_cards()
+	var jokers =  get_parent().jokers
+	var can_shuffle = true
+	for joker_place in jokers.get_children():
+		if joker_place.joker != null:
+			if joker_place.joker.effect.name == "Joker_5_spades":
+				can_shuffle = false
+	
+	if can_shuffle:
+		get_parent().redeal_cards()
 	
 func choose_attacks()-> void:
 	var available_attacks = []
