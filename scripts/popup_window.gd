@@ -25,3 +25,6 @@ func set_new_position(i: int) -> void:
 		self.position = Vector2(210, 233)
 	if i == 4:
 		self.position = Vector2(250, 233)
+
+func set_new_position_via_vector2(popupwindow_position)-> void:
+	self.position = popupwindow_position

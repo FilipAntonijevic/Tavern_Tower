@@ -139,14 +139,7 @@ func handle_jokers(activation_window: String, card: Card):
 		for joker_place in jokers.get_children():
 			if joker_place.joker != null:
 				var joker = joker_place.joker
-				joker.activate(activation_window,original_deck, ui, card)
-				var timer1 = Timer.new()
-				timer1.wait_time = 0.3
-				timer1.one_shot = true
-				add_child(timer1)
-				timer1.start()
-				await timer1.timeout
-				timer1.queue_free()
+				await joker.activate(activation_window, original_deck, ui, card)
 
 	
 func reset_board() -> void:

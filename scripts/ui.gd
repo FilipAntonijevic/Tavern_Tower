@@ -103,7 +103,7 @@ func place_card_to_a_pile():
 
 func place_card_to_according_pile():
 	
-	if stacks.current_selected_stack:
+	if stacks.current_selected_stack and stacks.current_selected_stack.current_selected_card_index != -1:
 		var card = stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]
 		if is_dragging == false && stacks.current_selected_stack != null && card.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(card):
 			calculate_and_add_to_score(card)
@@ -128,7 +128,7 @@ func place_joker_on_according_pile(joker: Joker) -> void:
 		calculate_and_add_to_score(card)
 		card.set_card_sprite(card.card_path)
 		remove_joker_from_jokers_array(joker)
-		get_parent().handle_jokers('on_card_played', card)
+	#	get_parent().handle_jokers('on_card_played', card)
 	
 
 func place_card_on_according_pile(card: Card):

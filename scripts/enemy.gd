@@ -74,22 +74,29 @@ func resolve_attacks()-> void:
 
 	for attack_place in attack_places:
 		attack_place.icon.texture = null
-		
+		attack_place.debuff = ""
+
 func prepare_new_attacks()-> void:
 	choose_attacks()
 	var i = 0
 	for attack in chosen_attacks:
 		if attack  == "chain":
+			attack_places[i].debuff = "chain"
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/chain_debuff.png")
 		if attack == "double_chain":
+			attack_places[i].debuff = "double_chain"
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/double_chain_debuff.png")
 		if attack == "triple_chain":
+			attack_places[i].debuff = "triple_chain"
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/tripple_chain_debuff.png")
 		if attack == "shuffle":
+			attack_places[i].debuff = "shuffle"
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/shuffle_a_stack_debuff.png")
 		if attack == "freeze":
+			attack_places[i].debuff = "freeze"
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/freeze_debuff.png")
 		if attack == "redeal":
+			attack_places[i].debuff = "redeal"
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/reroll_debuff.png")
 		i += 1
 
