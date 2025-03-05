@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=21 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
@@ -6,11 +6,17 @@
 [ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="3_cgx21"]
 [ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_4vy5w"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="4_sfmmc"]
+[ext_resource type="Texture2D" uid="uid://cr4vtq148xtgi" path="res://sprites/redeal_cards_button.png" id="5_hd5qd"]
 [ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="5_twevn"]
 [ext_resource type="Texture2D" uid="uid://dmvfutelsf0pv" path="res://sprites/paper.png" id="6_ddkuv"]
 [ext_resource type="PackedScene" uid="uid://d0o8haci7wx0s" path="res://scenes/debuff_place.tscn" id="7_g21js"]
+[ext_resource type="Texture2D" uid="uid://vowp80mkvrm8" path="res://sprites/give_up_button.png" id="7_nxq51"]
 [ext_resource type="Script" path="res://scripts/popup_window.gd" id="10_jpyxl"]
 [ext_resource type="Texture2D" uid="uid://dsq0vqel6guhf" path="res://sprites/popup_window.png" id="10_l6ngi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_sbqex"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.836809, 0.835695, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rty6a"]
 font = ExtResource("3_cgx21")
@@ -47,19 +53,32 @@ script = ExtResource("1_ebwuy")
 [node name="Jokers" parent="." instance=ExtResource("4_4vy5w")]
 
 [node name="redeal_cards" type="Button" parent="."]
-offset_left = 525.0
-offset_top = 303.0
-offset_right = 619.0
-offset_bottom = 339.0
+offset_left = 517.0
+offset_top = 289.0
+offset_right = 633.0
+offset_bottom = 351.0
+focus_mode = 0
+icon = ExtResource("5_hd5qd")
+flat = true
+
+[node name="redeal_cost_label" type="Label" parent="redeal_cards"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 13.0
+offset_right = 106.0
+offset_bottom = 50.0
+label_settings = SubResource("LabelSettings_sbqex")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="give_up" type="Button" parent="."]
-visible = false
-offset_left = 525.0
-offset_top = 303.0
-offset_right = 619.0
-offset_bottom = 339.0
-text = "give up
-"
+offset_left = 517.0
+offset_top = 289.0
+offset_right = 633.0
+offset_bottom = 351.0
+focus_mode = 0
+icon = ExtResource("7_nxq51")
+flat = true
 
 [node name="Label" type="Label" parent="."]
 offset_left = 195.0

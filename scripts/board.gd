@@ -14,6 +14,7 @@ var jokers_are_frozen = false
 @onready var jokers = $Jokers
 @onready var goal_label = $enemy/goal_label
 @onready var redeal_cards_button = $redeal_cards
+@onready var redeal_cost_label = $redeal_cards/redeal_cost_label
 @onready var give_up_button = $give_up
 
 @onready var popup_window = $popup_window
@@ -85,7 +86,7 @@ func check_if_redeal_cards_button_should_turn_into_give_up_button() -> void:
 	else:
 		redeal_cards_button.show()
 		give_up_button.hide()
-		redeal_cards_button.set_text(str(redeal_cost))
+		redeal_cost_label.set_text(str(redeal_cost) + "g")
 		
 func check_if_you_beat_enemy() -> bool:
 	if enemy.goal <= 0:
