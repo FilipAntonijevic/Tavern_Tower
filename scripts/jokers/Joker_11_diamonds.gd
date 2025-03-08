@@ -1,7 +1,7 @@
 class_name Joker_11_diamonds extends Node
 
-var joker_effect = "When you place spade, club, diamond and a heart card, deal 10 dmg"
-var joker_price: int = 3
+var joker_effect = "When you play spade, club, diamond and a heart card, deal 15 dmg"
+var joker_price: int = 7
 
 var activation_window: String = 'on_card_played'
 var array_of_suits: Array = ['spade', 'diamond', 'club', 'heart']

@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=22 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
@@ -31,6 +31,10 @@ shadow_size = 0
 font = ExtResource("3_cgx21")
 font_color = Color(0.243137, 0.231373, 0.239216, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_jil6s"]
+font = ExtResource("3_cgx21")
+font_color = Color(0.243137, 0.231373, 0.239216, 1)
+
 [sub_resource type="LabelSettings" id="LabelSettings_ghmby"]
 font = ExtResource("3_cgx21")
 font_color = Color(0.376171, 0.480599, 0.229245, 1)
@@ -60,6 +64,7 @@ offset_bottom = 351.0
 focus_mode = 0
 icon = ExtResource("5_hd5qd")
 flat = true
+expand_icon = true
 
 [node name="redeal_cost_label" type="Label" parent="redeal_cards"]
 layout_mode = 0
@@ -72,6 +77,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="give_up" type="Button" parent="."]
+visible = false
 offset_left = 517.0
 offset_top = 289.0
 offset_right = 633.0
@@ -79,6 +85,7 @@ offset_bottom = 351.0
 focus_mode = 0
 icon = ExtResource("7_nxq51")
 flat = true
+expand_icon = true
 
 [node name="Label" type="Label" parent="."]
 offset_left = 195.0
@@ -103,10 +110,9 @@ label_settings = SubResource("LabelSettings_rty6a")
 
 [node name="goal_text_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -74.0
-offset_top = -25.0
-offset_right = -32.0
-offset_bottom = -2.0
+offset_left = -86.0
+offset_top = -23.0
+offset_right = -44.0
 text = "goal:
 "
 label_settings = SubResource("LabelSettings_1t3gt")
@@ -122,11 +128,21 @@ label_settings = SubResource("LabelSettings_wefor")
 
 [node name="goal_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -85.0
-offset_top = -4.0
-offset_right = -33.0
-offset_bottom = 15.0
+offset_left = -45.0
+offset_top = -22.0
+offset_right = -5.0
+offset_bottom = 1.0
 text = "100"
+label_settings = SubResource("LabelSettings_jil6s")
+
+[node name="progress_label" type="Label" parent="enemy"]
+z_index = 10
+offset_left = -80.0
+offset_top = -5.0
+offset_right = -28.0
+offset_bottom = 14.0
+text = "0
+"
 label_settings = SubResource("LabelSettings_ghmby")
 horizontal_alignment = 1
 
@@ -161,7 +177,7 @@ offset_bottom = 341.0
 text = "shop"
 
 [node name="paper" type="Sprite2D" parent="."]
-position = Vector2(386, 10)
+position = Vector2(383, 9)
 scale = Vector2(1.30252, 1.01866)
 texture = ExtResource("6_ddkuv")
 
@@ -234,6 +250,10 @@ offset_bottom = 43.0
 label_settings = SubResource("LabelSettings_dw6lh")
 autowrap_mode = 2
 
+[connection signal="mouse_entered" from="redeal_cards" to="." method="_on_redeal_cards_mouse_entered"]
+[connection signal="mouse_exited" from="redeal_cards" to="." method="_on_redeal_cards_mouse_exited"]
 [connection signal="pressed" from="redeal_cards" to="." method="_on_redeal_cards_pressed"]
+[connection signal="mouse_entered" from="give_up" to="." method="_on_give_up_mouse_entered"]
+[connection signal="mouse_exited" from="give_up" to="." method="_on_give_up_mouse_exited"]
 [connection signal="pressed" from="give_up" to="." method="_on_give_up_pressed"]
 [connection signal="pressed" from="Go_to_shop" to="." method="_on_go_to_shop_pressed"]

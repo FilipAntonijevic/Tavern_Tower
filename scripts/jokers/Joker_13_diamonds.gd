@@ -1,7 +1,7 @@
 class_name Joker_13_diamonds extends Node
 
-var joker_effect = "When you play 3 diamonds deal 10 dmg"
-var joker_price: int = 3
+var joker_effect = "When you play 3 diamonds deal 20 dmg"
+var joker_price: int = 5
 
 var activation_window: String = 'on_card_played'
 var suit_counter: int = 3

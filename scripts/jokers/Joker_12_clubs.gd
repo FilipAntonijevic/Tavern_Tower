@@ -1,7 +1,7 @@
 class_name Joker_12_clubs extends Node
 
 var joker_effect = "When you play a club, x2 the score"
-var joker_price: int = 3
+var joker_price: int = 6
 
 var activation_window: String = 'on_card_played'
 var highest_replayed_card_value: int = 0

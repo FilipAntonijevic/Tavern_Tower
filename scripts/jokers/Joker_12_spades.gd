@@ -1,7 +1,7 @@
 class_name Joker_12_spades extends Node
 
 var joker_effect = "When you play a spade, x2 the score"
-var joker_price: int = 3
+var joker_price: int = 6
 
 var activation_window: String = 'on_card_played'
 

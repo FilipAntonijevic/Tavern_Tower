@@ -12,6 +12,7 @@ var jokers_are_frozen = false
 @onready var coins = $coins
 
 @onready var jokers = $Jokers
+@onready var progress_label = $enemy/progress_label
 @onready var goal_label = $enemy/goal_label
 @onready var redeal_cards_button = $redeal_cards
 @onready var redeal_cost_label = $redeal_cards/redeal_cost_label
@@ -89,7 +90,7 @@ func check_if_redeal_cards_button_should_turn_into_give_up_button() -> void:
 		redeal_cost_label.set_text(str(redeal_cost) + "g")
 		
 func check_if_you_beat_enemy() -> bool:
-	if enemy.goal <= 0:
+	if enemy.progress >= enemy.goal:
 		return true
 	return false 
 	
@@ -159,3 +160,33 @@ func reset_board() -> void:
 func _on_give_up_pressed() -> void:
 	#GameData.reset()
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
+
+
+
+func _on_give_up_mouse_entered() -> void:
+	give_up_button.size.x += 12
+	give_up_button.size.y += 6
+	give_up_button.position.y -= 3
+	give_up_button.position.x -= 6
+	
+func _on_give_up_mouse_exited() -> void:
+	give_up_button.size.x -= 12
+	give_up_button.size.y -= 6
+	give_up_button.position.y += 3
+	give_up_button.position.x += 6
+
+func _on_redeal_cards_mouse_entered() -> void:
+	redeal_cards_button.size.x += 12
+	redeal_cards_button.size.y += 6
+	redeal_cards_button.position.y -= 3
+	redeal_cards_button.position.x -= 6
+	redeal_cost_label.global_position.y += 3
+	redeal_cost_label.global_position.x += 6
+	
+func _on_redeal_cards_mouse_exited() -> void:
+	redeal_cards_button.size.x -= 12
+	redeal_cards_button.size.y -= 6
+	redeal_cards_button.position.y += 3
+	redeal_cards_button.position.x += 6
+	redeal_cost_label.global_position.y -= 3
+	redeal_cost_label.global_position.x -= 6

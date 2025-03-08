@@ -1,7 +1,7 @@
 class_name Joker_9_diamonds extends Node
 
 var joker_effect = "When you play a gem card, remove its gem and replay it"
-var joker_price: int = 3
+var joker_price: int = 4
 var highest_replayed_card_value = 0
 
 var activation_window: String = 'on_card_played'

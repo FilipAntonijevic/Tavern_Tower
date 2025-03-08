@@ -1,7 +1,7 @@
 class_name Joker_8_hearts extends Node2D
 
 var joker_effect = "If this is your only joker, x3 the score on card played."
-var joker_price: int = 3
+var joker_price: int = 5
 
 var activation_window = 'on_card_played'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):

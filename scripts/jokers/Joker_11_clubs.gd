@@ -1,7 +1,7 @@
 class_name Joker_11_clubs extends Node
 
 var joker_effect = "When you play consecative cards of same suit deal 5 dmg"
-var joker_price: int = 3
+var joker_price: int = 7
 
 var activation_window: String = 'on_card_played'
 var last_suit_played: String = 'null'

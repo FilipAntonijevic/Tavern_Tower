@@ -1,9 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://bf74mxp6eobj7"]
+[gd_scene load_steps=26 format=3 uid="uid://bf74mxp6eobj7"]
 
 [ext_resource type="Script" path="res://scripts/shop.gd" id="1_nk2n8"]
 [ext_resource type="PackedScene" uid="uid://ce465tmrrukmt" path="res://scenes/card_place.tscn" id="2_kfu8g"]
 [ext_resource type="Texture2D" uid="uid://dtddgnsc00sxx" path="res://sprites/shop_desk.png" id="2_lcwta"]
-[ext_resource type="Texture2D" uid="uid://chxyejk3e8l72" path="res://sprites/card_back_template.png" id="3_ajps5"]
+[ext_resource type="Texture2D" uid="uid://cs7p0e6asma2" path="res://sprites/excavate_button.png" id="3_fcxkk"]
 [ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_7k8mn"]
 [ext_resource type="Texture2D" uid="uid://c2ip7vcjxsia6" path="res://sprites/next_button.png" id="5_ehy2s"]
 [ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="6_5hdlj"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://dc7et5bel0rqa" path="res://sprites/gems/big_topaz.png" id="17_shnmk"]
 [ext_resource type="Texture2D" uid="uid://dt6e6shvgk337" path="res://sprites/gems/big_sapphire.png" id="18_x0cxq"]
 [ext_resource type="Texture2D" uid="uid://4iton36lfdvr" path="res://sprites/gems/big_ruby.png" id="19_tqa2l"]
+[ext_resource type="Texture2D" uid="uid://by1c8q7sbu6od" path="res://sprites/deck_sprite.png" id="21_w8skj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4i7ur"]
 font = ExtResource("6_5hdlj")
@@ -57,40 +58,28 @@ position = Vector2(89.5, 24.75)
 [node name="gem_3_position" type="Node2D" parent="desk/gems_positions"]
 position = Vector2(81.5, 76)
 
-[node name="excavation_cost_label" type="Label" parent="desk"]
+[node name="exacuviate" type="Button" parent="desk"]
+offset_left = 192.0
+offset_top = -103.0
+offset_right = 308.0
+offset_bottom = -41.0
+focus_mode = 0
+icon = ExtResource("3_fcxkk")
+flat = true
+expand_icon = true
+
+[node name="excavation_cost_label" type="Label" parent="desk/exacuviate"]
 z_index = 10
-offset_left = 259.0
-offset_top = -22.0
-offset_right = 299.0
-offset_bottom = 13.0
-text = "1
+layout_mode = 0
+offset_left = 65.0
+offset_top = 25.0
+offset_right = 105.0
+offset_bottom = 60.0
+text = "1g
 "
 label_settings = SubResource("LabelSettings_4i7ur")
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="card_back_1" type="Sprite2D" parent="."]
-position = Vector2(531, 108)
-rotation = 0.0349066
-texture = ExtResource("3_ajps5")
-
-[node name="card_back_2" type="Sprite2D" parent="."]
-position = Vector2(531, 109)
-texture = ExtResource("3_ajps5")
-
-[node name="card_back_3" type="Sprite2D" parent="."]
-position = Vector2(529, 107)
-rotation = 0.0349066
-texture = ExtResource("3_ajps5")
-
-[node name="card_back_4" type="Sprite2D" parent="."]
-position = Vector2(529, 110)
-rotation = -0.0698132
-texture = ExtResource("3_ajps5")
-
-[node name="card_back_5" type="Sprite2D" parent="."]
-position = Vector2(527, 108)
-texture = ExtResource("3_ajps5")
 
 [node name="next_button" type="Button" parent="."]
 anchors_preset = -1
@@ -99,20 +88,13 @@ anchor_right = 8.55
 anchor_bottom = 6.175
 offset_left = 518.0
 offset_top = 289.0
-offset_right = 688.0
+offset_right = 635.0
 offset_bottom = 351.0
 focus_mode = 0
 icon = ExtResource("5_ehy2s")
 flat = true
-
-[node name="exacuviate" type="Button" parent="."]
-offset_left = 490.0
-offset_top = 147.0
-offset_right = 577.0
-offset_bottom = 201.0
-text = "exacuvate
-cards
-"
+icon_alignment = 1
+expand_icon = true
 
 [node name="spawnpoints" type="Node2D" parent="."]
 
@@ -300,8 +282,16 @@ icon = ExtResource("19_tqa2l")
 flat = true
 expand_icon = true
 
+[node name="DeckSprite" type="Sprite2D" parent="."]
+position = Vector2(487, 106)
+texture = ExtResource("21_w8skj")
+
+[connection signal="mouse_entered" from="desk/exacuviate" to="." method="_on_exacuviate_mouse_entered"]
+[connection signal="mouse_exited" from="desk/exacuviate" to="." method="_on_exacuviate_mouse_exited"]
+[connection signal="pressed" from="desk/exacuviate" to="." method="_on_exacuviate_pressed"]
+[connection signal="mouse_entered" from="next_button" to="." method="_on_next_button_mouse_entered"]
+[connection signal="mouse_exited" from="next_button" to="." method="_on_next_button_mouse_exited"]
 [connection signal="pressed" from="next_button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="exacuviate" to="." method="_on_exacuviate_pressed"]
 [connection signal="mouse_entered" from="medium_emerald" to="." method="_on_medium_emerald_mouse_entered"]
 [connection signal="mouse_exited" from="medium_emerald" to="." method="_on_medium_emerald_mouse_exited"]
 [connection signal="pressed" from="medium_emerald" to="." method="_on_medium_emerald_pressed"]

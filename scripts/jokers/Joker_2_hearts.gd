@@ -1,7 +1,7 @@
 class_name Joker_2_hearts extends Node2D
 
 var joker_effect = "Push hearts, in each stack, to the top of the stack"
-var joker_price: int = 3
+var joker_price: int = 5
 
 var activation_window = 'on_cards_dealt'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):

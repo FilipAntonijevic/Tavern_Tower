@@ -1,7 +1,7 @@
 class_name Joker_5_clubs extends Node2D
 
 var joker_effect = "When played place next card on each other pile."
-var joker_price: int = 3
+var joker_price: int = 4
 
 var activation_window = 'on_this_card_played'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):

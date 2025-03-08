@@ -9,7 +9,9 @@ var original_deck: Deck = null
 @onready var joker_effect_label = $joker_effect_label
 @onready var sell_joker_label = $sell_joker_label
 @onready var gold_ammount_label = $gold_ammount_label
-@onready var excavation_cost_label = $desk/excavation_cost_label
+@onready var excavate_cards_button = $desk/exacuviate
+@onready var excavation_cost_label = $desk/exacuviate/excavation_cost_label
+@onready var next_button = $next_button
 
 @onready var gem_1_position = $desk/gems_positions/gem_1_position
 @onready var gem_2_position = $desk/gems_positions/gem_2_position
@@ -160,7 +162,7 @@ func _ready() -> void:
 	chosen_gems[2].global_position = gem_3_position.global_position
 	
 	excavation_cost = 1
-	excavation_cost_label.set_text(str(excavation_cost))
+	excavation_cost_label.set_text(str(excavation_cost) + "g")
 		
 	joker_effect_label.z_index = 100
 	load_jokers()
@@ -603,3 +605,33 @@ func _on_big_ruby_pressed() -> void:
 	big_ruby.global_position = Vector2(-100,-100)
 	_on_big_ruby_mouse_exited()
 	
+
+
+func _on_next_button_mouse_entered() -> void:
+	next_button.size.x += 12
+	next_button.size.y += 6
+	next_button.position.y -= 3
+	next_button.position.x -= 6
+
+func _on_next_button_mouse_exited() -> void:
+	next_button.size.x -= 12
+	next_button.size.y -= 6
+	next_button.position.y += 3
+	next_button.position.x += 6
+
+
+func _on_exacuviate_mouse_entered() -> void:
+	excavate_cards_button.size.x += 12
+	excavate_cards_button.size.y += 6
+	excavate_cards_button.position.y -= 3
+	excavate_cards_button.position.x -= 6
+	excavation_cost_label.global_position.y += 3
+	excavation_cost_label.global_position.x += 6
+	
+func _on_exacuviate_mouse_exited() -> void:
+	excavate_cards_button.size.x -= 12
+	excavate_cards_button.size.y -= 6
+	excavate_cards_button.position.y += 3
+	excavate_cards_button.position.x += 6
+	excavation_cost_label.global_position.y -= 3
+	excavation_cost_label.global_position.x -= 6

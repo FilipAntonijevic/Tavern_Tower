@@ -1,7 +1,7 @@
 class_name Joker_6_diamonds extends Node2D
 
 var joker_effect = "When you play 1,2,3,4,5, double the score."
-var joker_price: int = 3
+var joker_price: int = 5
 
 var activation_window = 'on_card_played'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):

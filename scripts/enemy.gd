@@ -3,7 +3,9 @@ class_name Enemy extends Node2D
 
 @onready var score: int = 0
 @onready var goal: int = 75
+@onready var progress: int = 0
 @onready var score_label = $score_label
+@onready var progress_label = $progress_label
 @onready var goal_label = $goal_label
 @onready var visual_aid_label = $visual_aid_label
 
@@ -56,11 +58,14 @@ func reduce_goal_by_score_ammount():
 	await get_tree().create_timer(0.5).timeout
 	while score != 0:
 		score -= 1
-		goal -= 1
-		set_goal_value(goal)
+		progress += 1
+		update_progress_value()
 		set_score_value(score)
 		await get_tree().create_timer(0.1).timeout
 
+func update_progress_value():
+	progress_label.set_text(str(progress))
+	
 func resolve_attacks()-> void:
 
 	for attack in chosen_attacks:

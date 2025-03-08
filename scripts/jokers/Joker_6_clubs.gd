@@ -1,7 +1,7 @@
 class_name Joker_6_clubs extends Node2D
 
 var joker_effect = "When played, +1 the score for each gem card on the table."
-var joker_price: int = 3
+var joker_price: int = 2
 
 var activation_window = 'on_this_card_played'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):

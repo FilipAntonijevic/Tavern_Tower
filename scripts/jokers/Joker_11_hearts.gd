@@ -1,7 +1,7 @@
 class_name Joker_11_hearts extends Node
 
-var joker_effect = "When cards on all 4 piles have the same value, deal 15 dmg"
-var joker_price: int = 3
+var joker_effect = "When cards on all 4 piles have the same value, deal 25 dmg"
+var joker_price: int = 5
 
 var activation_window: String = 'on_card_played'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):

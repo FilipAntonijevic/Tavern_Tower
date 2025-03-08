@@ -1,7 +1,7 @@
 class_name Joker_8_spades extends Node2D
 
 var joker_effect = "When played, add 10 to the score for each of your jokers."
-var joker_price: int = 3
+var joker_price: int = 5
 
 var activation_window = 'on_this_card_played'
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
