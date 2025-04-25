@@ -13,7 +13,7 @@ var enemy_goal: int = 75
 func _ready():
 	Engine.max_fps = 60
 	original_deck.initialize_deck()
-	load_scene("res://scenes/Shop.tscn") 
+	load_scene("res://scenes/Shop.tscn")
 
 func increase_enemy_strength():
 	enemy_goal += 25

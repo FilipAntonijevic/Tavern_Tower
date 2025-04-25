@@ -236,6 +236,7 @@ texture = ExtResource("5_twevn")
 flip_h = true
 
 [node name="popup_window" type="Node2D" parent="."]
+visible = false
 position = Vector2(161, 233)
 script = ExtResource("10_jpyxl")
 

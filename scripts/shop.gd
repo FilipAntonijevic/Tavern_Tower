@@ -420,7 +420,7 @@ func check_if_joker_can_be_placed_on_a_joker_palce() -> bool:
 func _on_medium_emerald_mouse_entered() -> void:
 	medium_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Choose a card to make it emerald\n-when played, this card plays again with 0 base value.")
-	sell_joker_label.set_text("Click to buy for 2$")
+	sell_joker_label.set_text("Click to buy for 2 coins")
 func _on_medium_emerald_mouse_exited() -> void:
 	medium_emerald.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -428,7 +428,7 @@ func _on_medium_emerald_mouse_exited() -> void:
 func _on_medium_sapphire_mouse_entered() -> void:
 	medium_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Choose a card to make it sapphire\n-this card can be placed on any card with same suit.")
-	sell_joker_label.set_text("Click to buy for 2$")
+	sell_joker_label.set_text("Click to buy for 2 coins")
 func _on_medium_sapphire_mouse_exited() -> void:
 	medium_sapphire.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -436,7 +436,7 @@ func _on_medium_sapphire_mouse_exited() -> void:
 func _on_medium_ruby_mouse_entered() -> void:
 	medium_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Choose a card to make it ruby\n-this cards base value +10.")
-	sell_joker_label.set_text("Click to buy for 2$")
+	sell_joker_label.set_text("Click to buy for 2 coins")
 func _on_medium_ruby_mouse_exited() -> void:
 	medium_ruby.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -444,7 +444,7 @@ func _on_medium_ruby_mouse_exited() -> void:
 func _on_medium_topaz_mouse_entered() -> void:
 	medium_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Choose a card to make it topaz\n-this card can't be locked, when played stun opponent.")
-	sell_joker_label.set_text("Click to buy for 2$")
+	sell_joker_label.set_text("Click to buy for 2 coins")
 func _on_medium_topaz_mouse_exited() -> void:
 	medium_topaz.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -452,7 +452,7 @@ func _on_medium_topaz_mouse_exited() -> void:
 func _on_small_emerald_mouse_entered() -> void:
 	small_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Make a random card emerald\n-when played, this card plays again with 0 base value.")
-	sell_joker_label.set_text("Click to buy for 1$")
+	sell_joker_label.set_text("Click to buy for 1 coin")
 func _on_small_emerald_mouse_exited() -> void:
 	small_emerald.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -460,7 +460,7 @@ func _on_small_emerald_mouse_exited() -> void:
 func _on_small_topaz_mouse_entered() -> void:
 	small_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Make a random card topaz\n-this card can't be locked, when played stun opponent.")
-	sell_joker_label.set_text("Click to buy for 1$")
+	sell_joker_label.set_text("Click to buy for 1 coin")
 func _on_small_topaz_mouse_exited() -> void:
 	small_topaz.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -468,7 +468,7 @@ func _on_small_topaz_mouse_exited() -> void:
 func _on_small_sapphire_mouse_entered() -> void:
 	small_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Make a random card sapphire\n-this card can be placed on any card with same suit.")
-	sell_joker_label.set_text("Click to buy for 1$")
+	sell_joker_label.set_text("Click to buy for 1 coin")
 func _on_small_sapphire_mouse_exited() -> void:
 	small_sapphire.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -476,7 +476,7 @@ func _on_small_sapphire_mouse_exited() -> void:
 func _on_small_ruby_mouse_entered() -> void:
 	small_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Make a random card ruby\n-this cards base value +10.")
-	sell_joker_label.set_text("Click to buy for 1$")
+	sell_joker_label.set_text("Click to buy for 1 coin")
 func _on_small_ruby_mouse_exited() -> void:
 	small_ruby.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -484,7 +484,7 @@ func _on_small_ruby_mouse_exited() -> void:
 func _on_big_emerald_mouse_entered() -> void:
 	big_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Make all cards in shop emerald\n-when played, this card plays again with 0 base value.")
-	sell_joker_label.set_text("Click to buy for 5$")
+	sell_joker_label.set_text("Click to buy for 5 coins")
 func _on_big_emerald_mouse_exited() -> void:
 	big_emerald.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -492,7 +492,7 @@ func _on_big_emerald_mouse_exited() -> void:
 func _on_big_topaz_mouse_entered() -> void:
 	big_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Make all cards in shop topaz\n-this card can't be locked, when played stun opponent.")
-	sell_joker_label.set_text("Click to buy for 5$")
+	sell_joker_label.set_text("Click to buy for 5 coins")
 func _on_big_topaz_mouse_exited() -> void:
 	big_topaz.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -500,7 +500,7 @@ func _on_big_topaz_mouse_exited() -> void:
 func _on_big_sapphire_mouse_entered() -> void:
 	big_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Make all cards in shop sapphire\n-this card can be placed on any card with same suit.")
-	sell_joker_label.set_text("Click to buy for 5$")
+	sell_joker_label.set_text("Click to buy for 5 coins")
 func _on_big_sapphire_mouse_exited() -> void:
 	big_sapphire.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
@@ -508,7 +508,7 @@ func _on_big_sapphire_mouse_exited() -> void:
 func _on_big_ruby_mouse_entered() -> void:
 	big_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("Make all cards in shop ruby\n-this cards base value +10.")
-	sell_joker_label.set_text("Click to buy for 5$")
+	sell_joker_label.set_text("Click to buy for 5 coins")
 func _on_big_ruby_mouse_exited() -> void:
 	big_ruby.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")

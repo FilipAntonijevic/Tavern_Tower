@@ -4,13 +4,12 @@ var card: Card = null
 var mouse_is_inside_the_card: bool = false
 signal joker_bought(card: Card) 
 @onready var buy_button = $Buy_button
-@onready var gold_cost = $gold_cost
-@onready var gold_cost_label = $gold_cost/gold_cost_label
+@onready var gold_cost_label = $gold_cost_label
 
 
 func _ready() -> void:
 	buy_button.hide()
-	gold_cost.hide()
+	gold_cost_label.hide()
 	if not buy_button.is_connected("pressed", Callable(self, "_on_buy_button_pressed")):
 		buy_button.connect("pressed", Callable(self, "_on_buy_button_pressed"))
 		
@@ -59,7 +58,7 @@ func _process(delta: float) -> void:
 func set_card(_card: Card) -> void:
 	add_child(_card)
 	card = _card
-	gold_cost.show()
+	gold_cost_label.show()
 	var joker = turn_card_into_a_joker(_card)
 	if joker:
 		gold_cost_label.set_text(str(joker.effect.joker_price))
@@ -82,7 +81,6 @@ func _on_area_2d_mouse_entered() -> void:
 	if card != null:
 		mouse_is_inside_the_card = true
 		card.position.y -= 2
-		gold_cost.position.y -= 2
 		card.highlight()
 		buy_button.show()
 		buy_button.position.y += 21
@@ -95,7 +93,6 @@ func _on_area_2d_mouse_exited() -> void:
 	if card != null:
 		mouse_is_inside_the_card = false
 		card.position.y += 2
-		gold_cost.position.y += 2
 		card.unhighlight()
 		buy_button.position.y -= 21
 		buy_button.hide()
@@ -112,7 +109,7 @@ func _on_buy_button_pressed() -> void:
 		remove_child(card)
 		buy_button.position.y -= 21
 		buy_button.hide()
-		gold_cost.hide()
+		gold_cost_label.hide()
 		get_parent().get_parent().joker_effect_label.set_text('')
 		get_parent().get_parent().gold_ammount_label.set_text(str(get_parent().get_parent().get_parent().total_gold))
 	#	remove_child(buy_button)

@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dpbfuop2b0r8j"]
+
+[ext_resource type="Shader" path="res://carved_wood.gdshader" id="1_cp636"]
+
+[resource]
+shader = ExtResource("1_cp636")
+shader_parameter/threshold = 0.18
+shader_parameter/color = Vector4(0.8, 0.7, 0.4, 0)

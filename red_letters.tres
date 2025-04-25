@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ceeqj2c5qv0eq"]
+
+[ext_resource type="Shader" path="res://new_shader.gdshader" id="1_gv8kp"]
+
+[resource]
+shader = ExtResource("1_gv8kp")
+shader_parameter/threshold = 0.18
+shader_parameter/color = Vector4(0.6, 0.2, 0.2, 0)
