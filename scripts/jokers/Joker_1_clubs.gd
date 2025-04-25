@@ -1,6 +1,6 @@
 class_name Joker_1_clubs extends Node2D
 
-var joker_effect = "This cards value is equal to the number of all played cards"
+var joker_effect = "This cards value is equal to the number of all played cards."
 
 var joker_price: int = 3
 

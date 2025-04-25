@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bf74mxp6eobj7"]
+[gd_scene load_steps=27 format=3 uid="uid://bf74mxp6eobj7"]
 
 [ext_resource type="Script" path="res://scripts/shop.gd" id="1_nk2n8"]
 [ext_resource type="PackedScene" uid="uid://ce465tmrrukmt" path="res://scenes/card_place.tscn" id="2_kfu8g"]
@@ -6,10 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://cs7p0e6asma2" path="res://sprites/excavate_button.png" id="3_fcxkk"]
 [ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_7k8mn"]
 [ext_resource type="Texture2D" uid="uid://c2ip7vcjxsia6" path="res://sprites/next_button.png" id="5_ehy2s"]
-[ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="6_5hdlj"]
 [ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="7_vfk6f"]
 [ext_resource type="Texture2D" uid="uid://dygy5hebhsd2t" path="res://sprites/gems/medium_emerald.png" id="8_dxron"]
+[ext_resource type="Material" uid="uid://d3voebh36ka7u" path="res://new_shader_material.tres" id="8_eead6"]
 [ext_resource type="Texture2D" uid="uid://cljn5dnkhvxbj" path="res://sprites/gems/medium_sapphire.png" id="9_4puuw"]
+[ext_resource type="FontFile" uid="uid://cit1npgi7fd48" path="res://ff-comma-trial/FFCommaTrial-Regular.ttf" id="9_yo5d1"]
 [ext_resource type="Texture2D" uid="uid://cn6ja5k82jsc" path="res://sprites/gems/medium_ruby.png" id="10_c3spl"]
 [ext_resource type="Texture2D" uid="uid://dacp8ttb4ejq" path="res://sprites/gems/medium_topaz.png" id="11_48bmd"]
 [ext_resource type="Texture2D" uid="uid://och8p5ilv7o4" path="res://sprites/gems/small_emerald.png" id="12_ad6ns"]
@@ -23,20 +24,24 @@
 [ext_resource type="Texture2D" uid="uid://by1c8q7sbu6od" path="res://sprites/deck_sprite.png" id="21_w8skj"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4i7ur"]
-font = ExtResource("6_5hdlj")
+font = ExtResource("9_yo5d1")
+font_size = 14
 font_color = Color(0.737255, 0.733333, 0, 1)
 outline_color = Color(0.737255, 0.733333, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_3oyxr"]
-font = ExtResource("6_5hdlj")
+font = ExtResource("9_yo5d1")
+font_size = 14
 font_color = Color(0.470588, 0.231373, 0.239216, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_sl2fx"]
-font = ExtResource("6_5hdlj")
-font_color = Color(0.243137, 0.231373, 0.239216, 1)
+line_spacing = 1.0
+font = ExtResource("9_yo5d1")
+font_size = 14
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ebq5h"]
-font = ExtResource("6_5hdlj")
+font = ExtResource("9_yo5d1")
 font_color = Color(0.73552, 0.735228, 1.54018e-06, 1)
 
 [node name="Shop" type="Node2D"]
@@ -133,14 +138,15 @@ position = Vector2(424, 105)
 [node name="Jokers" parent="." instance=ExtResource("4_7k8mn")]
 
 [node name="sell_joker_label" type="Label" parent="."]
-offset_left = 47.0
+offset_left = 44.0
 offset_top = 250.0
-offset_right = 283.0
+offset_right = 280.0
 offset_bottom = 277.0
 label_settings = SubResource("LabelSettings_3oyxr")
 
 [node name="joker_effect_label" type="Label" parent="."]
 z_index = 10
+material = ExtResource("8_eead6")
 offset_left = 47.0
 offset_top = 170.0
 offset_right = 283.0

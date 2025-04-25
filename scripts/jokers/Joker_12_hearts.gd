@@ -1,6 +1,6 @@
 class_name Joker_12_hearts extends Node
 
-var joker_effect = "When you play a heart, x2 the score"
+var joker_effect = "When you play a heart, x2 the score."
 var joker_price: int = 6
 
 var activation_window: String = 'on_card_played'

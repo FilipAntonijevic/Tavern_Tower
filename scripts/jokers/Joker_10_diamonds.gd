@@ -1,6 +1,6 @@
 class_name Joker_10_diamonds extends Node
 
-var joker_effect = "When you play a topaz card add 10 to the score"
+var joker_effect = "When you play a topaz card add 10 to the score."
 var joker_price: int = 3
 
 var activation_window: String = 'on_card_played'

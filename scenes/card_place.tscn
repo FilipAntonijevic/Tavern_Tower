@@ -1,14 +1,16 @@
 [gd_scene load_steps=5 format=3 uid="uid://ce465tmrrukmt"]
 
 [ext_resource type="Script" path="res://scripts/card_place.gd" id="1_a1p4w"]
-[ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="2_q3e7u"]
+[ext_resource type="FontFile" uid="uid://cit1npgi7fd48" path="res://ff-comma-trial/FFCommaTrial-Regular.ttf" id="2_rpouv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6gkie"]
 size = Vector2(40, 86)
 
 [sub_resource type="LabelSettings" id="LabelSettings_n7tw4"]
-font = ExtResource("2_q3e7u")
-font_color = Color(0.737255, 0.733333, 0, 1)
+line_spacing = 0.0
+font = ExtResource("2_rpouv")
+font_size = 14
+font_color = Color(0.905882, 0.792157, 0.505882, 1)
 
 [node name="CardPlace" type="Node2D"]
 script = ExtResource("1_a1p4w")
@@ -32,7 +34,7 @@ offset_left = -12.0
 offset_top = -41.0
 offset_right = 12.0
 offset_bottom = -27.0
-color = Color(0, 0, 0, 0.588235)
+color = Color(0.866667, 0.792157, 0.584314, 0)
 
 [node name="gold_cost_label" type="Label" parent="gold_cost"]
 layout_mode = 0

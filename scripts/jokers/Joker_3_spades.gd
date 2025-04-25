@@ -1,6 +1,6 @@
 class_name Joker_3_spades extends Node2D
 
-var joker_effect = "Sort all spades cards in each stack"
+var joker_effect = "Sort all spades cards in each stack."
 var joker_price: int = 6
 
 var activation_window = 'on_cards_dealt'

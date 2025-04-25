@@ -1,9 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=23 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
 [ext_resource type="PackedScene" uid="uid://cci7r3hjubrnr" path="res://scenes/game_controller.tscn" id="3_71d23"]
-[ext_resource type="FontFile" uid="uid://c8e3cq3afba0d" path="res://minecraft/Minecraft.ttf" id="3_cgx21"]
 [ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_4vy5w"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="4_sfmmc"]
 [ext_resource type="Texture2D" uid="uid://cr4vtq148xtgi" path="res://sprites/redeal_cards_button.png" id="5_hd5qd"]
@@ -11,40 +10,50 @@
 [ext_resource type="Texture2D" uid="uid://dmvfutelsf0pv" path="res://sprites/paper.png" id="6_ddkuv"]
 [ext_resource type="PackedScene" uid="uid://d0o8haci7wx0s" path="res://scenes/debuff_place.tscn" id="7_g21js"]
 [ext_resource type="Texture2D" uid="uid://vowp80mkvrm8" path="res://sprites/give_up_button.png" id="7_nxq51"]
+[ext_resource type="Material" uid="uid://d3voebh36ka7u" path="res://new_shader_material.tres" id="9_ooenp"]
 [ext_resource type="Script" path="res://scripts/popup_window.gd" id="10_jpyxl"]
 [ext_resource type="Texture2D" uid="uid://dsq0vqel6guhf" path="res://sprites/popup_window.png" id="10_l6ngi"]
+[ext_resource type="FontFile" uid="uid://cit1npgi7fd48" path="res://ff-comma-trial/FFCommaTrial-Regular.ttf" id="10_lo4iu"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sbqex"]
-font = ExtResource("3_cgx21")
+font = ExtResource("10_lo4iu")
+font_size = 14
 font_color = Color(0.836809, 0.835695, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rty6a"]
-font = ExtResource("3_cgx21")
-font_color = Color(0.243137, 0.231373, 0.239216, 1)
+font = ExtResource("10_lo4iu")
+font_size = 14
+font_color = Color(0.0118588, 0.010731, 0.0114759, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_1t3gt"]
-font = ExtResource("3_cgx21")
+font = ExtResource("10_lo4iu")
+font_size = 14
 font_color = Color(0.241903, 0.229738, 0.240595, 1)
 shadow_size = 0
 
 [sub_resource type="LabelSettings" id="LabelSettings_wefor"]
-font = ExtResource("3_cgx21")
+font = ExtResource("10_lo4iu")
+font_size = 14
 font_color = Color(0.243137, 0.231373, 0.239216, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_jil6s"]
-font = ExtResource("3_cgx21")
+font = ExtResource("10_lo4iu")
+font_size = 14
 font_color = Color(0.243137, 0.231373, 0.239216, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_ghmby"]
-font = ExtResource("3_cgx21")
+font = ExtResource("10_lo4iu")
 font_color = Color(0.376171, 0.480599, 0.229245, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rolv7"]
-font = ExtResource("3_cgx21")
+font = ExtResource("10_lo4iu")
+font_size = 14
 font_color = Color(0.832334, 0.0685794, 0.217519, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_dw6lh"]
-font = ExtResource("3_cgx21")
+line_spacing = 1.0
+font = ExtResource("10_lo4iu")
+font_size = 14
 font_color = Color(0.556953, 0.556953, 0.556953, 1)
 
 [node name="board" type="Node2D"]
@@ -87,29 +96,23 @@ icon = ExtResource("7_nxq51")
 flat = true
 expand_icon = true
 
-[node name="Label" type="Label" parent="."]
-offset_left = 195.0
-offset_top = 142.0
-offset_right = 426.0
-offset_bottom = 231.0
-text = "VICTORY"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="enemy" type="Node2D" parent="."]
 position = Vector2(471, 31)
 script = ExtResource("4_sfmmc")
 
 [node name="score_text_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -149.0
-offset_top = -23.0
-offset_right = -101.0
+material = ExtResource("9_ooenp")
+offset_left = -155.0
+offset_top = -24.0
+offset_right = -90.0
+offset_bottom = -1.0
 text = "score:"
 label_settings = SubResource("LabelSettings_rty6a")
 
 [node name="goal_text_label" type="Label" parent="enemy"]
 z_index = 10
+material = ExtResource("9_ooenp")
 offset_left = -86.0
 offset_top = -23.0
 offset_right = -44.0
@@ -119,6 +122,7 @@ label_settings = SubResource("LabelSettings_1t3gt")
 
 [node name="score_label" type="Label" parent="enemy"]
 z_index = 10
+material = ExtResource("9_ooenp")
 offset_left = -129.0
 offset_top = -4.0
 offset_right = -89.0
@@ -128,6 +132,7 @@ label_settings = SubResource("LabelSettings_wefor")
 
 [node name="goal_label" type="Label" parent="enemy"]
 z_index = 10
+material = ExtResource("9_ooenp")
 offset_left = -45.0
 offset_top = -22.0
 offset_right = -5.0
@@ -177,7 +182,7 @@ offset_bottom = 341.0
 text = "shop"
 
 [node name="paper" type="Sprite2D" parent="."]
-position = Vector2(383, 9)
+position = Vector2(380, 11)
 scale = Vector2(1.30252, 1.01866)
 texture = ExtResource("6_ddkuv")
 
@@ -231,7 +236,6 @@ texture = ExtResource("5_twevn")
 flip_h = true
 
 [node name="popup_window" type="Node2D" parent="."]
-visible = false
 position = Vector2(161, 233)
 script = ExtResource("10_jpyxl")
 
@@ -243,6 +247,7 @@ texture = ExtResource("10_l6ngi")
 
 [node name="effect_label" type="Label" parent="popup_window"]
 z_index = 102
+material = ExtResource("9_ooenp")
 offset_left = -77.0
 offset_top = -42.0
 offset_right = 78.0

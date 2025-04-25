@@ -1,6 +1,6 @@
 class_name Joker_1_hearts extends Node2D
 
-var joker_effect = "Play all other aces"
+var joker_effect = "Play all other aces."
 var joker_price: int = 4
 
 var activation_window = 'on_cards_dealt'

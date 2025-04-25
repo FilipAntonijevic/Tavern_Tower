@@ -1,6 +1,6 @@
 class_name Joker_3_diamonds extends Node2D
 
-var joker_effect = "Push all diamond cards to the top of each stack"
+var joker_effect = "Push all diamond cards to the top of each stack."
 var joker_price: int = 6
 
 var activation_window = 'on_cards_dealt'

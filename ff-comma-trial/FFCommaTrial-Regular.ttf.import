@@ -2,13 +2,13 @@
 
 importer="font_data_dynamic"
 type="FontFile"
-uid="uid://c7x6csdhqwgc7"
-path="res://.godot/imported/Garet-Heavy.ttf-a0590c1e6059af290d040339a7ad4090.fontdata"
+uid="uid://cit1npgi7fd48"
+path="res://.godot/imported/FFCommaTrial-Regular.ttf-e0e55488100ace8847fe04e133d79219.fontdata"
 
 [deps]
 
-source_file="res://garet/Garet-Heavy.ttf"
-dest_files=["res://.godot/imported/Garet-Heavy.ttf-a0590c1e6059af290d040339a7ad4090.fontdata"]
+source_file="res://ff-comma-trial/FFCommaTrial-Regular.ttf"
+dest_files=["res://.godot/imported/FFCommaTrial-Regular.ttf-e0e55488100ace8847fe04e133d79219.fontdata"]
 
 [params]
 

@@ -26,7 +26,6 @@ func set_deck(deck: Deck) -> void:
 	original_deck = deck
 
 func _ready() -> void:
-	$Label.visible = false
 	enemy.goal = get_parent().enemy_goal
 	goal_label.set_text(str(enemy.goal))
 	enemy.level_up()
@@ -52,7 +51,7 @@ func _process(delta: float) -> void:
 		hide() 
 		
 	if ui.check_if_you_won():
-		$Label.visible = true
+		pass
 
 func hide_coins(k: int) -> void:
 	var i = 0

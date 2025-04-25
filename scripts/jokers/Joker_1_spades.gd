@@ -1,6 +1,6 @@
 class_name Joker_1_spades extends Node2D
 
-var joker_effect = "When you play this card, remove enemies upcomming attacks"
+var joker_effect = "When you play this card, remove enemies upcomming attacks."
 
 var joker_price: int = 3
 
