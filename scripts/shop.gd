@@ -9,8 +9,8 @@ var original_deck: Deck = null
 @onready var joker_effect_label = $joker_effect_label
 @onready var sell_joker_label = $sell_joker_label
 @onready var gold_ammount_label = $gold_ammount_label
-@onready var excavate_cards_button = $desk/exacuviate
-@onready var excavation_cost_label = $desk/exacuviate/excavation_cost_label
+@onready var excavate_cards_button = $excavate
+@onready var excavation_cost_label = $excavate/excavation_cost_label
 @onready var next_button = $next_button
 
 @onready var gem_1_position = $desk/gems_positions/gem_1_position
@@ -31,6 +31,9 @@ var original_deck: Deck = null
 @onready var big_sapphire = $big_sapphire
 @onready var big_emerald = $big_emerald
 @onready var big_ruby = $big_ruby
+
+@onready var desk_next_button_bigger = $ShopDeskNextButtonBigger
+@onready var desk_excavate_button_bigger = $ShopDeskExcavateButtonBigger
 
 var all_gems_list: Array 
 var chosen_gems: Array
@@ -162,7 +165,7 @@ func _ready() -> void:
 	chosen_gems[2].global_position = gem_3_position.global_position
 	
 	excavation_cost = 1
-	excavation_cost_label.set_text(str(excavation_cost) + "g")
+	excavation_cost_label.set_text("- " + str(excavation_cost) + " gold")
 		
 	joker_effect_label.z_index = 100
 	load_jokers()
@@ -225,7 +228,7 @@ func _on_exacuviate_pressed() -> void:
 	if excavation_cost <= get_parent().total_gold and drawn_cards.size() < 8:
 		get_parent().total_gold -= excavation_cost
 		excavation_cost *= 2
-		excavation_cost_label.set_text(str(excavation_cost))
+		excavation_cost_label.set_text("- " + str(excavation_cost) + " gold")
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		excavate_card()
 
@@ -517,121 +520,175 @@ func _on_big_ruby_mouse_exited() -> void:
 
 
 func _on_medium_topaz_pressed() -> void:
-	topaz_touch = true
-	medium_topaz.global_position = Vector2(-100,-100)
-	_on_medium_topaz_mouse_exited()
+	if get_parent().total_gold >= 2:
+		get_parent().total_gold -= 2
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		topaz_touch = true
+		medium_topaz.global_position = Vector2(-100,-100)
+		_on_medium_topaz_mouse_exited()
+		sell_joker_label.set_text("Next card you click will become topaz.")
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_medium_ruby_pressed() -> void:
-	ruby_touch = true
-	medium_ruby.global_position = Vector2(-100,-100)
-	_on_medium_ruby_mouse_exited()
+	if get_parent().total_gold >= 2:
+		get_parent().total_gold -= 2
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		ruby_touch = true
+		medium_ruby.global_position = Vector2(-100,-100)
+		_on_medium_ruby_mouse_exited()
+		sell_joker_label.set_text("Next card you click will become ruby.")
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_medium_sapphire_pressed() -> void:
-	sapphire_touch = true
-	medium_sapphire.global_position = Vector2(-100,-100)
-	_on_medium_sapphire_mouse_exited()
+	if get_parent().total_gold >= 2:
+		get_parent().total_gold -= 2
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		sapphire_touch = true
+		medium_sapphire.global_position = Vector2(-100,-100)
+		_on_medium_sapphire_mouse_exited()
+		sell_joker_label.set_text("Next card you click will become sapphire.")
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_medium_emerald_pressed() -> void:
-	emerald_touch = true
-	medium_emerald.global_position = Vector2(-100,-100)
-	_on_medium_emerald_mouse_exited()
+	if get_parent().total_gold >= 2:
+		get_parent().total_gold -= 2
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		emerald_touch = true
+		medium_emerald.global_position = Vector2(-100,-100)
+		_on_medium_emerald_mouse_exited()
+		sell_joker_label.set_text("Next card you click will become emerald.")
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_small_emerald_pressed() -> void:
-	var random_card = drawn_cards.pick_random()
-	random_card.highlight_emerald_card()
-	random_card.topaz = false
-	random_card.emerald = true
-	random_card.ruby = false
-	random_card.sapphire = false
-	small_emerald.global_position = Vector2(-100,-100)
-	_on_small_emerald_mouse_exited()
+	if get_parent().total_gold >= 1:
+		get_parent().total_gold -= 1
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		if drawn_cards.size() != 0:
+			var random_card = drawn_cards.pick_random()
+			random_card.highlight_emerald_card()
+			random_card.topaz = false
+			random_card.emerald = true
+			random_card.ruby = false
+			random_card.sapphire = false
+		small_emerald.global_position = Vector2(-100,-100)
+		_on_small_emerald_mouse_exited()
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_small_topaz_pressed() -> void:
-	var random_card = drawn_cards.pick_random()
-	random_card.highlight_topaz_card()
-	random_card.topaz = true
-	random_card.emerald = false
-	random_card.ruby = false
-	random_card.sapphire = false
-	small_topaz.global_position = Vector2(-100,-100)
-	_on_small_topaz_mouse_exited()
+	if get_parent().total_gold >= 1:
+		get_parent().total_gold -= 1
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		if drawn_cards.size() != 0:
+			var random_card = drawn_cards.pick_random()
+			random_card.highlight_topaz_card()
+			random_card.topaz = true
+			random_card.emerald = false
+			random_card.ruby = false
+			random_card.sapphire = false
+		small_topaz.global_position = Vector2(-100,-100)
+		_on_small_topaz_mouse_exited()
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_small_sapphire_pressed() -> void:
-	var random_card = drawn_cards.pick_random()
-	random_card.highlight_sapphire_card()
-	random_card.topaz = false
-	random_card.emerald = false
-	random_card.ruby = false
-	random_card.sapphire = true
-	small_sapphire.global_position = Vector2(-100,-100)
-	_on_small_sapphire_mouse_exited()
+	if get_parent().total_gold >= 1:
+		get_parent().total_gold -= 1
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		if drawn_cards.size() != 0:
+			var random_card = drawn_cards.pick_random()
+			random_card.highlight_sapphire_card()
+			random_card.topaz = false
+			random_card.emerald = false
+			random_card.ruby = false
+			random_card.sapphire = true
+		small_sapphire.global_position = Vector2(-100,-100)
+		_on_small_sapphire_mouse_exited()
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_small_ruby_pressed() -> void:
-	var random_card = drawn_cards.pick_random()
-	random_card.highlight_ruby_card()
-	random_card.topaz = false
-	random_card.emerald = false
-	random_card.ruby = true
-	random_card.sapphire = false
-	small_ruby.global_position = Vector2(-100,-100)
-	_on_small_ruby_mouse_exited()
+	if get_parent().total_gold >= 1:
+		get_parent().total_gold -= 1
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		if drawn_cards.size() != 0:
+			var random_card = drawn_cards.pick_random()
+			random_card.highlight_ruby_card()
+			random_card.topaz = false
+			random_card.emerald = false
+			random_card.ruby = true
+			random_card.sapphire = false
+		small_ruby.global_position = Vector2(-100,-100)
+		_on_small_ruby_mouse_exited()
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_big_emerald_pressed() -> void:
-	for card in drawn_cards:
-		card.highlight_emerald_card()
-		card.topaz = false
-		card.emerald = true
-		card.ruby = false
-		card.sapphire = false
-	big_emerald.global_position = Vector2(-100,-100)
-	_on_big_emerald_mouse_exited()
+	if get_parent().total_gold >= 5:
+		get_parent().total_gold -= 5
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		for card in drawn_cards:
+			card.highlight_emerald_card()
+			card.topaz = false
+			card.emerald = true
+			card.ruby = false
+			card.sapphire = false
+		big_emerald.global_position = Vector2(-100,-100)
+		_on_big_emerald_mouse_exited()
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_big_topaz_pressed() -> void:
-	for card in drawn_cards:
-		card.highlight_topaz_card()
-		card.topaz = true
-		card.emerald = false
-		card.ruby = false
-		card.sapphire = false
-	big_topaz.global_position = Vector2(-100,-100)
-	_on_big_topaz_mouse_exited()
+	if get_parent().total_gold >= 5:
+		get_parent().total_gold -= 5
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		for card in drawn_cards:
+			card.highlight_topaz_card()
+			card.topaz = true
+			card.emerald = false
+			card.ruby = false
+			card.sapphire = false
+		big_topaz.global_position = Vector2(-100,-100)
+		_on_big_topaz_mouse_exited()
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_big_sapphire_pressed() -> void:
-	for card in drawn_cards:
-		card.highlight_sapphire_card()
-		card.topaz = false
-		card.emerald = false
-		card.ruby = false
-		card.sapphire = true
-	big_sapphire.global_position = Vector2(-100,-100)
-	_on_big_sapphire_mouse_exited()
+	if get_parent().total_gold >= 5:
+		get_parent().total_gold -= 5
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		for card in drawn_cards:
+			card.highlight_sapphire_card()
+			card.topaz = false
+			card.emerald = false
+			card.ruby = false
+			card.sapphire = true
+		big_sapphire.global_position = Vector2(-100,-100)
+		_on_big_sapphire_mouse_exited()
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 func _on_big_ruby_pressed() -> void:
-	for card in drawn_cards:
-		card.highlight_ruby_card()
-		card.topaz = false
-		card.emerald = false
-		card.ruby = true
-		card.sapphire = false
-	big_ruby.global_position = Vector2(-100,-100)
-	_on_big_ruby_mouse_exited()
-	
+	if get_parent().total_gold >= 5:
+		get_parent().total_gold -= 5
+		gold_ammount_label.set_text(str(get_parent().total_gold))
+		for card in drawn_cards:
+			card.highlight_ruby_card()
+			card.topaz = false
+			card.emerald = false
+			card.ruby = true
+			card.sapphire = false
+		big_ruby.global_position = Vector2(-100,-100)
+		_on_big_ruby_mouse_exited()
+	else:
+		sell_joker_label.set_text("Not enough gold.")
 
 
 func _on_next_button_mouse_entered() -> void:
-	next_button.size.x += 12
-	next_button.size.y += 6
-	next_button.position.y -= 3
-	next_button.position.x -= 6
+	desk.hide()
+	desk_next_button_bigger.show()
 
 func _on_next_button_mouse_exited() -> void:
-	next_button.size.x -= 12
-	next_button.size.y -= 6
-	next_button.position.y += 3
-	next_button.position.x += 6
+	desk.show()
+	desk_next_button_bigger.hide()
 
+func _on_excavate_mouse_entered() -> void:
+	desk.hide()
+	desk_excavate_button_bigger.show()
 
-func _on_exacuviate_mouse_entered() -> void:
-	excavate_cards_button.size.x += 12
-	excavate_cards_button.size.y += 6
-	excavate_cards_button.position.y -= 3
-	excavate_cards_button.position.x -= 6
-	excavation_cost_label.global_position.y += 3
-	excavation_cost_label.global_position.x += 6
-	
-func _on_exacuviate_mouse_exited() -> void:
-	excavate_cards_button.size.x -= 12
-	excavate_cards_button.size.y -= 6
-	excavate_cards_button.position.y += 3
-	excavate_cards_button.position.x += 6
-	excavation_cost_label.global_position.y -= 3
-	excavation_cost_label.global_position.x -= 6
+func _on_excavate_mouse_exited() -> void:
+	desk.show()
+	desk_excavate_button_bigger.hide()
