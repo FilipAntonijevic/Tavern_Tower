@@ -1,19 +1,22 @@
-[gd_scene load_steps=23 format=3 uid="uid://dpv6w6a3ppdvy"]
+[gd_scene load_steps=26 format=3 uid="uid://dpv6w6a3ppdvy"]
 
 [ext_resource type="Script" path="res://scripts/board.gd" id="1_ebwuy"]
 [ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_rfb5n"]
 [ext_resource type="PackedScene" uid="uid://cci7r3hjubrnr" path="res://scenes/game_controller.tscn" id="3_71d23"]
 [ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="4_4vy5w"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="4_sfmmc"]
-[ext_resource type="Texture2D" uid="uid://cr4vtq148xtgi" path="res://sprites/redeal_cards_button.png" id="5_hd5qd"]
+[ext_resource type="Material" uid="uid://dpbfuop2b0r8j" path="res://carved_wood.tres" id="5_iqspb"]
 [ext_resource type="Texture2D" uid="uid://8g7ulp4awkgd" path="res://sprites/coin.png" id="5_twevn"]
 [ext_resource type="Texture2D" uid="uid://dmvfutelsf0pv" path="res://sprites/paper.png" id="6_ddkuv"]
 [ext_resource type="PackedScene" uid="uid://d0o8haci7wx0s" path="res://scenes/debuff_place.tscn" id="7_g21js"]
-[ext_resource type="Texture2D" uid="uid://vowp80mkvrm8" path="res://sprites/give_up_button.png" id="7_nxq51"]
 [ext_resource type="Material" uid="uid://d3voebh36ka7u" path="res://new_shader_material.tres" id="9_ooenp"]
 [ext_resource type="Script" path="res://scripts/popup_window.gd" id="10_jpyxl"]
 [ext_resource type="Texture2D" uid="uid://dsq0vqel6guhf" path="res://sprites/popup_window.png" id="10_l6ngi"]
 [ext_resource type="FontFile" uid="uid://cit1npgi7fd48" path="res://ff-comma-trial/FFCommaTrial-Regular.ttf" id="10_lo4iu"]
+[ext_resource type="Texture2D" uid="uid://ystalya3j7i2" path="res://sprites/desk_texture.png" id="15_cfmdj"]
+[ext_resource type="Texture2D" uid="uid://c4eucpqhogswu" path="res://sprites/desk_texture_redeal_button_bigger.png" id="16_s8o7r"]
+[ext_resource type="Texture2D" uid="uid://dcb3ipdxxqdqm" path="res://sprites/desk_surrender_button.png" id="17_cb448"]
+[ext_resource type="Texture2D" uid="uid://2n84dhjc1pmg" path="res://sprites/desk_surrender_button_bigger.png" id="18_mgewy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_sbqex"]
 font = ExtResource("10_lo4iu")
@@ -60,43 +63,46 @@ font_color = Color(0.556953, 0.556953, 0.556953, 1)
 script = ExtResource("1_ebwuy")
 
 [node name="Ui" parent="." instance=ExtResource("2_rfb5n")]
+z_index = 15
 
 [node name="GameController" parent="." instance=ExtResource("3_71d23")]
 
 [node name="Jokers" parent="." instance=ExtResource("4_4vy5w")]
+z_index = 15
 
 [node name="redeal_cards" type="Button" parent="."]
-offset_left = 517.0
-offset_top = 289.0
-offset_right = 633.0
-offset_bottom = 351.0
+offset_left = 546.0
+offset_top = 307.0
+offset_right = 641.0
+offset_bottom = 358.0
 focus_mode = 0
-icon = ExtResource("5_hd5qd")
 flat = true
 expand_icon = true
 
 [node name="redeal_cost_label" type="Label" parent="redeal_cards"]
+z_index = 15
+material = ExtResource("5_iqspb")
 layout_mode = 0
-offset_left = 70.0
-offset_top = 13.0
-offset_right = 106.0
-offset_bottom = 50.0
+offset_left = 57.0
+offset_top = 12.0
+offset_right = 93.0
+offset_bottom = 49.0
 label_settings = SubResource("LabelSettings_sbqex")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="give_up" type="Button" parent="."]
 visible = false
-offset_left = 517.0
-offset_top = 289.0
-offset_right = 633.0
-offset_bottom = 351.0
+offset_left = 500.0
+offset_top = 306.0
+offset_right = 619.0
+offset_bottom = 349.0
 focus_mode = 0
-icon = ExtResource("7_nxq51")
 flat = true
 expand_icon = true
 
 [node name="enemy" type="Node2D" parent="."]
+z_index = 15
 position = Vector2(471, 31)
 script = ExtResource("4_sfmmc")
 
@@ -113,9 +119,10 @@ label_settings = SubResource("LabelSettings_rty6a")
 [node name="goal_text_label" type="Label" parent="enemy"]
 z_index = 10
 material = ExtResource("9_ooenp")
-offset_left = -86.0
-offset_top = -23.0
-offset_right = -44.0
+offset_left = -70.0
+offset_top = -24.0
+offset_right = -28.0
+offset_bottom = -1.0
 text = "goal:
 "
 label_settings = SubResource("LabelSettings_1t3gt")
@@ -123,29 +130,29 @@ label_settings = SubResource("LabelSettings_1t3gt")
 [node name="score_label" type="Label" parent="enemy"]
 z_index = 10
 material = ExtResource("9_ooenp")
-offset_left = -129.0
-offset_top = -4.0
-offset_right = -89.0
-offset_bottom = 19.0
+offset_left = -132.0
+offset_top = -2.0
+offset_right = -92.0
+offset_bottom = 21.0
 text = "0"
 label_settings = SubResource("LabelSettings_wefor")
 
 [node name="goal_label" type="Label" parent="enemy"]
 z_index = 10
 material = ExtResource("9_ooenp")
-offset_left = -45.0
-offset_top = -22.0
-offset_right = -5.0
-offset_bottom = 1.0
-text = "100"
+offset_left = -49.0
+offset_top = -2.0
+offset_right = -8.0
+offset_bottom = 21.0
+text = "/ 100"
 label_settings = SubResource("LabelSettings_jil6s")
 
 [node name="progress_label" type="Label" parent="enemy"]
 z_index = 10
-offset_left = -80.0
-offset_top = -5.0
-offset_right = -28.0
-offset_bottom = 14.0
+offset_left = -93.0
+offset_top = -2.0
+offset_right = -41.0
+offset_bottom = 17.0
 text = "0
 "
 label_settings = SubResource("LabelSettings_ghmby")
@@ -154,9 +161,9 @@ horizontal_alignment = 1
 [node name="visual_aid_label" type="Label" parent="enemy"]
 z_index = 10
 offset_left = -114.0
-offset_top = -7.0
+offset_top = -2.0
 offset_right = -85.0
-offset_bottom = 15.0
+offset_bottom = 20.0
 label_settings = SubResource("LabelSettings_rolv7")
 
 [node name="DebuffPlace1" parent="enemy" instance=ExtResource("7_g21js")]
@@ -182,11 +189,13 @@ offset_bottom = 341.0
 text = "shop"
 
 [node name="paper" type="Sprite2D" parent="."]
-position = Vector2(380, 11)
+z_index = 1
+position = Vector2(383, 9)
 scale = Vector2(1.30252, 1.01866)
 texture = ExtResource("6_ddkuv")
 
 [node name="coins" type="Node2D" parent="."]
+z_index = 2
 position = Vector2(547, 31)
 
 [node name="coin1" type="Sprite2D" parent="coins"]
@@ -237,6 +246,7 @@ flip_h = true
 
 [node name="popup_window" type="Node2D" parent="."]
 visible = false
+z_index = 100
 position = Vector2(161, 233)
 script = ExtResource("10_jpyxl")
 
@@ -255,6 +265,26 @@ offset_right = 78.0
 offset_bottom = 43.0
 label_settings = SubResource("LabelSettings_dw6lh")
 autowrap_mode = 2
+
+[node name="desk" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 180)
+texture = ExtResource("15_cfmdj")
+
+[node name="DeskTextureRedealButtonBigger" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 180)
+texture = ExtResource("16_s8o7r")
+
+[node name="DeskSurrenderButton" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 180)
+texture = ExtResource("17_cb448")
+
+[node name="DeskSurrenderButtonBigger" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 180)
+texture = ExtResource("18_mgewy")
 
 [connection signal="mouse_entered" from="redeal_cards" to="." method="_on_redeal_cards_mouse_entered"]
 [connection signal="mouse_exited" from="redeal_cards" to="." method="_on_redeal_cards_mouse_exited"]

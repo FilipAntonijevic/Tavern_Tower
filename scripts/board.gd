@@ -18,6 +18,10 @@ var jokers_are_frozen = false
 @onready var redeal_cost_label = $redeal_cards/redeal_cost_label
 @onready var give_up_button = $give_up
 
+@onready var desk = $desk
+@onready var desk_redeal_cards_button_bigger = $DeskTextureRedealButtonBigger
+@onready var desk_surrender_button = $DeskSurrenderButton
+@onready var desk_surrender_button_bigger = $DeskSurrenderButtonBigger
 @onready var popup_window = $popup_window
 
 signal show_shop
@@ -27,7 +31,7 @@ func set_deck(deck: Deck) -> void:
 
 func _ready() -> void:
 	enemy.goal = get_parent().enemy_goal
-	goal_label.set_text(str(enemy.goal))
+	goal_label.set_text("/ " + str(enemy.goal))
 	enemy.level_up()
 	ui.set_deck(original_deck)
 	update_coins(get_parent().enemy_gold)
@@ -86,7 +90,7 @@ func check_if_redeal_cards_button_should_turn_into_give_up_button() -> void:
 	else:
 		redeal_cards_button.show()
 		give_up_button.hide()
-		redeal_cost_label.set_text(str(redeal_cost) + "g")
+		redeal_cost_label.set_text("- " + str(redeal_cost) + "g")
 		
 func check_if_you_beat_enemy() -> bool:
 	if enemy.progress >= enemy.goal:
@@ -163,29 +167,17 @@ func _on_give_up_pressed() -> void:
 
 
 func _on_give_up_mouse_entered() -> void:
-	give_up_button.size.x += 12
-	give_up_button.size.y += 6
-	give_up_button.position.y -= 3
-	give_up_button.position.x -= 6
+	desk_surrender_button.hide()
+	desk_surrender_button_bigger.show()
 	
 func _on_give_up_mouse_exited() -> void:
-	give_up_button.size.x -= 12
-	give_up_button.size.y -= 6
-	give_up_button.position.y += 3
-	give_up_button.position.x += 6
+	desk_surrender_button.show()
+	desk_surrender_button_bigger.hide()
 
 func _on_redeal_cards_mouse_entered() -> void:
-	redeal_cards_button.size.x += 12
-	redeal_cards_button.size.y += 6
-	redeal_cards_button.position.y -= 3
-	redeal_cards_button.position.x -= 6
-	redeal_cost_label.global_position.y += 3
-	redeal_cost_label.global_position.x += 6
+	desk.hide()
+	desk_redeal_cards_button_bigger.show()
 	
 func _on_redeal_cards_mouse_exited() -> void:
-	redeal_cards_button.size.x -= 12
-	redeal_cards_button.size.y -= 6
-	redeal_cards_button.position.y += 3
-	redeal_cards_button.position.x += 6
-	redeal_cost_label.global_position.y -= 3
-	redeal_cost_label.global_position.x -= 6
+	desk.show()
+	desk_redeal_cards_button_bigger.hide()
