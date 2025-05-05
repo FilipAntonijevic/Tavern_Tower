@@ -1,0 +1,81 @@
+[gd_scene load_steps=11 format=3 uid="uid://8kt4knn54gs0"]
+
+[ext_resource type="Script" path="res://scripts/legacy_mode.gd" id="1_6o0m5"]
+[ext_resource type="PackedScene" uid="uid://bx1jgfgh5311v" path="res://scenes/Ui.tscn" id="2_3u5n4"]
+[ext_resource type="PackedScene" uid="uid://cci7r3hjubrnr" path="res://scenes/game_controller.tscn" id="3_ejws4"]
+[ext_resource type="Material" uid="uid://dpbfuop2b0r8j" path="res://carved_wood.tres" id="4_p3htw"]
+[ext_resource type="FontFile" uid="uid://cit1npgi7fd48" path="res://ff-comma-trial/FFCommaTrial-Regular.ttf" id="5_6bkg8"]
+[ext_resource type="Texture2D" uid="uid://du8jkcplf8vef" path="res://sprites/desk_legacy_mode.png" id="6_sxboh"]
+[ext_resource type="Texture2D" uid="uid://b8e3unxmr70sj" path="res://sprites/desk_legacy_redeal_button_bigger.png" id="7_w4q8d"]
+[ext_resource type="Texture2D" uid="uid://c5efl787rdffq" path="res://sprites/desk_legacy_give_up_button.png" id="8_2wa3f"]
+[ext_resource type="Texture2D" uid="uid://bu5utos0r65k5" path="res://sprites/desk_legacy_give_up_button_bigger.png" id="9_78uiv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ybqsj"]
+font = ExtResource("5_6bkg8")
+font_size = 29
+font_color = Color(0.836809, 0.835695, 0, 1)
+
+[node name="LegacyMode" type="Node2D"]
+script = ExtResource("1_6o0m5")
+
+[node name="Ui" parent="." instance=ExtResource("2_3u5n4")]
+z_index = 15
+
+[node name="GameController" parent="." instance=ExtResource("3_ejws4")]
+
+[node name="redeals_left" type="Label" parent="."]
+z_index = 16
+material = ExtResource("4_p3htw")
+offset_left = 570.0
+offset_top = 30.0
+offset_right = 606.0
+offset_bottom = 67.0
+text = "2"
+label_settings = SubResource("LabelSettings_ybqsj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="redeal_cards" type="Button" parent="."]
+offset_left = 546.0
+offset_top = 307.0
+offset_right = 641.0
+offset_bottom = 358.0
+focus_mode = 0
+flat = true
+expand_icon = true
+
+[node name="give_up" type="Button" parent="."]
+visible = false
+offset_left = 500.0
+offset_top = 306.0
+offset_right = 619.0
+offset_bottom = 349.0
+focus_mode = 0
+flat = true
+expand_icon = true
+
+[node name="desk" type="Sprite2D" parent="."]
+position = Vector2(320, 180)
+texture = ExtResource("6_sxboh")
+
+[node name="DeskTextureRedealButtonBigger" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 180)
+texture = ExtResource("7_w4q8d")
+
+[node name="DeskSurrenderButton" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 180)
+texture = ExtResource("9_78uiv")
+
+[node name="DeskSurrenderButtonBigger" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(320, 180)
+texture = ExtResource("8_2wa3f")
+
+[connection signal="mouse_entered" from="redeal_cards" to="." method="_on_redeal_cards_mouse_entered"]
+[connection signal="mouse_exited" from="redeal_cards" to="." method="_on_redeal_cards_mouse_exited"]
+[connection signal="pressed" from="redeal_cards" to="." method="_on_redeal_cards_pressed"]
+[connection signal="mouse_entered" from="give_up" to="." method="_on_give_up_mouse_entered"]
+[connection signal="mouse_exited" from="give_up" to="." method="_on_give_up_mouse_exited"]
+[connection signal="pressed" from="give_up" to="." method="_on_give_up_pressed"]

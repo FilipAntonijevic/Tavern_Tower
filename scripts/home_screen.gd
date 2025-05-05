@@ -2,7 +2,8 @@ class_name Home_screen extends Node2D
 
 @onready var main = $Main
 @onready var play_button = $Play
-@onready var legacy_button = $Legacy_mode
+@onready var legacy_button = $Legacy_mode_button
+@onready var legacy_mode = $LegacyMode
 
 @onready var main_menu = $MainMenu
 @onready var main_menu_play_button_bigger = $MainMenuPlayButtonBigger
@@ -24,22 +25,22 @@ func _on_play_pressed() -> void:
 	play_button.hide()
 	legacy_button.hide()
 
+func _on_legacy_mode_pressed() -> void:
+	legacy_mode.show()
+	play_button.hide()
+	legacy_button.hide()
+	
 func _on_play_mouse_entered() -> void:
 	main_menu.hide()
 	main_menu_play_button_bigger.show()
-
-
 func _on_play_mouse_exited() -> void:
 	main_menu.show()
 	main_menu_play_button_bigger.hide()
 
-func _on_legacy_mode_pressed() -> void:
-	pass
 
 func _on_legacy_mode_mouse_entered() -> void:
 	main_menu.hide()
 	main_menu_legacy_button_bigger.show()
-
 func _on_legacy_mode_mouse_exited() -> void:
 	main_menu.show()
 	main_menu_legacy_button_bigger.hide()

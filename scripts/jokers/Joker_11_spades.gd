@@ -14,7 +14,6 @@ func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 		for stack in array_of_stacks:
 			if stack.cards_in_stack.size() == 0:
 				full_stacks_counter -= 1
-				print('desiti')
 		if full_stacks_counter + cleared_stacks_counter < 18:
 			cleared_stacks_counter += 1
 			full_stacks_counter = 18

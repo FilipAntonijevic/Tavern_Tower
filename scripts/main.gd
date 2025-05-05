@@ -86,9 +86,6 @@ func set_jokers(jokers_shop: Node) -> void:
 			var joker = jokers_shop.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
 			jokers.get_child(i).set_joker(joker)
 	
-func _process(delta: float) -> void:
-	pass
-	
 func _on_show_board() -> void:
 	load_scene("res://scenes/Board.tscn")
 	

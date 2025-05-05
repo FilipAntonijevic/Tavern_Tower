@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dwcdvyi73goev"]
+[gd_scene load_steps=7 format=3 uid="uid://dwcdvyi73goev"]
 
 [ext_resource type="Script" path="res://scripts/home_screen.gd" id="1_78h3v"]
+[ext_resource type="PackedScene" uid="uid://8kt4knn54gs0" path="res://scenes/legacy_mode.tscn" id="2_6ylac"]
 [ext_resource type="PackedScene" uid="uid://t634nhy8jwgx" path="res://scenes/main.tscn" id="2_xt1m3"]
 [ext_resource type="Texture2D" uid="uid://buiuekqjhbqdr" path="res://sprites/main_menu.png" id="3_snqa8"]
 [ext_resource type="Texture2D" uid="uid://ddmt5t02xcnht" path="res://sprites/main_menu_legacy_button_bigger.png" id="4_reupq"]
@@ -17,7 +18,7 @@ offset_bottom = 241.0
 focus_mode = 0
 flat = true
 
-[node name="Legacy_mode" type="Button" parent="."]
+[node name="Legacy_mode_button" type="Button" parent="."]
 offset_left = 191.0
 offset_top = 250.0
 offset_right = 426.0
@@ -30,6 +31,9 @@ offset_left = 604.0
 offset_top = 3.0
 offset_right = 637.0
 offset_bottom = 35.0
+
+[node name="LegacyMode" parent="." instance=ExtResource("2_6ylac")]
+visible = false
 
 [node name="Main" parent="." instance=ExtResource("2_xt1m3")]
 visible = false
@@ -54,6 +58,6 @@ texture = ExtResource("4_reupq")
 [connection signal="mouse_entered" from="Play" to="." method="_on_play_mouse_entered"]
 [connection signal="mouse_exited" from="Play" to="." method="_on_play_mouse_exited"]
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
-[connection signal="mouse_entered" from="Legacy_mode" to="." method="_on_legacy_mode_mouse_entered"]
-[connection signal="mouse_exited" from="Legacy_mode" to="." method="_on_legacy_mode_mouse_exited"]
-[connection signal="pressed" from="Legacy_mode" to="." method="_on_legacy_mode_pressed"]
+[connection signal="mouse_entered" from="Legacy_mode_button" to="." method="_on_legacy_mode_mouse_entered"]
+[connection signal="mouse_exited" from="Legacy_mode_button" to="." method="_on_legacy_mode_mouse_exited"]
+[connection signal="pressed" from="Legacy_mode_button" to="." method="_on_legacy_mode_pressed"]

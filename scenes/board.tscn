@@ -267,7 +267,6 @@ label_settings = SubResource("LabelSettings_dw6lh")
 autowrap_mode = 2
 
 [node name="desk" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(320, 180)
 texture = ExtResource("15_cfmdj")
 

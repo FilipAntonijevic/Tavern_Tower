@@ -47,25 +47,42 @@ func _process(delta: float) -> void:
 
 func _input(event):
 
-	if event.is_action_pressed("right_mouse_click"):
-		place_card_to_according_pile()
-		get_parent().end_turn()
-		
-	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			if double_click_timer.is_stopped():
-				double_click_timer.start()
-			else:
-				place_card_to_according_pile()
-				get_parent().end_turn()
-			drag_selected_card()
-		elif is_dragging == true:
-			is_dragging = false
-			assign_new_position_to_previously_dragged_card()
-			origin_stack.reposition_cards()
-			current_selected_card_for_movement = null
-	elif event is InputEventMouseMotion and is_dragging == true and current_selected_card_for_movement != null:
-		current_selected_card_for_movement.global_position = get_global_mouse_position()
+	if get_parent().game_mode == "Legacy_mode":
+		if event.is_action_pressed("right_mouse_click"):
+			place_card_to_according_pile_legacy()
+		if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				if double_click_timer.is_stopped():
+					double_click_timer.start()
+				else:
+					place_card_to_according_pile_legacy()
+				drag_selected_card()
+			elif is_dragging == true:
+				is_dragging = false
+				assign_new_position_to_previously_dragged_card_legacy()
+				origin_stack.reposition_cards()
+				current_selected_card_for_movement = null
+		elif event is InputEventMouseMotion and is_dragging == true and current_selected_card_for_movement != null:
+			current_selected_card_for_movement.global_position = get_global_mouse_position()
+	else:
+		if event.is_action_pressed("right_mouse_click"):
+			place_card_to_according_pile()
+			
+		if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				if double_click_timer.is_stopped():
+					double_click_timer.start()
+				else:
+					place_card_to_according_pile()
+					get_parent().end_turn()
+				drag_selected_card()
+			elif is_dragging == true:
+				is_dragging = false
+				assign_new_position_to_previously_dragged_card()
+				origin_stack.reposition_cards()
+				current_selected_card_for_movement = null
+		elif event is InputEventMouseMotion and is_dragging == true and current_selected_card_for_movement != null:
+			current_selected_card_for_movement.global_position = get_global_mouse_position()
 
 
 func drag_selected_card():
@@ -75,7 +92,25 @@ func drag_selected_card():
 			select_card_to_move()
 			is_dragging = true
 			current_selected_card_for_movement.z_index = 100  
+
 	
+func assign_new_position_to_previously_dragged_card_legacy():
+	if current_selected_card_for_movement == null:
+		return
+		
+	if check_conditions_for_piles() && check_if_card_can_be_placed_on_pile(current_selected_card_for_movement):
+		stacks.move_card_to_according_pile(original_deck, origin_stack, current_selected_card_for_movement)
+		origin_stack.current_selected_card_index = -1		
+	elif check_conditions_for_stacks():
+		if origin_stack != stacks.current_selected_stack:
+			stacks.move_card_to_this_stack(origin_stack, current_selected_card_for_movement, stacks.current_selected_stack)
+			current_selected_card_for_movement_position = Vector2.ZERO
+			stacks.current_selected_stack.reposition_cards()
+	else:
+		current_selected_card_for_movement.global_position = current_selected_card_for_movement_position
+		if origin_stack != stacks.current_selected_stack:
+			origin_stack.reposition_cards()
+			
 func assign_new_position_to_previously_dragged_card():
 	if current_selected_card_for_movement == null:
 		return
@@ -101,24 +136,33 @@ func place_card_to_a_pile():
 	get_parent().handle_jokers('on_card_played', current_selected_card_for_movement)
 	origin_stack.current_selected_card_index = -1
 
+func place_card_to_according_pile_legacy() -> void:
+	if stacks.current_selected_stack and stacks.current_selected_stack.current_selected_card_index != -1:
+		var card = stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]
+		if is_dragging == false && stacks.current_selected_stack != null && card.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(card):
+			stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
+			stacks.current_selected_stack.current_selected_card_index = -1
+			origin_stack = stacks.current_selected_stack
+
 func place_card_to_according_pile():
-	
 	if stacks.current_selected_stack and stacks.current_selected_stack.current_selected_card_index != -1:
 		var card = stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]
 		if is_dragging == false && stacks.current_selected_stack != null && card.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(card):
 			calculate_and_add_to_score(card)
-			get_parent().handle_jokers('on_card_played', card)
-			if card.emerald:
-				get_parent().handle_jokers('on_card_played', card)
 			stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
 			stacks.current_selected_stack.current_selected_card_index = -1
 			origin_stack = stacks.current_selected_stack
-		
+			get_parent().handle_jokers('on_card_played', card)
+			if card.emerald:
+				get_parent().handle_jokers('on_card_played', card)
+			get_parent().end_turn()
+
 		
 	for joker_place in get_parent().jokers.get_children():
 		if joker_place.joker != null: 
 			if joker_place.joker.mouse_is_inside_this_joker == true:
 				place_joker_on_according_pile(joker_place.joker)
+				get_parent().end_turn()
 
 func place_joker_on_according_pile(joker: Joker) -> void:
 	var card = turn_joker_into_a_card(joker)
@@ -149,14 +193,6 @@ func place_card_on_according_pile(card: Card):
 		
 		get_parent().handle_jokers('on_card_played', card)
 
-	#if activation_window == _activation_window:
-	#	if _card.card_suit == 'spades' and _card.card_value > highest_replayed_card_value:
-	#		highest_replayed_card_value += 1 
-	#		ui.add_to_score(_card.card_value)
-	#		ui.card_piles.current_card_value_on_spades_pile -= 1
-	#		ui.place_card_on_according_pile(_card)
-	#		highlight()
-	
 func remove_joker_from_jokers_array(joker: Joker) -> void:
 	joker.get_parent().joker = null
 	joker.get_parent().remove_child(joker)

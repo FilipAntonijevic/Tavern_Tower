@@ -170,7 +170,7 @@ func remove_upcomming_attacks() -> void:
 	pass
 	
 func freeze_jokers():
-	get_parent().jokers_are_frozen = true
+	get_parent().freeze_jokers()
 
 				
 func increase_the_cost_of_redeal():

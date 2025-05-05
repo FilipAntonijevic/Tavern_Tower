@@ -31,12 +31,6 @@ func highlight_sapphire_card() -> void:
 	
 func _ready() -> void:
 	pass 
-
-#func get_card(suit: String, path: String) -> Card:
-#	var card: Card = Card.new()
-#	set_card_suit(suit)
-#	set_card_sprite(path)
-#	return card
 	
 func set_card_sprite(path: String):
 	card_sprite.texture = load(path)
@@ -51,10 +45,10 @@ func set_card_path(path: String):
 	card_path = path
 	
 func highlight():
-	card_sprite.set_modulate(Color(0.3,0.3,0.3,1))
+	card_sprite.set_modulate(Color(2,5,2,1))
 
 func unhighlight():
-	card_sprite.set_modulate(Color(1,1,1,1))
+	card_sprite.set_modulate(Color(0.88,0.88,0.88,1))
 	if emerald:
 		highlight_emerald_card()
 	if topaz:

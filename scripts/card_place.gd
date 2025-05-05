@@ -113,3 +113,11 @@ func _on_buy_button_pressed() -> void:
 		get_parent().get_parent().joker_effect_label.set_text('')
 		get_parent().get_parent().gold_ammount_label.set_text(str(get_parent().get_parent().get_parent().total_gold))
 	#	remove_child(buy_button)
+
+
+func _on_buy_button_mouse_entered() -> void:
+	buy_button.icon = load("res://sprites/buy_button_hovered.png")
+
+
+func _on_buy_button_mouse_exited() -> void:
+	buy_button.icon  = load("res://sprites/buy_button.png")

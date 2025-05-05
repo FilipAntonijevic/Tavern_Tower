@@ -24,10 +24,9 @@ var jokers_are_frozen = false
 @onready var desk_surrender_button_bigger = $DeskSurrenderButtonBigger
 @onready var popup_window = $popup_window
 
-signal show_shop
+var game_mode = "Classic_mode"
 
-func set_deck(deck: Deck) -> void:
-	original_deck = deck
+signal show_shop
 
 func _ready() -> void:
 	enemy.goal = get_parent().enemy_goal
@@ -36,6 +35,9 @@ func _ready() -> void:
 	ui.set_deck(original_deck)
 	update_coins(get_parent().enemy_gold)
 	redeal_cards()
+
+func set_deck(deck: Deck) -> void:
+	original_deck = deck
 
 func _process(delta: float) -> void:
 	if game_control.current_state == GameController.GameState.ENEMY_TURN:
@@ -147,7 +149,11 @@ func handle_jokers(activation_window: String, card: Card):
 				var joker = joker_place.joker
 				await joker.activate(activation_window, original_deck, ui, card)
 
-	
+func freeze_jokers() ->void:
+	jokers_are_frozen = true
+	for joker in jokers.get_children():
+		joker.set_modulate(Color(0.65, 0.8, 0.95, 1))
+
 func reset_board() -> void:
 	enemy.unlock_stacks()
 	game_control.current_state = GameController.GameState.PLAYER_TURN
