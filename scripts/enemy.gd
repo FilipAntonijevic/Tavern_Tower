@@ -175,7 +175,8 @@ func freeze_jokers():
 				
 func increase_the_cost_of_redeal():
 	get_parent().redeal_cost += 1
-	get_parent().redeal_cards_button.set_text(str(get_parent().redeal_cost))
+	get_parent().check_if_redeal_cards_button_should_turn_into_give_up_button()
+
 	
 func lock_random_card():
 	var number_of_cards = get_parent().original_deck.card_collection.size()

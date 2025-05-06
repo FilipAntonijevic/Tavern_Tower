@@ -34,6 +34,7 @@ func check_if_redeal_cards_button_should_turn_into_give_up_button() -> void:
 		desk.hide()
 	
 func _on_redeal_cards_pressed() -> void:
+	redeal_cards_button.hide()
 	redeals_left -= 1
 	redeals_left_label.set_text(str(redeals_left))
 	check_if_redeal_cards_button_should_turn_into_give_up_button()
@@ -50,6 +51,7 @@ func redeal_cards() -> void:
 	timer.start()
 	await timer.timeout
 	timer.queue_free()
+	redeal_cards_button.show()
 
 func _on_give_up_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")

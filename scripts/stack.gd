@@ -1,6 +1,7 @@
 @tool
 class_name Stack extends Node2D
 
+var this_area_is_entered = false
 var cards_in_stack: Array = []
 var touched_cards: Array = []
 var current_selected_card_index: int = -1
@@ -160,16 +161,20 @@ func _on_area_2d_mouse_entered() -> void:
 	handle_stack_entered()
 
 func handle_stack_entered():
-	if cards_in_stack.size() == 3:
-		update_card_position(cards_in_stack[1], 15)
-		update_card_position(cards_in_stack[0], -10)
-		set_collision_shape_properties(90,57,15,0)
-	if cards_in_stack.size() == 2:
-		update_card_position(cards_in_stack[0], -5)
+	if this_area_is_entered == false:
+		this_area_is_entered = true
+		if cards_in_stack.size() == 3:
+			update_card_position(cards_in_stack[1], 15)
+			update_card_position(cards_in_stack[0], -10)
+			set_collision_shape_properties(90,57,15,0)
+		if cards_in_stack.size() == 2:
+			update_card_position(cards_in_stack[0], -5)
 
 func _on_area_2d_mouse_exited() -> void:
-	mouse_exited_stack.emit()
-	handle_stack_exited()
+	if this_area_is_entered == true:
+		this_area_is_entered = false
+		mouse_exited_stack.emit()
+		handle_stack_exited()
 
 func handle_stack_exited():
 	if cards_in_stack.size() == 3:

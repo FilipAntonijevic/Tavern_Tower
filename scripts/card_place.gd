@@ -2,6 +2,7 @@ class_name CardPlace extends Node2D
 
 var card: Card = null
 var mouse_is_inside_the_card: bool = false
+var this_area_is_enetered = false
 signal joker_bought(card: Card) 
 @onready var buy_button = $Buy_button
 @onready var gold_cost_label = $gold_cost_label
@@ -57,6 +58,7 @@ func _process(delta: float) -> void:
 
 func set_card(_card: Card) -> void:
 	add_child(_card)
+	buy_button.position.y = 7
 	card = _card
 	gold_cost_label.show()
 	var joker = turn_card_into_a_joker(_card)
@@ -78,7 +80,8 @@ func turn_card_into_a_joker(card: Card) -> Joker:
 	return null
 	
 func _on_area_2d_mouse_entered() -> void:
-	if card != null:
+	if this_area_is_enetered == false and card != null and get_parent().get_parent().is_dragging_a_joker == false:
+		this_area_is_enetered = true
 		mouse_is_inside_the_card = true
 		card.position.y -= 2
 		card.highlight()
@@ -90,7 +93,8 @@ func _on_area_2d_mouse_entered() -> void:
 	
 	
 func _on_area_2d_mouse_exited() -> void:
-	if card != null:
+	if this_area_is_enetered == true and card != null and get_parent().get_parent().is_dragging_a_joker == false:
+		this_area_is_enetered = false
 		mouse_is_inside_the_card = false
 		card.position.y += 2
 		card.unhighlight()
@@ -112,6 +116,7 @@ func _on_buy_button_pressed() -> void:
 		gold_cost_label.hide()
 		get_parent().get_parent().joker_effect_label.set_text('')
 		get_parent().get_parent().gold_ammount_label.set_text(str(get_parent().get_parent().get_parent().total_gold))
+		_on_area_2d_mouse_exited()
 	#	remove_child(buy_button)
 
 

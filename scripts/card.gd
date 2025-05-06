@@ -10,6 +10,7 @@ signal mouse_exited_card(card: Card)
 @onready var card_sprite: Sprite2D = $Sprite2D
 @onready var chains: Sprite2D = $chains
 
+var this_area_is_entered = false
 var emerald: bool = false #when played, this card plays again (with 0 base value)
 var topaz: bool = false #cannot be frozen
 var ruby: bool = false #this cards base value is +10
@@ -62,14 +63,18 @@ func _process(delta: float) -> void:
 	pass
 
 func _on_area_2d_mouse_entered() -> void:
-	if is_instance_valid(get_parent()) and get_parent() is CardPlace:
-		mouse_entered_card.emit(self)
-	else:
-		if get_parent().get_parent().get_parent().is_dragging == false:
+	if this_area_is_entered == false:
+		this_area_is_entered = true
+		if is_instance_valid(get_parent()) and get_parent() is CardPlace:
 			mouse_entered_card.emit(self)
+		else:
+			if get_parent().get_parent().get_parent().is_dragging == false:
+				mouse_entered_card.emit(self)
 
 func _on_area_2d_mouse_exited() -> void:
-	mouse_exited_card.emit(self )
+	if this_area_is_entered == true:
+		this_area_is_entered = false
+		mouse_exited_card.emit(self )
 
 
 func update_card_position(x: float, y: float):

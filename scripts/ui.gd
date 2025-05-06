@@ -124,7 +124,7 @@ func assign_new_position_to_previously_dragged_card():
 			stacks.move_card_to_this_stack(origin_stack, current_selected_card_for_movement, stacks.current_selected_stack)
 			current_selected_card_for_movement_position = Vector2.ZERO
 			stacks.current_selected_stack.reposition_cards()
-			get_parent().handle_jokers('on_card_moved', current_selected_card_for_movement)
+			await get_parent().handle_jokers('on_card_moved', current_selected_card_for_movement)
 	else:
 		current_selected_card_for_movement.global_position = current_selected_card_for_movement_position
 		if origin_stack != stacks.current_selected_stack:
@@ -133,7 +133,7 @@ func assign_new_position_to_previously_dragged_card():
 func place_card_to_a_pile():
 	stacks.move_card_to_according_pile(original_deck, origin_stack, current_selected_card_for_movement)
 	calculate_and_add_to_score(current_selected_card_for_movement)
-	get_parent().handle_jokers('on_card_played', current_selected_card_for_movement)
+	await get_parent().handle_jokers('on_card_played', current_selected_card_for_movement)
 	origin_stack.current_selected_card_index = -1
 
 func place_card_to_according_pile_legacy() -> void:
@@ -152,9 +152,9 @@ func place_card_to_according_pile():
 			stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
 			stacks.current_selected_stack.current_selected_card_index = -1
 			origin_stack = stacks.current_selected_stack
-			get_parent().handle_jokers('on_card_played', card)
+			await get_parent().handle_jokers('on_card_played', card)
 			if card.emerald:
-				get_parent().handle_jokers('on_card_played', card)
+				await get_parent().handle_jokers('on_card_played', card)
 			get_parent().end_turn()
 
 		
@@ -167,17 +167,16 @@ func place_card_to_according_pile():
 func place_joker_on_according_pile(joker: Joker) -> void:
 	var card = turn_joker_into_a_card(joker)
 	if is_dragging == false and check_if_card_can_be_placed_on_pile(card):
-		get_parent().handle_jokers('on_this_card_played', card)
+		await get_parent().handle_jokers('on_this_card_played', card)
 		place_card_on_according_pile(card)
 		calculate_and_add_to_score(card)
 		card.set_card_sprite(card.card_path)
 		remove_joker_from_jokers_array(joker)
-	#	get_parent().handle_jokers('on_card_played', card)
 	
 
 func place_card_on_according_pile(card: Card):
 		if card.emerald:
-				get_parent().handle_jokers('on_card_played', card)
+			await get_parent().handle_jokers('on_card_played', card)
 		if card.card_suit == "spades":
 			spades_pile.add_child(card)
 			card_piles.current_card_value_on_spades_pile += 1
@@ -191,7 +190,7 @@ func place_card_on_according_pile(card: Card):
 			hearts_pile.add_child(card)
 			card_piles.current_card_value_on_hearts_pile += 1
 		
-		get_parent().handle_jokers('on_card_played', card)
+		await get_parent().handle_jokers('on_card_played', card)
 
 func remove_joker_from_jokers_array(joker: Joker) -> void:
 	joker.get_parent().joker = null

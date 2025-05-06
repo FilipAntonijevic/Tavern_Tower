@@ -120,10 +120,8 @@ func _on_mouse_entered_joker(joker: Joker) -> void:
 		var child = joker.get_node("effect")
 		joker_effect_label.text = str(child.joker_effect)
 		var sell_value: int = int(joker.effect.joker_price / 2)
-		if sell_value == 1:
-			sell_joker_label.set_text("Right click to sell for: " + str(sell_value) + " coin")
-		else:
-			sell_joker_label.set_text("Right click to sell for: " + str(sell_value) + " coins")
+		sell_joker_label.set_text("Right click to sell for: " + str(sell_value) + " gold.")
+
 
 	
 func _on_mouse_exited_joker() -> void:
@@ -271,15 +269,54 @@ func drag_selected_joker(joker: Joker) -> void:
 	#current_selected_joker_for_movement_position = current_selected_joker_for_movement.global_position
 	is_dragging_a_joker = true
 	joker.is_dragging = true
-	current_selected_joker_for_movement.z_index = 101  
+	current_selected_joker_for_movement.z_index = 501  
+	hide_all_buttons()
+	
+func hide_all_buttons() -> void:
+	small_topaz.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	small_sapphire.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	small_emerald.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	small_ruby.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	medium_topaz.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	medium_sapphire.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	medium_emerald.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	medium_ruby.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	big_topaz.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	big_sapphire.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	big_emerald.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	big_ruby.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+	next_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	excavate_cards_button.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+func show_all_buttons() -> void:
+	small_topaz.mouse_filter = Control.MOUSE_FILTER_PASS
+	small_sapphire.mouse_filter = Control.MOUSE_FILTER_PASS
+	small_emerald.mouse_filter = Control.MOUSE_FILTER_PASS
+	small_ruby.mouse_filter = Control.MOUSE_FILTER_PASS
+
+	medium_topaz.mouse_filter = Control.MOUSE_FILTER_PASS
+	medium_sapphire.mouse_filter = Control.MOUSE_FILTER_PASS
+	medium_emerald.mouse_filter = Control.MOUSE_FILTER_PASS
+	medium_ruby.mouse_filter = Control.MOUSE_FILTER_PASS
+
+	big_topaz.mouse_filter = Control.MOUSE_FILTER_PASS
+	big_sapphire.mouse_filter = Control.MOUSE_FILTER_PASS
+	big_emerald.mouse_filter = Control.MOUSE_FILTER_PASS
+	big_ruby.mouse_filter = Control.MOUSE_FILTER_PASS
+
+	next_button.mouse_filter = Control.MOUSE_FILTER_PASS
+	excavate_cards_button.mouse_filter = Control.MOUSE_FILTER_PASS
+
+
 
 func assign_new_position_to_previously_dragged_joker(joker: Joker) -> void:
-	
+	show_all_buttons()
+	is_dragging_a_joker = false
 	if current_selected_joker_for_movement == null:
 			return
-			
-	if check_if_joker_can_be_placed_on_a_joker_palce():
-		pass
 	
 	for joker_place in jokers.get_children():
 		if joker_place.mouse_is_inside_the_joker_place and joker_place.joker == null:
@@ -414,104 +451,98 @@ func move_jokers_to_the_right(starting_joker_int: int) -> bool:
 						
 	return true
 
-	
-func check_if_joker_can_be_placed_on_a_joker_palce() -> bool:
-	return false
-
-
-
 func _on_medium_emerald_mouse_entered() -> void:
 	medium_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Choose a card to make it emerald\n-when played, this card plays again with 0 base value.")
-	sell_joker_label.set_text("Click to buy for 2 coins")
+	joker_effect_label.set_text("When played, this card plays again with 0 base value.")
+	sell_joker_label.set_text("Click to buy for 2 gold.")
 func _on_medium_emerald_mouse_exited() -> void:
 	medium_emerald.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_medium_sapphire_mouse_entered() -> void:
 	medium_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Choose a card to make it sapphire\n-this card can be placed on any card with same suit.")
-	sell_joker_label.set_text("Click to buy for 2 coins")
+	joker_effect_label.set_text("This card can be placed on any card with same suit.")
+	sell_joker_label.set_text("Click to buy for 2 gold.")
 func _on_medium_sapphire_mouse_exited() -> void:
 	medium_sapphire.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_medium_ruby_mouse_entered() -> void:
 	medium_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Choose a card to make it ruby\n-this cards base value +10.")
-	sell_joker_label.set_text("Click to buy for 2 coins")
+	joker_effect_label.set_text("This cards base value +10.")
+	sell_joker_label.set_text("Click to buy for 2 gold.")
 func _on_medium_ruby_mouse_exited() -> void:
 	medium_ruby.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_medium_topaz_mouse_entered() -> void:
 	medium_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Choose a card to make it topaz\n-this card can't be locked, when played stun opponent.")
-	sell_joker_label.set_text("Click to buy for 2 coins")
+	joker_effect_label.set_text("This card can't be locked, when played stun opponent.")
+	sell_joker_label.set_text("Click to buy for 2 gold.")
 func _on_medium_topaz_mouse_exited() -> void:
 	medium_topaz.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_small_emerald_mouse_entered() -> void:
 	small_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Make a random card emerald\n-when played, this card plays again with 0 base value.")
-	sell_joker_label.set_text("Click to buy for 1 coin")
+	joker_effect_label.set_text("When played, this card plays again with 0 base value.")
+	sell_joker_label.set_text("Click to buy for 1 gold.")
 func _on_small_emerald_mouse_exited() -> void:
 	small_emerald.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_small_topaz_mouse_entered() -> void:
 	small_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Make a random card topaz\n-this card can't be locked, when played stun opponent.")
-	sell_joker_label.set_text("Click to buy for 1 coin")
+	joker_effect_label.set_text("This card can't be locked, when played stun opponent.")
+	sell_joker_label.set_text("Click to buy for 1 gold.")
 func _on_small_topaz_mouse_exited() -> void:
 	small_topaz.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_small_sapphire_mouse_entered() -> void:
 	small_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Make a random card sapphire\n-this card can be placed on any card with same suit.")
-	sell_joker_label.set_text("Click to buy for 1 coin")
+	joker_effect_label.set_text("This card can be placed on any card with same suit.")
+	sell_joker_label.set_text("Click to buy for 1 gold.")
 func _on_small_sapphire_mouse_exited() -> void:
 	small_sapphire.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_small_ruby_mouse_entered() -> void:
 	small_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Make a random card ruby\n-this cards base value +10.")
-	sell_joker_label.set_text("Click to buy for 1 coin")
+	joker_effect_label.set_text("This cards base value +10.")
+	sell_joker_label.set_text("Click to buy for 1 gold.")
 func _on_small_ruby_mouse_exited() -> void:
 	small_ruby.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_big_emerald_mouse_entered() -> void:
 	big_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Make all cards in shop emerald\n-when played, this card plays again with 0 base value.")
-	sell_joker_label.set_text("Click to buy for 5 coins")
+	joker_effect_label.set_text("When played, this card plays again with 0 base value.")
+	sell_joker_label.set_text("Click to buy for 5 gold.")
 func _on_big_emerald_mouse_exited() -> void:
 	big_emerald.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_big_topaz_mouse_entered() -> void:
 	big_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Make all cards in shop topaz\n-this card can't be locked, when played stun opponent.")
-	sell_joker_label.set_text("Click to buy for 5 coins")
+	joker_effect_label.set_text("This card can't be locked, when played stun opponent.")
+	sell_joker_label.set_text("Click to buy for 5 gold.")
 func _on_big_topaz_mouse_exited() -> void:
 	big_topaz.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_big_sapphire_mouse_entered() -> void:
 	big_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Make all cards in shop sapphire\n-this card can be placed on any card with same suit.")
-	sell_joker_label.set_text("Click to buy for 5 coins")
+	joker_effect_label.set_text("This card can be placed on any card with same suit.")
+	sell_joker_label.set_text("Click to buy for 5 gold.")
 func _on_big_sapphire_mouse_exited() -> void:
 	big_sapphire.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 func _on_big_ruby_mouse_entered() -> void:
 	big_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
-	joker_effect_label.set_text("Make all cards in shop ruby\n-this cards base value +10.")
-	sell_joker_label.set_text("Click to buy for 5 coins")
+	joker_effect_label.set_text("This cards base value +10.")
+	sell_joker_label.set_text("Click to buy for 5 gold.")
 func _on_big_ruby_mouse_exited() -> void:
 	big_ruby.set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")

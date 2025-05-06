@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dwcdvyi73goev"]
+[gd_scene load_steps=9 format=3 uid="uid://dwcdvyi73goev"]
 
 [ext_resource type="Script" path="res://scripts/home_screen.gd" id="1_78h3v"]
 [ext_resource type="PackedScene" uid="uid://8kt4knn54gs0" path="res://scenes/legacy_mode.tscn" id="2_6ylac"]
+[ext_resource type="Texture2D" uid="uid://cvndpmgbm515q" path="res://sprites/options_sprite.png" id="2_qparc"]
 [ext_resource type="PackedScene" uid="uid://t634nhy8jwgx" path="res://scenes/main.tscn" id="2_xt1m3"]
 [ext_resource type="Texture2D" uid="uid://buiuekqjhbqdr" path="res://sprites/main_menu.png" id="3_snqa8"]
 [ext_resource type="Texture2D" uid="uid://ddmt5t02xcnht" path="res://sprites/main_menu_legacy_button_bigger.png" id="4_reupq"]
 [ext_resource type="Texture2D" uid="uid://bl3a346sd6y61" path="res://sprites/main_menu_play_button_bigger.png" id="5_rury6"]
+[ext_resource type="Texture2D" uid="uid://clnvlhh77liw0" path="res://sprites/main_menu_exit_button_bigger.png" id="7_mu6ix"]
 
 [node name="HomeScreen" type="Node2D"]
 script = ExtResource("1_78h3v")
@@ -27,10 +29,20 @@ focus_mode = 0
 flat = true
 
 [node name="Options" type="Button" parent="."]
-offset_left = 604.0
-offset_top = 3.0
-offset_right = 637.0
-offset_bottom = 35.0
+offset_left = 603.0
+offset_right = 640.0
+offset_bottom = 37.0
+focus_mode = 0
+icon = ExtResource("2_qparc")
+flat = true
+
+[node name="Exit_button" type="Button" parent="."]
+offset_left = 259.0
+offset_top = 308.0
+offset_right = 356.0
+offset_bottom = 341.0
+focus_mode = 0
+flat = true
 
 [node name="LegacyMode" parent="." instance=ExtResource("2_6ylac")]
 visible = false
@@ -55,9 +67,21 @@ z_index = -100
 position = Vector2(320, 180)
 texture = ExtResource("4_reupq")
 
+[node name="MainMenuExitButtonBigger" type="Sprite2D" parent="."]
+visible = false
+z_index = -100
+position = Vector2(320, 180)
+texture = ExtResource("7_mu6ix")
+
 [connection signal="mouse_entered" from="Play" to="." method="_on_play_mouse_entered"]
 [connection signal="mouse_exited" from="Play" to="." method="_on_play_mouse_exited"]
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
 [connection signal="mouse_entered" from="Legacy_mode_button" to="." method="_on_legacy_mode_mouse_entered"]
 [connection signal="mouse_exited" from="Legacy_mode_button" to="." method="_on_legacy_mode_mouse_exited"]
 [connection signal="pressed" from="Legacy_mode_button" to="." method="_on_legacy_mode_pressed"]
+[connection signal="mouse_entered" from="Options" to="." method="_on_options_mouse_entered"]
+[connection signal="mouse_exited" from="Options" to="." method="_on_options_mouse_exited"]
+[connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
+[connection signal="mouse_entered" from="Exit_button" to="." method="_on_exit_button_mouse_entered"]
+[connection signal="mouse_exited" from="Exit_button" to="." method="_on_exit_button_mouse_exited"]
+[connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]

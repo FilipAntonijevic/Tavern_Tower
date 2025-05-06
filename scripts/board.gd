@@ -34,7 +34,7 @@ func _ready() -> void:
 	enemy.level_up()
 	ui.set_deck(original_deck)
 	update_coins(get_parent().enemy_gold)
-	redeal_cards()
+	await redeal_cards()
 
 func set_deck(deck: Deck) -> void:
 	original_deck = deck
@@ -56,9 +56,6 @@ func _process(delta: float) -> void:
 		emit_signal("show_shop")
 		hide() 
 		
-	if ui.check_if_you_won():
-		pass
-
 func hide_coins(k: int) -> void:
 	var i = 0
 	for coin in coins.get_children():
@@ -82,8 +79,6 @@ func update_coins(new_gold: int)-> void:
 	get_parent().enemy_gold = new_gold
 	hide_coins(10)
 	show_coins()
-	check_if_redeal_cards_button_should_turn_into_give_up_button()
-
 
 func check_if_redeal_cards_button_should_turn_into_give_up_button() -> void:
 	if enemy_gold < redeal_cost:
@@ -107,12 +102,13 @@ func set_jokers(jokers_parent: Node) -> void:
 	
 		
 func _on_redeal_cards_pressed() -> void:
-	update_coins(enemy_gold - redeal_cost)
+	redeal_cards_button.hide()
+	await update_coins(enemy_gold - redeal_cost)
+	await redeal_cards()
 	redeal_cost += 1
+	await handle_jokers('on_cards_dealt', null)
 	check_if_redeal_cards_button_should_turn_into_give_up_button()
-	redeal_cards()
-	handle_jokers('on_cards_dealt', null)
-
+	
 func redeal_cards() -> void:
 	game_control.current_state = GameController.GameState.PLAYER_TURN
 	ui.clear_stacks()
@@ -124,7 +120,8 @@ func redeal_cards() -> void:
 	timer.start()
 	await timer.timeout
 	timer.queue_free()
-	handle_jokers('on_cards_dealt', null)
+	await handle_jokers('on_cards_dealt', null)
+	check_if_redeal_cards_button_should_turn_into_give_up_button()
 
 func end_turn() -> void:
 	jokers_are_frozen = false
@@ -167,7 +164,6 @@ func reset_board() -> void:
 
 
 func _on_give_up_pressed() -> void:
-	#GameData.reset()
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
 
 

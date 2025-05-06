@@ -11,6 +11,7 @@ class_name Joker extends Node2D
 
 var is_dragging: bool = false
 
+var this_area_is_entered = false
 var mouse_is_inside_this_joker: bool = false
 signal mouse_entered_joker(joker)
 signal mouse_exited_joker()
@@ -43,18 +44,22 @@ func unhighlight():
 
 
 func _on_area_2d_mouse_entered() -> void:
-	mouse_is_inside_this_joker = true
-	emit_signal("mouse_entered_joker", self) 
-	highlight()
-	position.y += 2
+	if this_area_is_entered == false:
+		this_area_is_entered = true
+		mouse_is_inside_this_joker = true
+		emit_signal("mouse_entered_joker", self) 
+		highlight()
+		position.y += 2
 
 func _on_area_2d_mouse_exited() -> void:
-	mouse_is_inside_this_joker = false
-	emit_signal("mouse_exited_joker")
-	unhighlight()
-	position.y -= 2
+	if this_area_is_entered == true:
+		this_area_is_entered = false
+		mouse_is_inside_this_joker = false
+		emit_signal("mouse_exited_joker")
+		unhighlight()
+		position.y -= 2
 
-func _input(event):
+func _unhandled_input(event):
 	
 	if mouse_is_inside_this_joker and get_parent().get_parent().get_parent().name == "Shop":
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and mouse_is_inside_this_joker:
@@ -65,6 +70,7 @@ func _input(event):
 				get_parent().get_parent().get_parent().drag_selected_joker(self)
 			elif is_dragging == true: #drop this joker
 				is_dragging = false
+				this_area_is_entered = false
 				get_parent().get_parent().get_parent().assign_new_position_to_previously_dragged_joker(self)
 				_on_area_2d_mouse_entered()
 				get_parent().get_parent().get_parent().current_selected_joker_for_movement = null

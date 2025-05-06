@@ -71,6 +71,7 @@ z_index = 15
 z_index = 15
 
 [node name="redeal_cards" type="Button" parent="."]
+visible = false
 offset_left = 546.0
 offset_top = 307.0
 offset_right = 641.0
