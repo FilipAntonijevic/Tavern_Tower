@@ -30,7 +30,6 @@ offset_right = 22.0
 offset_bottom = 32.0
 focus_mode = 0
 mouse_filter = 1
-mouse_default_cursor_shape = 2
 theme_override_font_sizes/font_size = 10
 icon = ExtResource("2_0hwy4")
 flat = true

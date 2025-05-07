@@ -58,6 +58,8 @@ func _input(event):
 					place_card_to_according_pile_legacy()
 				drag_selected_card()
 			elif is_dragging == true:
+				var cursor_texture = load("res://sprites/cursor.png")
+				Input.set_custom_mouse_cursor(cursor_texture)
 				is_dragging = false
 				assign_new_position_to_previously_dragged_card_legacy()
 				origin_stack.reposition_cards()
@@ -77,17 +79,23 @@ func _input(event):
 					get_parent().end_turn()
 				drag_selected_card()
 			elif is_dragging == true:
+				var cursor_texture = load("res://sprites/cursor.png")
+				Input.set_custom_mouse_cursor(cursor_texture)
 				is_dragging = false
 				assign_new_position_to_previously_dragged_card()
 				origin_stack.reposition_cards()
 				current_selected_card_for_movement = null
 		elif event is InputEventMouseMotion and is_dragging == true and current_selected_card_for_movement != null:
+			var cursor_texture = load("res://sprites/cursor_dragging.png")
+			Input.set_custom_mouse_cursor(cursor_texture)
 			current_selected_card_for_movement.global_position = get_global_mouse_position()
 
 
 func drag_selected_card():
 	if stacks.current_selected_stack != null && stacks.current_selected_stack.current_selected_card_index >= 0 && current_selected_card_for_movement == null && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index):
 		if stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index].locked == false:
+			var cursor_texture = load("res://sprites/cursor_dragging.png")
+			Input.set_custom_mouse_cursor(cursor_texture)
 			origin_stack = stacks.current_selected_stack
 			select_card_to_move()
 			is_dragging = true

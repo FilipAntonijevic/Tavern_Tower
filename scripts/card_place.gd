@@ -125,7 +125,6 @@ func _on_buy_button_pressed() -> void:
 		get_parent().get_parent().joker_effect_label.set_text('')
 		get_parent().get_parent().gold_ammount_label.set_text(str(get_parent().get_parent().get_parent().total_gold))
 		_on_area_2d_mouse_exited()
-	#	remove_child(buy_button)
 
 
 func _on_buy_button_mouse_entered() -> void:

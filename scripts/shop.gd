@@ -272,6 +272,8 @@ func add_joker(card: Card) -> void:
 	
 func drag_selected_joker(joker: Joker) -> void:
 	
+	var cursor_texture = load("res://sprites/cursor_dragging.png")
+	Input.set_custom_mouse_cursor(cursor_texture)
 	joker.get_parent().joker = null
 #	joker.get_parent().remove_child(joker)
 	current_selected_joker_for_movement = joker
@@ -323,6 +325,8 @@ func show_all_buttons() -> void:
 
 func assign_new_position_to_previously_dragged_joker(joker: Joker) -> void:
 	show_all_buttons()
+	var cursor_texture = load("res://sprites/cursor.png")
+	Input.set_custom_mouse_cursor(cursor_texture)
 	is_dragging_a_joker = false
 	if current_selected_joker_for_movement == null:
 			return
@@ -564,7 +568,7 @@ func _on_medium_topaz_pressed() -> void:
 		get_parent().total_gold -= 2
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		topaz_touch = true
-		var new_cursor_texture = load("res://cursor_topaz.png")
+		var new_cursor_texture = load("res://sprites/cursor_topaz.png")
 		Input.set_custom_mouse_cursor(new_cursor_texture)
 		medium_topaz.global_position = Vector2(-100,-100)
 		_on_medium_topaz_mouse_exited()
@@ -576,7 +580,7 @@ func _on_medium_ruby_pressed() -> void:
 		get_parent().total_gold -= 2
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		ruby_touch = true
-		var new_cursor_texture = load("res://cursor_ruby.png")
+		var new_cursor_texture = load("res://sprites/cursor_ruby.png")
 		Input.set_custom_mouse_cursor(new_cursor_texture)
 		medium_ruby.global_position = Vector2(-100,-100)
 		_on_medium_ruby_mouse_exited()
@@ -588,7 +592,7 @@ func _on_medium_sapphire_pressed() -> void:
 		get_parent().total_gold -= 2
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		sapphire_touch = true
-		var new_cursor_texture = load("res://cursor_sapphire.png")
+		var new_cursor_texture = load("res://sprites/cursor_sapphire.png")
 		Input.set_custom_mouse_cursor(new_cursor_texture)
 		medium_sapphire.global_position = Vector2(-100,-100)
 		_on_medium_sapphire_mouse_exited()
@@ -600,7 +604,7 @@ func _on_medium_emerald_pressed() -> void:
 		get_parent().total_gold -= 2
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		emerald_touch = true
-		var new_cursor_texture = load("res://cursor_emerald.png")
+		var new_cursor_texture = load("res://sprites/cursor_emerald.png")
 		Input.set_custom_mouse_cursor(new_cursor_texture)
 		medium_emerald.global_position = Vector2(-100,-100)
 		_on_medium_emerald_mouse_exited()
