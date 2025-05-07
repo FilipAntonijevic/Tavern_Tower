@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bf74mxp6eobj7"]
+[gd_scene load_steps=30 format=3 uid="uid://bf74mxp6eobj7"]
 
 [ext_resource type="Script" path="res://scripts/shop.gd" id="1_nk2n8"]
 [ext_resource type="PackedScene" uid="uid://ce465tmrrukmt" path="res://scenes/card_place.tscn" id="2_kfu8g"]
@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://dt6e6shvgk337" path="res://sprites/gems/big_sapphire.png" id="18_x0cxq"]
 [ext_resource type="Texture2D" uid="uid://4iton36lfdvr" path="res://sprites/gems/big_ruby.png" id="19_tqa2l"]
 [ext_resource type="Texture2D" uid="uid://by1c8q7sbu6od" path="res://sprites/deck_sprite.png" id="21_w8skj"]
+[ext_resource type="Texture2D" uid="uid://chxyejk3e8l72" path="res://sprites/card_back_template.png" id="25_xdqsk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4i7ur"]
 font = ExtResource("9_yo5d1")
@@ -315,9 +316,16 @@ icon = ExtResource("19_tqa2l")
 flat = true
 expand_icon = true
 
-[node name="DeckSprite" type="Sprite2D" parent="."]
-position = Vector2(487, 106)
+[node name="deck_position" type="Node2D" parent="."]
+position = Vector2(483.952, 101.253)
+
+[node name="DeckSprite" type="Sprite2D" parent="deck_position"]
+position = Vector2(3.04797, 4.7473)
 texture = ExtResource("21_w8skj")
+
+[node name="card_back" type="Sprite2D" parent="deck_position"]
+visible = false
+texture = ExtResource("25_xdqsk")
 
 [connection signal="mouse_entered" from="excavate" to="." method="_on_excavate_mouse_entered"]
 [connection signal="mouse_exited" from="excavate" to="." method="_on_excavate_mouse_exited"]

@@ -55,6 +55,10 @@ func _process(delta: float) -> void:
 		get_parent().increase_enemy_strength()
 		emit_signal("show_shop")
 		hide() 
+		await get_parent().new_scene.excavate_card()
+		await get_parent().new_scene.excavate_card()
+		await get_parent().new_scene.excavate_card()
+		
 		
 func hide_coins(k: int) -> void:
 	var i = 0
@@ -136,7 +140,6 @@ func _on_go_to_shop_pressed() -> void:
 			joker_place.joker.free()
 		joker_place.free()
 	emit_signal("show_shop") 
-	#reset_board()
 	hide()  
 
 func handle_jokers(activation_window: String, card: Card):

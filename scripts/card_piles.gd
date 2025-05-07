@@ -71,4 +71,4 @@ func highlight_card_that_can_be_played_on_this_pile(value: int, suit: String):
 		var card = deck[key]
 		if card != null && card.card_sprite != null && card.card_value == value && card.card_suit == suit:
 			get_parent().stacks.touched_card_value = value
-			card.card_sprite.set_modulate(Color(2,2,2,1))
+			card.card_sprite.set_modulate(Color(0.8,0.8,0.8,1))

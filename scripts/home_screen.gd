@@ -27,6 +27,10 @@ func _on_play_pressed() -> void:
 	play_button.hide()
 	legacy_button.hide()
 	exit_button.hide()
+	await main.new_scene.excavate_card()
+	await main.new_scene.excavate_card()
+	await main.new_scene.excavate_card()
+
 
 func _on_legacy_mode_pressed() -> void:
 	legacy_mode.show()

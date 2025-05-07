@@ -46,10 +46,10 @@ func set_card_path(path: String):
 	card_path = path
 	
 func highlight():
-	card_sprite.set_modulate(Color(2,5,2,1))
+	card_sprite.set_modulate(Color(0.7,0.7,0.7,1))
 
 func unhighlight():
-	card_sprite.set_modulate(Color(0.88,0.88,0.88,1))
+	card_sprite.set_modulate(Color(1,1,1,1))
 	if emerald:
 		highlight_emerald_card()
 	if topaz:

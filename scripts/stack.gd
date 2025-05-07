@@ -114,7 +114,7 @@ func highlight_cards_of_same_value(original_touched_card: Card):
 	for key in deck:
 		var card = deck[key]
 		if card != null && card.card_sprite != null && card.card_value == original_touched_card.card_value && card != original_touched_card:
-			card.card_sprite.set_modulate(Color(2,2,2,1))
+			card.card_sprite.set_modulate(Color(0.8,0.8,0.8,1))
 
 func handle_card_untouched(card: Card):
 	get_parent().touched_card_value = 0

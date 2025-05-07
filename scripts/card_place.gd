@@ -25,6 +25,8 @@ func _input(event):
 				card.ruby = false
 				card.sapphire = false
 			get_parent().get_parent().topaz_touch = false
+			var cursor_texture = load("res://sprites/cursor.png")
+			Input.set_custom_mouse_cursor(cursor_texture)
 			
 		if get_parent().get_parent().emerald_touch == true:
 			if card:
@@ -34,6 +36,8 @@ func _input(event):
 				card.ruby = false
 				card.sapphire = false
 			get_parent().get_parent().emerald_touch = false
+			var cursor_texture = load("res://sprites/cursor.png")
+			Input.set_custom_mouse_cursor(cursor_texture)
 			
 		if get_parent().get_parent().ruby_touch == true:
 			if card:
@@ -43,6 +47,8 @@ func _input(event):
 				card.ruby = true
 				card.sapphire = false
 			get_parent().get_parent().ruby_touch = false
+			var cursor_texture = load("res://sprites/cursor.png")
+			Input.set_custom_mouse_cursor(cursor_texture)
 			
 		if get_parent().get_parent().sapphire_touch == true:
 			if card:
@@ -52,7 +58,9 @@ func _input(event):
 				card.ruby = false
 				card.sapphire = true
 			get_parent().get_parent().sapphire_touch = false
-
+			var cursor_texture = load("res://sprites/cursor.png")
+			Input.set_custom_mouse_cursor(cursor_texture)
+			
 func _process(delta: float) -> void:
 	pass
 

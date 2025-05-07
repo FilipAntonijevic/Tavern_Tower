@@ -1,9 +1,12 @@
 class_name Shop extends Node2D
 
 @onready var card_scene: PackedScene = preload("res://scenes/card.tscn")
+@onready var card_back = preload("res://scenes/card_back.tscn")
 @onready var spawnpoints = $spawnpoints.get_children() 
 var drawn_cards = []
 var original_deck: Deck = null
+
+@onready var deck = $deck_position
 @onready var desk: Sprite2D = $desk
 @onready var jokers = $Jokers
 @onready var joker_effect_label = $joker_effect_label
@@ -64,21 +67,46 @@ func get_random_card_from_deck() -> Card:
 	else:
 		return null
 
-		
 func excavate_card() -> void:
-	
+	excavate_cards_button.hide()
+	next_button.hide()
 	var card = get_random_card_from_deck()
 	if check_if_card_can_be_excavated(card): 
 		drawn_cards.append(card)  
-		
+
 		for card_place in spawnpoints:
 			if !card_place.has_node("Card"):
+				var temp_card_back = card_back.instantiate()
+				temp_card_back.global_position = deck.global_position
+				get_tree().current_scene.add_child(temp_card_back)
+
+				var tween = get_tree().create_tween()
+				tween.tween_property(temp_card_back, "global_position", card_place.global_position, 0.3)\
+					.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+				await tween.finished
+
+				var flip_tween = get_tree().create_tween()
+				flip_tween.tween_property(temp_card_back, "scale:x", 0.0, 0.1)\
+					.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+				await flip_tween.finished
+				temp_card_back.queue_free()
+
+				card.scale.x = 0.0
 				card_place.set_card(card)
 				card.set_card_sprite(card.card_path)
+
+				var flip_open = get_tree().create_tween()
+				flip_open.tween_property(card, "scale:x", 1.0, 0.1)\
+					.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+
+				await flip_open.finished
+				excavate_cards_button.show()
+				next_button.show()
 				return
 	else:
 		excavate_card()
-
 
 func check_if_card_can_be_excavated(new_card: Card) -> bool:
 	if !new_card:
@@ -155,7 +183,6 @@ func get_three_unique_gems():
 	
 	
 func _ready() -> void:
-	
 	all_gems_list = [small_emerald, small_ruby, small_sapphire, small_topaz, medium_emerald, medium_ruby, medium_sapphire, medium_topaz, big_topaz, big_emerald, big_ruby, big_sapphire]
 	chosen_gems = get_three_unique_gems()
 	chosen_gems[0].global_position = gem_1_position.global_position
@@ -172,24 +199,6 @@ func _ready() -> void:
 	for card_place in spawnpoints:
 		card_place.connect("joker_bought", Callable(self, "_on_joker_bought"))
 	
-	var timer1 = Timer.new()
-	timer1.wait_time = 0.1
-	add_child(timer1)
-	timer1.start()
-	await timer1.timeout
-	excavate_card()
-	timer1.start()
-	await timer1.timeout
-	excavate_card()
-	timer1.start()
-	await timer1.timeout
-	excavate_card()
-	timer1.queue_free()	
-	#excavate_cards(5)
-
-
-func _process(delta: float) -> void:
-	pass
 
 
 func _on_button_pressed() -> void:
@@ -228,7 +237,7 @@ func _on_exacuviate_pressed() -> void:
 		excavation_cost *= 2
 		excavation_cost_label.set_text("- " + str(excavation_cost) + " gold")
 		gold_ammount_label.set_text(str(get_parent().total_gold))
-		excavate_card()
+		await excavate_card()
 
 
 func _input(event):
@@ -555,6 +564,8 @@ func _on_medium_topaz_pressed() -> void:
 		get_parent().total_gold -= 2
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		topaz_touch = true
+		var new_cursor_texture = load("res://cursor_topaz.png")
+		Input.set_custom_mouse_cursor(new_cursor_texture)
 		medium_topaz.global_position = Vector2(-100,-100)
 		_on_medium_topaz_mouse_exited()
 		sell_joker_label.set_text("Next card you click will become topaz.")
@@ -565,6 +576,8 @@ func _on_medium_ruby_pressed() -> void:
 		get_parent().total_gold -= 2
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		ruby_touch = true
+		var new_cursor_texture = load("res://cursor_ruby.png")
+		Input.set_custom_mouse_cursor(new_cursor_texture)
 		medium_ruby.global_position = Vector2(-100,-100)
 		_on_medium_ruby_mouse_exited()
 		sell_joker_label.set_text("Next card you click will become ruby.")
@@ -575,6 +588,8 @@ func _on_medium_sapphire_pressed() -> void:
 		get_parent().total_gold -= 2
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		sapphire_touch = true
+		var new_cursor_texture = load("res://cursor_sapphire.png")
+		Input.set_custom_mouse_cursor(new_cursor_texture)
 		medium_sapphire.global_position = Vector2(-100,-100)
 		_on_medium_sapphire_mouse_exited()
 		sell_joker_label.set_text("Next card you click will become sapphire.")
@@ -585,6 +600,8 @@ func _on_medium_emerald_pressed() -> void:
 		get_parent().total_gold -= 2
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		emerald_touch = true
+		var new_cursor_texture = load("res://cursor_emerald.png")
+		Input.set_custom_mouse_cursor(new_cursor_texture)
 		medium_emerald.global_position = Vector2(-100,-100)
 		_on_medium_emerald_mouse_exited()
 		sell_joker_label.set_text("Next card you click will become emerald.")

@@ -8,10 +8,14 @@ var total_gold: int = 300
 var enemy_gold: int = 5
 var enemy_goal: int = 75
 
+var new_scene = null
+
 @onready var jokers = $Jokers
 
 func _ready():
 	Engine.max_fps = 60
+	var cursor_texture = load("res://sprites/cursor.png")
+	Input.set_custom_mouse_cursor(cursor_texture)
 	original_deck.initialize_deck()
 	load_scene("res://scenes/Shop.tscn")
 
@@ -37,7 +41,7 @@ func load_scene(scene_path: String) -> void:
 		current_scene.queue_free() 
 		current_scene = null
 	
-	var new_scene = load(scene_path).instantiate()
+	new_scene = load(scene_path).instantiate()
 	
 	new_scene.set_deck(copy_deck())
 
@@ -54,8 +58,7 @@ func load_scene(scene_path: String) -> void:
 		new_scene.connect("show_shop", Callable(self, "_on_show_shop"))
 	elif scene_path == "res://scenes/Shop.tscn":
 		new_scene.connect("show_board", Callable(self, "_on_show_board"))
-
-
+		
 func copy_deck() -> Deck:
 	var deck_copy = Deck.new()
 
@@ -91,3 +94,8 @@ func _on_show_board() -> void:
 	
 func _on_show_shop() -> void:
 	load_scene("res://scenes/Shop.tscn")
+	await new_scene.excavate_card()
+	await new_scene.excavate_card()
+	await new_scene.excavate_card()
+
+	
