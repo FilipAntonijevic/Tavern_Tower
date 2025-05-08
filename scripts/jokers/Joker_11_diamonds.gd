@@ -19,9 +19,25 @@ func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 			array_of_suits.erase('heart')
 		if array_of_suits.size() == 0:
 			array_of_suits = ['spade', 'diamond', 'club', 'heart']
-			ui.add_to_score(10)
+			ui.get_parent().enemy.set_visual_aid_label('+15')
 			highlight()
+			await wait(0.3)
+			ui.add_to_score(15)
+			ui.get_parent().enemy.set_visual_aid_label('')
 
+
+func wait(seconds: float) -> void:
+	var timer = Timer.new()
+	timer.wait_time = seconds
+	timer.one_shot = true
+	add_child(timer)
+	timer.start()
+	
+	while timer.time_left > 0:
+		await get_tree().process_frame
+	
+	timer.queue_free()
+	
 func highlight():
 	$"../Sprite2D".set_modulate(Color(1,0.1,0.2,1))
 	var timer = Timer.new()

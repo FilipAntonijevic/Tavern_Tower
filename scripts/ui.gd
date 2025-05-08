@@ -58,8 +58,6 @@ func _input(event):
 					place_card_to_according_pile_legacy()
 				drag_selected_card()
 			elif is_dragging == true:
-				var cursor_texture = load("res://sprites/cursor.png")
-				Input.set_custom_mouse_cursor(cursor_texture)
 				is_dragging = false
 				assign_new_position_to_previously_dragged_card_legacy()
 				origin_stack.reposition_cards()
@@ -76,11 +74,8 @@ func _input(event):
 					double_click_timer.start()
 				else:
 					place_card_to_according_pile()
-					get_parent().end_turn()
 				drag_selected_card()
 			elif is_dragging == true:
-				var cursor_texture = load("res://sprites/cursor.png")
-				Input.set_custom_mouse_cursor(cursor_texture)
 				is_dragging = false
 				assign_new_position_to_previously_dragged_card()
 				origin_stack.reposition_cards()
@@ -142,6 +137,8 @@ func place_card_to_a_pile():
 	stacks.move_card_to_according_pile(original_deck, origin_stack, current_selected_card_for_movement)
 	calculate_and_add_to_score(current_selected_card_for_movement)
 	await get_parent().handle_jokers('on_card_played', current_selected_card_for_movement)
+	if current_selected_card_for_movement.topaz == true:
+		get_parent().enemy.remove_upcomming_attacks()
 	origin_stack.current_selected_card_index = -1
 
 func place_card_to_according_pile_legacy() -> void:
@@ -164,7 +161,8 @@ func place_card_to_according_pile():
 			if card.emerald:
 				await get_parent().handle_jokers('on_card_played', card)
 			get_parent().end_turn()
-
+			if card.topaz == true:
+				get_parent().enemy.remove_upcomming_attacks()
 		
 	for joker_place in get_parent().jokers.get_children():
 		if joker_place.joker != null: 
@@ -177,6 +175,8 @@ func place_joker_on_according_pile(joker: Joker) -> void:
 	if is_dragging == false and check_if_card_can_be_placed_on_pile(card):
 		await get_parent().handle_jokers('on_this_card_played', card)
 		place_card_on_according_pile(card)
+		if current_selected_card_for_movement.topaz == true:
+			get_parent().enemy.remove_upcomming_attacks()
 		calculate_and_add_to_score(card)
 		card.set_card_sprite(card.card_path)
 		remove_joker_from_jokers_array(joker)
@@ -185,6 +185,8 @@ func place_joker_on_according_pile(joker: Joker) -> void:
 func place_card_on_according_pile(card: Card):
 		if card.emerald:
 			await get_parent().handle_jokers('on_card_played', card)
+		if card.topaz == true:
+			get_parent().enemy.remove_upcomming_attacks()
 		if card.card_suit == "spades":
 			spades_pile.add_child(card)
 			card_piles.current_card_value_on_spades_pile += 1

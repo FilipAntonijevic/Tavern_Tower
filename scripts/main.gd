@@ -4,9 +4,9 @@ var original_deck: Deck = Deck.new()
 
 var current_scene: Node = null 
 
-var total_gold: int = 300
+var total_gold: int = 5
 var enemy_gold: int = 5
-var enemy_goal: int = 75
+var enemy_goal: int = 100
 
 var new_scene = null
 

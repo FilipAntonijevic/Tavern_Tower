@@ -65,7 +65,12 @@ func reduce_goal_by_score_ammount():
 
 func update_progress_value():
 	progress_label.set_text(str(progress))
-	
+
+func unfreeze_cards() -> void:
+	if get_parent().jokers_are_frozen == false:
+		for joker in get_parent().jokers.get_children():
+			joker.set_modulate(Color(1,1,1,1))
+			
 func resolve_attacks()-> void:
 
 	for attack in chosen_attacks:
@@ -76,6 +81,7 @@ func resolve_attacks()-> void:
 		if attack == "triple_chain":
 			lock_3_random_cards()
 		if attack == "shuffle":
+			#shuffle_a_random_stack()
 			shuffle_all_cards_from_the_table()
 		if attack == "freeze":
 			freeze_jokers()
@@ -146,6 +152,9 @@ func shuffle_all_cards_from_the_table()-> void:
 	
 	if can_shuffle:
 		get_parent().redeal_cards()
+
+func shuffle_a_random_stack()-> void:
+	pass
 	
 func choose_attacks()-> void:
 	var available_attacks = []
@@ -167,7 +176,12 @@ func choose_attacks()-> void:
 	 
 
 func remove_upcomming_attacks() -> void:
-	pass
+	chosen_attacks.clear()
+	attack_place_1.icon.texture = null
+	attack_place_2.icon.texture = null
+	attack_place_3.icon.texture = null
+	attack_place_4.icon.texture = null
+	attack_place_5.icon.texture = null
 	
 func freeze_jokers():
 	get_parent().freeze_jokers()

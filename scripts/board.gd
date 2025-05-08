@@ -4,7 +4,8 @@ extends Node2D
 var original_deck: Deck = null
 var enemy_gold: int = 0
 var redeal_cost: int = 0
-var jokers_are_frozen = false
+var jokers_are_frozen: bool = false
+var jokers_are_frozen_turn_counter = 0
 
 @onready var game_control: GameController = $GameController
 
@@ -45,8 +46,9 @@ func _process(delta: float) -> void:
 		enemy.unlock_cards()
 		enemy.resolve_attacks()
 		enemy.prepare_new_attacks()
+		enemy.unfreeze_cards()
 		game_control.transition(GameController.GameState.PLAYER_TURN)
-		
+				
 	if !game_control.is_running:
 		return
 	
@@ -54,11 +56,7 @@ func _process(delta: float) -> void:
 		get_parent().total_gold += enemy_gold
 		get_parent().increase_enemy_strength()
 		emit_signal("show_shop")
-		hide() 
-		await get_parent().new_scene.excavate_card()
-		await get_parent().new_scene.excavate_card()
-		await get_parent().new_scene.excavate_card()
-		
+		hide()
 		
 func hide_coins(k: int) -> void:
 	var i = 0
@@ -86,6 +84,9 @@ func update_coins(new_gold: int)-> void:
 
 func check_if_redeal_cards_button_should_turn_into_give_up_button() -> void:
 	if enemy_gold < redeal_cost:
+		desk_surrender_button.show()
+		desk.hide()
+		desk_redeal_cards_button_bigger.hide()
 		redeal_cards_button.hide()
 		give_up_button.show()
 	else:
@@ -128,7 +129,11 @@ func redeal_cards() -> void:
 	check_if_redeal_cards_button_should_turn_into_give_up_button()
 
 func end_turn() -> void:
-	jokers_are_frozen = false
+	if jokers_are_frozen_turn_counter < 0 :
+		jokers_are_frozen = 0
+	if jokers_are_frozen_turn_counter == 0:
+		jokers_are_frozen = false
+	jokers_are_frozen_turn_counter -= 1
 	if game_control.current_state == GameController.GameState.PLAYER_TURN:
 		game_control.transition(GameController.GameState.ENEMY_TURN)
 
@@ -151,6 +156,7 @@ func handle_jokers(activation_window: String, card: Card):
 
 func freeze_jokers() ->void:
 	jokers_are_frozen = true
+	jokers_are_frozen_turn_counter += 1
 	for joker in jokers.get_children():
 		joker.set_modulate(Color(0.65, 0.8, 0.95, 1))
 
