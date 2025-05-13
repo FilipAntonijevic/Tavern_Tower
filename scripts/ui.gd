@@ -168,19 +168,19 @@ func place_card_to_according_pile():
 		if joker_place.joker != null: 
 			if joker_place.joker.mouse_is_inside_this_joker == true:
 				place_joker_on_according_pile(joker_place.joker)
-				get_parent().end_turn()
+				
 
 func place_joker_on_according_pile(joker: Joker) -> void:
 	var card = turn_joker_into_a_card(joker)
 	if is_dragging == false and check_if_card_can_be_placed_on_pile(card):
 		await get_parent().handle_jokers('on_this_card_played', card)
 		place_card_on_according_pile(card)
-		if current_selected_card_for_movement.topaz == true:
+		if card.topaz == true:
 			get_parent().enemy.remove_upcomming_attacks()
 		calculate_and_add_to_score(card)
 		card.set_card_sprite(card.card_path)
 		remove_joker_from_jokers_array(joker)
-	
+		get_parent().end_turn()
 
 func place_card_on_according_pile(card: Card):
 		if card.emerald:

@@ -4,9 +4,10 @@ var original_deck: Deck = Deck.new()
 
 var current_scene: Node = null 
 
-var total_gold: int = 5
+var total_gold: int = 0
 var enemy_gold: int = 5
-var enemy_goal: int = 100
+var enemy_goal: int = 25
+var enemy_number: int = 1
 
 var new_scene = null
 
@@ -17,7 +18,7 @@ func _ready():
 	var cursor_texture = load("res://sprites/cursor.png")
 	Input.set_custom_mouse_cursor(cursor_texture)
 	original_deck.initialize_deck()
-	load_scene("res://scenes/Shop.tscn")
+	load_scene("res://scenes/Board.tscn")
 
 func increase_enemy_strength():
 	enemy_goal += 25
@@ -36,28 +37,34 @@ func add_joker(card: Card) -> void:
 					joker.card_suit = card.card_suit
 					joker.card_path = card.card_path
 					return
+					
 func load_scene(scene_path: String) -> void:
 	if current_scene:
 		current_scene.queue_free() 
 		current_scene = null
 	
 	new_scene = load(scene_path).instantiate()
-	
-	new_scene.set_deck(copy_deck())
-
-	add_child(new_scene)
-	current_scene = new_scene
 
 	if scene_path == "res://scenes/Board.tscn":
+		new_scene.set_deck(copy_deck())
+		add_child(new_scene)
+		current_scene = new_scene
 		var i = 0
 		for joker_place in jokers.get_children():
 			if joker_place.joker != null:
 				i+=1
 				joker_place.joker.z_index = 100
 		new_scene.set_jokers(jokers)
-		new_scene.connect("show_shop", Callable(self, "_on_show_shop"))
+		new_scene.connect("show_progress_bar", Callable(self, "_on_show_progress_bar"))
 	elif scene_path == "res://scenes/Shop.tscn":
+		new_scene.set_deck(copy_deck())
+		add_child(new_scene)
+		current_scene = new_scene
 		new_scene.connect("show_board", Callable(self, "_on_show_board"))
+	elif scene_path == "res://scenes/progress_screen.tscn":
+		new_scene.connect("go_to_shop", Callable(self, "_on_go_to_shop"))
+		add_child(new_scene)
+		current_scene = new_scene
 		
 func copy_deck() -> Deck:
 	var deck_copy = Deck.new()
@@ -88,14 +95,18 @@ func set_jokers(jokers_shop: Node) -> void:
 		if jokers_shop.get_child(i).joker != null:
 			var joker = jokers_shop.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
 			jokers.get_child(i).set_joker(joker)
-	
-func _on_show_board() -> void:
-	load_scene("res://scenes/Board.tscn")
-	
-func _on_show_shop() -> void:
+
+func _on_go_to_shop() -> void:
 	load_scene("res://scenes/Shop.tscn")
 	await new_scene.excavate_card()
 	await new_scene.excavate_card()
 	await new_scene.excavate_card()
+	
+func _on_show_board() -> void:
+	load_scene("res://scenes/Board.tscn")
+	
+func _on_show_progress_bar() -> void:
+	load_scene("res://scenes/progress_screen.tscn")
+
 
 	

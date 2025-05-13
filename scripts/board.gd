@@ -27,7 +27,7 @@ var jokers_are_frozen_turn_counter = 0
 
 var game_mode = "Classic_mode"
 
-signal show_shop
+signal show_progress_bar()
 
 func _ready() -> void:
 	enemy.goal = get_parent().enemy_goal
@@ -55,7 +55,7 @@ func _process(delta: float) -> void:
 	if check_if_you_beat_enemy():
 		get_parent().total_gold += enemy_gold
 		get_parent().increase_enemy_strength()
-		emit_signal("show_shop")
+		emit_signal("show_progress_bar")
 		hide()
 		
 func hide_coins(k: int) -> void:
@@ -78,7 +78,6 @@ func show_coins() -> void:
 
 func update_coins(new_gold: int)-> void:
 	enemy_gold = new_gold
-	get_parent().enemy_gold = new_gold
 	hide_coins(10)
 	show_coins()
 
@@ -144,7 +143,7 @@ func _on_go_to_shop_pressed() -> void:
 			joker_place.joker.card_sprite.texture = null
 			joker_place.joker.free()
 		joker_place.free()
-	emit_signal("show_shop") 
+	emit_signal("show_progress_bar") 
 	hide()  
 
 func handle_jokers(activation_window: String, card: Card):
