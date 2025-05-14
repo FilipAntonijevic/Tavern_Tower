@@ -20,13 +20,13 @@ func _ready() -> void:
 		i -= 1
 		
 	i = get_parent().enemy_number
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.5).timeout
 	var x_label_name = "Label" + str(i)
 	x_labels.find_child(x_label_name).show()
 	
 	get_parent().enemy_number += 1
 	i = get_parent().enemy_number
-	await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(0.5).timeout
 	var o_label_name = "Label" + str(i)
 	o_labels.find_child(o_label_name).show()
 

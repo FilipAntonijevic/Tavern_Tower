@@ -73,15 +73,15 @@ func unfreeze_cards() -> void:
 func resolve_attacks()-> void:
 
 	for attack in chosen_attacks:
-		if attack  == "chain":
+		if attack == "chain":
 			lock_random_card()
 		if attack == "double_chain":
 			lock_2_random_cards()
 		if attack == "triple_chain":
 			lock_3_random_cards()
 		if attack == "shuffle":
-			#shuffle_a_random_stack()
-			shuffle_all_cards_from_the_table()
+			shuffle_a_random_stack()
+			#shuffle_all_cards_from_the_table()
 		if attack == "freeze":
 			freeze_jokers()
 		if attack == "redeal":
@@ -132,7 +132,7 @@ func ability():
 			lock_3_random_cards()
 		if attack == "shuffle":
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/shuffle_a_stack_debuff.png")
-			shuffle_all_cards_from_the_table()
+			shuffle_a_random_stack()
 		if attack == "freeze":
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/freeze_debuff.png")
 			freeze_jokers()
@@ -140,7 +140,26 @@ func ability():
 			attack_places[i].icon.texture = load("res://sprites/debuff_icons/reroll_debuff.png")
 			increase_the_cost_of_redeal()
 		i += 1
-		
+
+func shuffle_a_random_stack():
+	var valid_stacks := []
+	for stack in get_parent().ui.stacks.get_children():
+		if stack.cards_in_stack.size() > 1:
+			valid_stacks.append(stack)
+	
+	if valid_stacks.size() == 0:
+		return # nema nijedan stack sa više od jedne karte
+	
+	var random_stack = valid_stacks[randi_range(0, valid_stacks.size() - 1)]
+	var cards = random_stack.cards_in_stack
+	for i in range(cards.size() - 1, 0, -1):
+		var j = randi_range(0, i)
+		var temp = cards[i]
+		cards[i] = cards[j]
+		cards[j] = temp
+	
+	random_stack.reposition_cards()
+
 func shuffle_all_cards_from_the_table()-> void:
 	var jokers =  get_parent().jokers
 	var can_shuffle = true
@@ -152,9 +171,7 @@ func shuffle_all_cards_from_the_table()-> void:
 	if can_shuffle:
 		get_parent().redeal_cards()
 
-func shuffle_a_random_stack()-> void:
-	pass
-	
+
 func choose_attacks()-> void:
 	var available_attacks = []
 	chosen_attacks.clear()
@@ -176,16 +193,13 @@ func choose_attacks()-> void:
 
 func remove_upcomming_attacks() -> void:
 	chosen_attacks.clear()
-	attack_place_1.icon.texture = null
-	attack_place_2.icon.texture = null
-	attack_place_3.icon.texture = null
-	attack_place_4.icon.texture = null
-	attack_place_5.icon.texture = null
+	for attack_place in attack_places:
+		attack_place.icon.texture = null
+		attack_place.debuff = ""
 	
 func freeze_jokers():
 	get_parent().freeze_jokers()
 
-				
 func increase_the_cost_of_redeal():
 	get_parent().redeal_cost += 1
 	get_parent().check_if_redeal_cards_button_should_turn_into_give_up_button()
