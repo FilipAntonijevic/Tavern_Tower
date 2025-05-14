@@ -26,18 +26,20 @@ var level = 0
 
 func level_up()-> void:
 	if goal > 25 and goal <= 100 and level == 0:
-		level += 1
+		level = 1 #level 1
+		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal >= 125 and goal <= 200 and level == 1:
-		level += 1 # level 2
+		print('Desilose')
+		level = 2 # level 2
 		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal > 225 and goal <= 300 and level == 2:
-		level += 1 # level 3
+		level = 3 # level 3
 		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal > 325 and goal <= 400 and level == 3:
-		level += 1 # level 4
+		level = 4 # level 4
 		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal > 425 and goal <= 500 and level == 4:
-		level += 1 # level 5
+		level = 5 # level 5
 		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	
 	

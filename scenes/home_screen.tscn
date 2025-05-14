@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dwcdvyi73goev"]
+[gd_scene load_steps=10 format=3 uid="uid://dwcdvyi73goev"]
 
 [ext_resource type="Script" path="res://scripts/home_screen.gd" id="1_78h3v"]
 [ext_resource type="PackedScene" uid="uid://8kt4knn54gs0" path="res://scenes/legacy_mode.tscn" id="2_6ylac"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://t634nhy8jwgx" path="res://scenes/main.tscn" id="2_xt1m3"]
 [ext_resource type="Texture2D" uid="uid://buiuekqjhbqdr" path="res://sprites/main_menu.png" id="3_snqa8"]
 [ext_resource type="Texture2D" uid="uid://ddmt5t02xcnht" path="res://sprites/main_menu_legacy_button_bigger.png" id="4_reupq"]
+[ext_resource type="PackedScene" uid="uid://dpyw8mdapligj" path="res://scenes/options_screen.tscn" id="5_c0edd"]
 [ext_resource type="Texture2D" uid="uid://bl3a346sd6y61" path="res://sprites/main_menu_play_button_bigger.png" id="5_rury6"]
 [ext_resource type="Texture2D" uid="uid://clnvlhh77liw0" path="res://sprites/main_menu_exit_button_bigger.png" id="7_mu6ix"]
 
@@ -29,6 +30,7 @@ focus_mode = 0
 flat = true
 
 [node name="Options" type="Button" parent="."]
+z_index = 1001
 offset_left = 603.0
 offset_right = 640.0
 offset_bottom = 37.0
@@ -49,6 +51,10 @@ visible = false
 
 [node name="Main" parent="." instance=ExtResource("2_xt1m3")]
 visible = false
+
+[node name="OptionsScreen" parent="." instance=ExtResource("5_c0edd")]
+visible = false
+z_index = 1000
 
 [node name="MainMenu" type="Sprite2D" parent="."]
 z_index = -100
@@ -82,6 +88,7 @@ texture = ExtResource("7_mu6ix")
 [connection signal="mouse_entered" from="Options" to="." method="_on_options_mouse_entered"]
 [connection signal="mouse_exited" from="Options" to="." method="_on_options_mouse_exited"]
 [connection signal="pressed" from="Options" to="." method="_on_options_pressed"]
+[connection signal="toggled" from="Options" to="." method="_on_options_toggled"]
 [connection signal="mouse_entered" from="Exit_button" to="." method="_on_exit_button_mouse_entered"]
 [connection signal="mouse_exited" from="Exit_button" to="." method="_on_exit_button_mouse_exited"]
 [connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]

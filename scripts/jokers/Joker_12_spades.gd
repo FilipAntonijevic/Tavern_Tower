@@ -7,7 +7,7 @@ var activation_window: String = 'on_card_played'
 
 func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 	if activation_window == _activation_window:
-		if _card.card_suit == 'spades':
+		if _card.card_suit == 'spades' and _card.card_value < 12:
 			highlight()
 			ui.get_parent().enemy.set_visual_aid_label('x2')
 			await wait(0.3)

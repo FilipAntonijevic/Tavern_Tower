@@ -172,8 +172,8 @@ func reset_board() -> void:
 
 
 func _on_give_up_pressed() -> void:
+	get_parent().get_parent().in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
-
 
 
 func _on_give_up_mouse_entered() -> void:

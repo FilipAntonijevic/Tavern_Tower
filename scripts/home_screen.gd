@@ -11,25 +11,22 @@ class_name Home_screen extends Node2D
 @onready var main_menu_play_button_bigger = $MainMenuPlayButtonBigger
 @onready var main_menu_legacy_button_bigger = $MainMenuLegacyButtonBigger
 @onready var exit_button_bigger = $MainMenuExitButtonBigger
+@onready var options_screen = $OptionsScreen
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
+var toggled_on = true
+var in_home_screen_currently = true
 
 func _on_play_pressed() -> void:
+	in_home_screen_currently = false
 	main.show()
+	main.reset()
 	play_button.hide()
 	legacy_button.hide()
 	exit_button.hide()
 
 
 func _on_legacy_mode_pressed() -> void:
+	in_home_screen_currently = false
 	legacy_mode.show()
 	play_button.hide()
 	legacy_button.hide()
@@ -38,11 +35,20 @@ func _on_legacy_mode_pressed() -> void:
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
 
-
+func _input(event):
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		_on_options_pressed()
+		
 func _on_options_pressed() -> void:
-	pass # Replace with function body.
-
-
+	if toggled_on:
+		options_screen.show()
+		if in_home_screen_currently:
+			options_screen.back_to_main_menu.hide()
+		toggled_on = false
+	else:
+		options_screen.hide()
+		options_screen.back_to_main_menu.show()
+		toggled_on = true
 
 func _on_play_mouse_entered() -> void:
 	main_menu.hide()

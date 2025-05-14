@@ -4,7 +4,7 @@ var original_deck: Deck = Deck.new()
 
 var current_scene: Node = null 
 
-var total_gold: int = 0
+var total_gold: int = 1000
 var enemy_gold: int = 5
 var enemy_goal: int = 25
 var enemy_number: int = 1
@@ -13,6 +13,13 @@ var new_scene = null
 
 @onready var jokers = $Jokers
 
+func reset() -> void:
+	var parent = get_parent()
+	var new_instance = load("res://scenes/main.tscn").instantiate()
+	new_instance.position = position
+	parent.add_child(new_instance)
+	queue_free() 
+	
 func _ready():
 	Engine.max_fps = 60
 	var cursor_texture = load("res://sprites/cursor.png")

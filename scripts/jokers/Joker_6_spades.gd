@@ -1,6 +1,6 @@
 class_name Joker_6_spades extends Node2D
 
-var joker_effect = "When played, if every other pile is <6 add 20 to the score."
+var joker_effect = "When played, if every other pile is less than 6 add 20 to the score."
 var joker_price: int = 3
 
 var activation_window = 'on_this_card_played'
