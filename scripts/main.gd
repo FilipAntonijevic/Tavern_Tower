@@ -8,6 +8,7 @@ var total_gold: int = 1000
 var enemy_gold: int = 5
 var enemy_goal: int = 25
 var enemy_number: int = 1
+var enemy_level: int = 0
 
 var new_scene = null
 
