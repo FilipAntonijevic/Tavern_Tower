@@ -1,5 +1,6 @@
 class_name Progress_screen extends Node2D
 
+@onready var next_button = $next
 @onready var progress_screen = $ProgressScreen
 @onready var progress_screen_next_button = $ProgressScreenNextButtonBigger
 
@@ -29,7 +30,8 @@ func _ready() -> void:
 	await get_tree().create_timer(0.5).timeout
 	var o_label_name = "Label" + str(i)
 	o_labels.find_child(o_label_name).show()
-
+	
+	next_button.show()
 func _on_button_pressed() -> void:
 	emit_signal("go_to_shop")
 

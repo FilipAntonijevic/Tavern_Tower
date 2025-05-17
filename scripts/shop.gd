@@ -189,6 +189,11 @@ func _ready() -> void:
 	chosen_gems[1].global_position = gem_2_position.global_position
 	chosen_gems[2].global_position = gem_3_position.global_position
 	
+	for gem_button in chosen_gems:
+		var icon = gem_button.get_node("Icon") if gem_button.has_node("Icon") else null
+		if icon and icon.material and icon.material is ShaderMaterial:
+			icon.material.set_shader_param("shine_pos", 0.5)
+			
 	excavation_cost = 1
 	excavation_cost_label.set_text("- " + str(excavation_cost) + " gold")
 		
@@ -465,99 +470,146 @@ func move_jokers_to_the_right(starting_joker_int: int) -> bool:
 	return true
 
 func _on_medium_emerald_mouse_entered() -> void:
-	medium_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("medium_emerald/TextureRect").z_index = -1
+	get_node("medium_emerald").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("When played, this card plays again with 0 base value.")
 	sell_joker_label.set_text("Click to buy for 2 gold.")
+
 func _on_medium_emerald_mouse_exited() -> void:
-	medium_emerald.set_modulate(Color(1, 1, 1, 1))
+	get_node("medium_emerald/TextureRect").z_index = 1
+	get_node("medium_emerald").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_medium_sapphire_mouse_entered() -> void:
-	medium_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("medium_sapphire/TextureRect").z_index = -1
+	get_node("medium_sapphire").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This card can be placed on any card with same suit.")
 	sell_joker_label.set_text("Click to buy for 2 gold.")
+
 func _on_medium_sapphire_mouse_exited() -> void:
-	medium_sapphire.set_modulate(Color(1, 1, 1, 1))
+	get_node("medium_sapphire/TextureRect").z_index = 1
+	get_node("medium_sapphire").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_medium_ruby_mouse_entered() -> void:
-	medium_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("medium_ruby/TextureRect").z_index = -1
+	get_node("medium_ruby").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This cards base value +10.")
 	sell_joker_label.set_text("Click to buy for 2 gold.")
+
 func _on_medium_ruby_mouse_exited() -> void:
-	medium_ruby.set_modulate(Color(1, 1, 1, 1))
+	get_node("medium_ruby/TextureRect").z_index = 1
+	get_node("medium_ruby").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_medium_topaz_mouse_entered() -> void:
-	medium_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("medium_topaz/TextureRect").z_index = -1
+	get_node("medium_topaz").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This card can't be locked, when played stun opponent.")
 	sell_joker_label.set_text("Click to buy for 2 gold.")
+
 func _on_medium_topaz_mouse_exited() -> void:
-	medium_topaz.set_modulate(Color(1, 1, 1, 1))
+	get_node("medium_topaz/TextureRect").z_index = 1
+	get_node("medium_topaz").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_small_emerald_mouse_entered() -> void:
-	small_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("small_emerald/TextureRect").z_index = -1
+	get_node("small_emerald").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("When played, this card plays again with 0 base value.")
 	sell_joker_label.set_text("Click to buy for 1 gold.")
+
 func _on_small_emerald_mouse_exited() -> void:
-	small_emerald.set_modulate(Color(1, 1, 1, 1))
+	get_node("small_emerald/TextureRect").z_index = 1
+	get_node("small_emerald").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_small_topaz_mouse_entered() -> void:
-	small_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("small_topaz/TextureRect").z_index = -1
+	get_node("small_topaz").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This card can't be locked, when played stun opponent.")
 	sell_joker_label.set_text("Click to buy for 1 gold.")
+
 func _on_small_topaz_mouse_exited() -> void:
-	small_topaz.set_modulate(Color(1, 1, 1, 1))
+	get_node("small_topaz/TextureRect").z_index = 1
+	get_node("small_topaz").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_small_sapphire_mouse_entered() -> void:
-	small_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("small_sapphire/TextureRect").z_index = -1
+	get_node("small_sapphire").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This card can be placed on any card with same suit.")
 	sell_joker_label.set_text("Click to buy for 1 gold.")
+
 func _on_small_sapphire_mouse_exited() -> void:
-	small_sapphire.set_modulate(Color(1, 1, 1, 1))
+	get_node("small_sapphire/TextureRect").z_index = 1
+	get_node("small_sapphire").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_small_ruby_mouse_entered() -> void:
-	small_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("small_ruby/TextureRect").z_index = -1
+	get_node("small_ruby").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This cards base value +10.")
 	sell_joker_label.set_text("Click to buy for 1 gold.")
+
 func _on_small_ruby_mouse_exited() -> void:
-	small_ruby.set_modulate(Color(1, 1, 1, 1))
+	get_node("small_ruby/TextureRect").z_index = 1
+	get_node("small_ruby").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_big_emerald_mouse_entered() -> void:
-	big_emerald.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("big_emerald/TextureRect").z_index = -1
+	get_node("big_emerald").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("When played, this card plays again with 0 base value.")
 	sell_joker_label.set_text("Click to buy for 5 gold.")
+
 func _on_big_emerald_mouse_exited() -> void:
-	big_emerald.set_modulate(Color(1, 1, 1, 1))
+	get_node("big_emerald/TextureRect").z_index = 1
+	get_node("big_emerald").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_big_topaz_mouse_entered() -> void:
-	big_topaz.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("big_topaz/TextureRect").z_index = -1
+	get_node("big_topaz").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This card can't be locked, when played stun opponent.")
 	sell_joker_label.set_text("Click to buy for 5 gold.")
+
 func _on_big_topaz_mouse_exited() -> void:
-	big_topaz.set_modulate(Color(1, 1, 1, 1))
+	get_node("big_topaz/TextureRect").z_index = 1
+	get_node("big_topaz").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_big_sapphire_mouse_entered() -> void:
-	big_sapphire.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("big_sapphire/TextureRect").z_index = -1
+	get_node("big_sapphire").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This card can be placed on any card with same suit.")
 	sell_joker_label.set_text("Click to buy for 5 gold.")
+
 func _on_big_sapphire_mouse_exited() -> void:
-	big_sapphire.set_modulate(Color(1, 1, 1, 1))
+	get_node("big_sapphire/TextureRect").z_index = 1
+	get_node("big_sapphire").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
+
 func _on_big_ruby_mouse_entered() -> void:
-	big_ruby.set_modulate(Color(1.3, 1.3, 1.3, 1))
+	get_node("big_ruby/TextureRect").z_index = -1
+	get_node("big_ruby").set_modulate(Color(1.3, 1.3, 1.3, 1))
 	joker_effect_label.set_text("This cards base value +10.")
 	sell_joker_label.set_text("Click to buy for 5 gold.")
+
 func _on_big_ruby_mouse_exited() -> void:
-	big_ruby.set_modulate(Color(1, 1, 1, 1))
+	get_node("big_ruby/TextureRect").z_index = 1
+	get_node("big_ruby").set_modulate(Color(1, 1, 1, 1))
 	joker_effect_label.set_text("")
 	sell_joker_label.set_text("")
 

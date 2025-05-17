@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c4hmmp4ctgahq"]
+
+[ext_resource type="Shader" path="res://gem.gdshader" id="1_3xub4"]
+
+[resource]
+shader = ExtResource("1_3xub4")
+shader_parameter/shine_width = 0.2
+shader_parameter/shine_color = Color(0.909, 0.766, 0.588, 0)
