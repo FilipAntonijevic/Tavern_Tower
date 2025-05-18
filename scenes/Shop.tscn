@@ -197,7 +197,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="medium_emerald"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -209,6 +208,7 @@ offset_left = 11.425
 offset_top = 1.075
 offset_right = 48.425
 offset_bottom = 38.075
+mouse_filter = 2
 texture = ExtResource("8_dxron")
 
 [node name="medium_sapphire" type="Button" parent="."]
@@ -223,7 +223,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="medium_sapphire"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -235,6 +234,7 @@ offset_left = 11.425
 offset_top = 1.075
 offset_right = 48.425
 offset_bottom = 38.075
+mouse_filter = 2
 texture = ExtResource("9_4puuw")
 
 [node name="medium_ruby" type="Button" parent="."]
@@ -249,7 +249,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="medium_ruby"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -261,6 +260,7 @@ offset_left = 11.425
 offset_top = 1.075
 offset_right = 48.425
 offset_bottom = 38.075
+mouse_filter = 2
 texture = ExtResource("10_c3spl")
 
 [node name="medium_topaz" type="Button" parent="."]
@@ -275,7 +275,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="medium_topaz"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -287,6 +286,7 @@ offset_left = 11.425
 offset_top = 1.075
 offset_right = 48.425
 offset_bottom = 38.075
+mouse_filter = 2
 texture = ExtResource("11_48bmd")
 
 [node name="small_emerald" type="Button" parent="."]
@@ -301,7 +301,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="small_emerald"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -313,6 +312,7 @@ offset_left = 11.425
 offset_top = 1.075
 offset_right = 33.425
 offset_bottom = 38.075
+mouse_filter = 2
 texture = ExtResource("12_ad6ns")
 
 [node name="small_topaz" type="Button" parent="."]
@@ -327,7 +327,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="small_topaz"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -339,6 +338,7 @@ offset_left = 11.425
 offset_top = 1.075
 offset_right = 33.425
 offset_bottom = 38.075
+mouse_filter = 2
 texture = ExtResource("13_hddye")
 
 [node name="small_sapphire" type="Button" parent="."]
@@ -353,7 +353,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="small_sapphire"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -365,6 +364,7 @@ offset_left = 11.425
 offset_top = 1.075
 offset_right = 33.425
 offset_bottom = 38.075
+mouse_filter = 2
 texture = ExtResource("14_21ujr")
 
 [node name="small_ruby" type="Button" parent="."]
@@ -379,7 +379,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="small_ruby"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -391,16 +390,10 @@ offset_left = 11.425
 offset_top = 1.075
 offset_right = 33.425
 offset_bottom = 38.075
+mouse_filter = 2
 texture = ExtResource("15_syspo")
 
-[node name="big_emerald_node" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="big_emerald" type="Button" parent="big_emerald_node"]
-layout_mode = 0
+[node name="big_emerald" type="Button" parent="."]
 offset_left = 227.0
 offset_top = 572.0
 offset_right = 277.0
@@ -411,8 +404,7 @@ icon = ExtResource("16_ef1h7")
 flat = true
 expand_icon = true
 
-[node name="TextureRect" type="TextureRect" parent="big_emerald_node/big_emerald"]
-z_index = 1
+[node name="TextureRect" type="TextureRect" parent="big_emerald"]
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -424,6 +416,7 @@ offset_left = 12.25
 offset_top = 0.75
 offset_right = 54.25
 offset_bottom = 42.75
+mouse_filter = 2
 texture = ExtResource("16_ef1h7")
 
 [node name="big_topaz" type="Button" parent="."]
@@ -438,7 +431,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="big_topaz"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -450,6 +442,7 @@ offset_left = 12.25
 offset_top = 0.75
 offset_right = 54.25
 offset_bottom = 42.75
+mouse_filter = 2
 texture = ExtResource("17_shnmk")
 
 [node name="big_sapphire" type="Button" parent="."]
@@ -464,7 +457,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="big_sapphire"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -476,6 +468,7 @@ offset_left = 12.25
 offset_top = 0.75
 offset_right = 54.25
 offset_bottom = 42.75
+mouse_filter = 2
 texture = ExtResource("18_x0cxq")
 
 [node name="big_ruby" type="Button" parent="."]
@@ -490,7 +483,6 @@ flat = true
 expand_icon = true
 
 [node name="TextureRect" type="TextureRect" parent="big_ruby"]
-z_index = 1
 material = ExtResource("21_w37h5")
 layout_mode = 1
 anchors_preset = -1
@@ -502,6 +494,7 @@ offset_left = 12.25
 offset_top = 0.75
 offset_right = 54.25
 offset_bottom = 42.75
+mouse_filter = 2
 texture = ExtResource("19_tqa2l")
 
 [node name="deck_position" type="Node2D" parent="."]
@@ -514,6 +507,8 @@ texture = ExtResource("21_w8skj")
 [node name="card_back" type="Sprite2D" parent="deck_position"]
 visible = false
 texture = ExtResource("25_xdqsk")
+
+[node name="soundfx_player" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="mouse_entered" from="excavate" to="." method="_on_excavate_mouse_entered"]
 [connection signal="mouse_exited" from="excavate" to="." method="_on_excavate_mouse_exited"]
@@ -545,9 +540,9 @@ texture = ExtResource("25_xdqsk")
 [connection signal="mouse_entered" from="small_ruby" to="." method="_on_small_ruby_mouse_entered"]
 [connection signal="mouse_exited" from="small_ruby" to="." method="_on_small_ruby_mouse_exited"]
 [connection signal="pressed" from="small_ruby" to="." method="_on_small_ruby_pressed"]
-[connection signal="mouse_entered" from="big_emerald_node/big_emerald" to="." method="_on_big_emerald_mouse_entered"]
-[connection signal="mouse_exited" from="big_emerald_node/big_emerald" to="." method="_on_big_emerald_mouse_exited"]
-[connection signal="pressed" from="big_emerald_node/big_emerald" to="." method="_on_big_emerald_pressed"]
+[connection signal="mouse_entered" from="big_emerald" to="." method="_on_big_emerald_mouse_entered"]
+[connection signal="mouse_exited" from="big_emerald" to="." method="_on_big_emerald_mouse_exited"]
+[connection signal="pressed" from="big_emerald" to="." method="_on_big_emerald_pressed"]
 [connection signal="mouse_entered" from="big_topaz" to="." method="_on_big_topaz_mouse_entered"]
 [connection signal="mouse_exited" from="big_topaz" to="." method="_on_big_topaz_mouse_exited"]
 [connection signal="pressed" from="big_topaz" to="." method="_on_big_topaz_pressed"]

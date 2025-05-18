@@ -7,6 +7,7 @@ var redeal_cost: int = 0
 var jokers_are_frozen: bool = false
 var jokers_are_frozen_turn_counter = 0
 
+@onready var soundfx_player = $soundfx_player
 @onready var game_control: GameController = $GameController
 
 @onready var enemy: Enemy = $enemy
@@ -106,6 +107,8 @@ func set_jokers(jokers_parent: Node) -> void:
 	
 		
 func _on_redeal_cards_pressed() -> void:
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
+	play_this_sound_effect("res://sound/effects/shuffle_sound.mp3")
 	redeal_cards_button.hide()
 	await update_coins(enemy_gold - redeal_cost)
 	await redeal_cards()
@@ -137,14 +140,10 @@ func end_turn() -> void:
 		game_control.transition(GameController.GameState.ENEMY_TURN)
 
 func _on_go_to_shop_pressed() -> void:
-	for joker_place in jokers.get_children():
-		if joker_place.joker != null:
-			#joker_place.remove_child(joker_place.joker)
-			joker_place.joker.card_sprite.texture = null
-			joker_place.joker.free()
-		joker_place.free()
-	emit_signal("show_progress_bar") 
-	hide()  
+	get_parent().total_gold += enemy_gold
+	get_parent().increase_enemy_strength()
+	emit_signal("show_progress_bar")
+	hide()
 
 func handle_jokers(activation_window: String, card: Card):
 	if !jokers_are_frozen:
@@ -172,6 +171,7 @@ func reset_board() -> void:
 
 
 func _on_give_up_pressed() -> void:
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	get_parent().get_parent().in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
 
@@ -191,3 +191,13 @@ func _on_redeal_cards_mouse_entered() -> void:
 func _on_redeal_cards_mouse_exited() -> void:
 	desk.show()
 	desk_redeal_cards_button_bigger.hide()
+
+func play_this_sound_effect(path: String) -> void:
+	if path.is_empty():
+		return
+	var audio_stream = load(path)
+	if audio_stream is AudioStream:
+		soundfx_player.stream = audio_stream
+		soundfx_player.play()
+	else:
+		push_warning("Invalid audio stream at path: " + path)

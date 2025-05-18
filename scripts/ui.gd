@@ -2,6 +2,7 @@ class_name Ui extends Node2D
 
 @onready var card_scene: PackedScene = preload("res://scenes/card.tscn")
 @onready var card_piles: Card_piles = $CardPiles
+@onready var soundfx_player = $soundfx_player
 
 @onready var stacks = $Stacks
 
@@ -134,6 +135,7 @@ func assign_new_position_to_previously_dragged_card():
 			origin_stack.reposition_cards()
 
 func place_card_to_a_pile():
+	play_random_card_flip_effect()
 	stacks.move_card_to_according_pile(original_deck, origin_stack, current_selected_card_for_movement)
 	calculate_and_add_to_score(current_selected_card_for_movement)
 	await get_parent().handle_jokers('on_card_played', current_selected_card_for_movement)
@@ -145,6 +147,7 @@ func place_card_to_according_pile_legacy() -> void:
 	if stacks.current_selected_stack and stacks.current_selected_stack.current_selected_card_index != -1:
 		var card = stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]
 		if is_dragging == false && stacks.current_selected_stack != null && card.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(card):
+			play_random_card_flip_effect()
 			stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
 			stacks.current_selected_stack.current_selected_card_index = -1
 			origin_stack = stacks.current_selected_stack
@@ -153,6 +156,7 @@ func place_card_to_according_pile():
 	if stacks.current_selected_stack and stacks.current_selected_stack.current_selected_card_index != -1:
 		var card = stacks.current_selected_stack.cards_in_stack[stacks.current_selected_stack.current_selected_card_index]
 		if is_dragging == false && stacks.current_selected_stack != null && card.locked == false && stacks.current_selected_stack.current_selected_card_index >= 0 && stacks.current_selected_stack.check_if_card_is_on_top_of_the_stack(stacks.current_selected_stack.current_selected_card_index) && check_if_card_can_be_placed_on_pile(card):
+			play_random_card_flip_effect()
 			calculate_and_add_to_score(card)
 			stacks.current_selected_stack.remove_card_from_deck_and_table(original_deck, stacks.current_selected_stack.current_selected_card_index)
 			stacks.current_selected_stack.current_selected_card_index = -1
@@ -183,6 +187,7 @@ func place_joker_on_according_pile(joker: Joker) -> void:
 		get_parent().end_turn()
 
 func place_card_on_according_pile(card: Card):
+		play_random_card_flip_effect()
 		if card.emerald:
 			await get_parent().handle_jokers('on_card_played', card)
 		if card.topaz == true:
@@ -227,7 +232,6 @@ func add_to_score(value: int):
 	enemy.set_score_value(enemy.score + value)
 
 func check_if_card_can_be_placed_on_pile(card: Card) -> bool:
-		
 	if card.card_suit == "spades" && (card_piles.current_card_value_on_spades_pile + 1) == card.card_value:
 		return true
 	if card.card_suit == "diamonds" && (card_piles.current_card_value_on_diamonds_pile + 1) == card.card_value:
@@ -317,4 +321,21 @@ func shuffle_deck(deck: Deck) -> Deck:
 	
 func clear_stacks():
 	stacks.clear_stacks()
+
+func play_random_card_flip_effect() -> void:
+	var sounds = [
+		"res://sound/effects/card_drawn_1.mp3",
+		"res://sound/effects/card_drawn_2.mp3",
+		"res://sound/effects/card_drawn_3.mp3"
+	]
+	play_this_sound_effect(sounds[randi() % sounds.size()])
 	
+func play_this_sound_effect(path: String) -> void:
+	if path.is_empty():
+		return
+	var audio_stream = load(path)
+	if audio_stream is AudioStream:
+		soundfx_player.stream = audio_stream
+		soundfx_player.play()
+	else:
+		push_warning("Invalid audio stream at path: " + path)

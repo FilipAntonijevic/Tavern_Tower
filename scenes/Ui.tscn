@@ -10,3 +10,5 @@ script = ExtResource("1_hox12")
 [node name="Stacks" parent="." instance=ExtResource("3_h5got")]
 
 [node name="CardPiles" parent="." instance=ExtResource("4_o485j")]
+
+[node name="soundfx_player" type="AudioStreamPlayer2D" parent="."]

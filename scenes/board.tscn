@@ -286,6 +286,8 @@ visible = false
 position = Vector2(320, 180)
 texture = ExtResource("18_mgewy")
 
+[node name="soundfx_player" type="AudioStreamPlayer2D" parent="."]
+
 [connection signal="mouse_entered" from="redeal_cards" to="." method="_on_redeal_cards_mouse_entered"]
 [connection signal="mouse_exited" from="redeal_cards" to="." method="_on_redeal_cards_mouse_exited"]
 [connection signal="pressed" from="redeal_cards" to="." method="_on_redeal_cards_pressed"]

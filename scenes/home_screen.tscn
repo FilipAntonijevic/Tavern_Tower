@@ -79,6 +79,10 @@ z_index = -100
 position = Vector2(320, 180)
 texture = ExtResource("7_mu6ix")
 
+[node name="music_player" type="AudioStreamPlayer2D" parent="."]
+
+[node name="soundfx_player" type="AudioStreamPlayer2D" parent="."]
+
 [connection signal="mouse_entered" from="Play" to="." method="_on_play_mouse_entered"]
 [connection signal="mouse_exited" from="Play" to="." method="_on_play_mouse_exited"]
 [connection signal="pressed" from="Play" to="." method="_on_play_pressed"]

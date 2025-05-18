@@ -37,7 +37,7 @@ func _process(delta: float) -> void:
 
 
 func highlight():
-	card_sprite.set_modulate(Color(0.1,1,0.7,1))
+	card_sprite.set_modulate(Color(0.7,0.7,0.7,1))
 
 func unhighlight():
 	card_sprite.set_modulate(Color(1,1,1,1))
@@ -52,6 +52,12 @@ func _on_area_2d_mouse_entered() -> void:
 		position.y += 2
 
 func _on_area_2d_mouse_exited() -> void:
+	if is_dragging:
+		is_dragging = false
+		this_area_is_entered = false
+		await get_parent().get_parent().get_parent().assign_new_position_to_previously_dragged_joker(self)
+		_on_area_2d_mouse_entered()
+		get_parent().get_parent().get_parent().current_selected_joker_for_movement = null
 	if this_area_is_entered == true:
 		this_area_is_entered = false
 		mouse_is_inside_this_joker = false
@@ -71,7 +77,7 @@ func _unhandled_input(event):
 			elif is_dragging == true: #drop this joker
 				is_dragging = false
 				this_area_is_entered = false
-				get_parent().get_parent().get_parent().assign_new_position_to_previously_dragged_joker(self)
+				await get_parent().get_parent().get_parent().assign_new_position_to_previously_dragged_joker(self)
 				_on_area_2d_mouse_entered()
 				get_parent().get_parent().get_parent().current_selected_joker_for_movement = null
 		#dragging this joker

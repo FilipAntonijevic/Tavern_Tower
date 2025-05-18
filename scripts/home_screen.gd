@@ -13,10 +13,14 @@ class_name Home_screen extends Node2D
 @onready var exit_button_bigger = $MainMenuExitButtonBigger
 @onready var options_screen = $OptionsScreen
 
+@onready var music_player = $music_player
+@onready var soundfx_player = $soundfx_player
+
 var toggled_on = true
 var in_home_screen_currently = true
 
 func _on_play_pressed() -> void:
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	in_home_screen_currently = false
 	main.show()
 	main.reset()
@@ -24,8 +28,8 @@ func _on_play_pressed() -> void:
 	legacy_button.hide()
 	exit_button.hide()
 
-
 func _on_legacy_mode_pressed() -> void:
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	in_home_screen_currently = false
 	legacy_mode.show()
 	play_button.hide()
@@ -33,6 +37,7 @@ func _on_legacy_mode_pressed() -> void:
 	exit_button.hide()
 	
 func _on_exit_button_pressed() -> void:
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	get_tree().quit()
 
 func _input(event):
@@ -78,3 +83,13 @@ func _on_options_mouse_entered() -> void:
 	
 func _on_options_mouse_exited() -> void:
 	options_button.rotation = deg_to_rad(0)
+
+func play_this_sound_effect(path: String) -> void:
+	if path.is_empty():
+		return
+	var audio_stream = load(path)
+	if audio_stream is AudioStream:
+		soundfx_player.stream = audio_stream
+		soundfx_player.play()
+	else:
+		push_warning("Invalid audio stream at path: " + path)
