@@ -112,6 +112,8 @@ label_settings = SubResource("LabelSettings_xi4x6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="soundfx_player" type="AudioStreamPlayer2D" parent="."]
+
 [connection signal="mouse_entered" from="Options_button" to="." method="_on_options_button_mouse_entered"]
 [connection signal="mouse_exited" from="Options_button" to="." method="_on_options_button_mouse_exited"]
 [connection signal="pressed" from="Options_button" to="." method="_on_options_button_pressed"]

@@ -47,7 +47,6 @@ func _process(delta: float) -> void:
 	pass
 
 func _input(event):
-
 	if get_parent().game_mode == "Legacy_mode":
 		if event.is_action_pressed("right_mouse_click"):
 			place_card_to_according_pile_legacy()
@@ -82,7 +81,7 @@ func _input(event):
 				origin_stack.reposition_cards()
 				current_selected_card_for_movement = null
 		elif event is InputEventMouseMotion and is_dragging == true and current_selected_card_for_movement != null:
-			var cursor_texture = load("res://sprites/cursor_dragging.png")
+			var cursor_texture = load("res://sprites/cursor.png")
 			Input.set_custom_mouse_cursor(cursor_texture)
 			current_selected_card_for_movement.global_position = get_global_mouse_position()
 

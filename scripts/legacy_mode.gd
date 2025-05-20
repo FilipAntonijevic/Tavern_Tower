@@ -4,6 +4,8 @@ class_name Legacy_mode extends Node2D
 var legacy_deck: Deck = Deck.new()
 var redeals_left: int = 2
 
+@onready var soundfx_player = $soundfx_player
+
 @onready var game_control: GameController = $GameController
 @onready var redeal_cards_button = $redeal_cards
 @onready var redeals_left_label = $redeals_left
@@ -34,6 +36,7 @@ func check_if_redeal_cards_button_should_turn_into_give_up_button() -> void:
 		desk.hide()
 	
 func _on_redeal_cards_pressed() -> void:
+	play_this_sound_effect("res://sound/effects/shuffle_sound.mp3")
 	redeal_cards_button.hide()
 	redeals_left -= 1
 	redeals_left_label.set_text(str(redeals_left))
@@ -54,6 +57,7 @@ func redeal_cards() -> void:
 	redeal_cards_button.show()
 
 func _on_give_up_pressed() -> void:
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	get_parent().in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
 
@@ -71,3 +75,13 @@ func _on_give_up_mouse_entered() -> void:
 func _on_give_up_mouse_exited() -> void:
 	desk_surrender_button.show()
 	desk_surrender_button_bigger.hide()
+
+func play_this_sound_effect(path: String) -> void:
+	if path.is_empty():
+		return
+	var audio_stream = load(path)
+	if audio_stream is AudioStream:
+		soundfx_player.stream = audio_stream
+		soundfx_player.play()
+	else:
+		push_warning("Invalid audio stream at path: " + path)

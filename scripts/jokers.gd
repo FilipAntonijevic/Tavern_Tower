@@ -12,10 +12,6 @@ func _ready() -> void:
 	jokers_positions= [joker_place_1.position, joker_place_2.position, joker_place_3.position, joker_place_4.position, joker_place_5.position]
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-	
 func show_popup_window()-> void:
 	if get_parent().name == "board":
 		var i = 0

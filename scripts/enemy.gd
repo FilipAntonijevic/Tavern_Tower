@@ -32,7 +32,7 @@ func level_up()-> void:
 		get_parent().get_parent().enemy_level = 2 # level 2
 		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal > 225 and goal <= 300 and get_parent().get_parent().enemy_level == 2:
-		get_parent().get_parent().enemy_levell = 3 # level 3
+		get_parent().get_parent().enemy_level = 3 # level 3
 		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
 	if goal > 325 and goal <= 400 and get_parent().get_parent().enemy_level == 3:
 		get_parent().get_parent().enemy_level = 4 # level 4
@@ -55,13 +55,26 @@ func set_visual_aid_label(aid: String):
 	visual_aid_label.set_text(str(aid))
 
 func reduce_goal_by_score_ammount():
+	if score > 0:
+		progress += score
+		score = 0
+		update_progress_value()
+		set_score_value(score)
+		
 	await get_tree().create_timer(0.5).timeout
-	while score != 0:
+	var initial_score := score
+	if initial_score == 0:
+		return
+	
+	var duration := 1.5 
+	var wait_time := duration / initial_score
+	
+	while score > 0:
 		score -= 1
 		progress += 1
 		update_progress_value()
 		set_score_value(score)
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(wait_time).timeout
 
 func update_progress_value():
 	progress_label.set_text(str(progress))

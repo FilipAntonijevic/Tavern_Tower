@@ -115,16 +115,21 @@ func _on_buy_button_pressed() -> void:
 	var total_gold = get_parent().get_parent().get_parent().total_gold
 	var cost = int(gold_cost_label.get_text())
 	if cost <= total_gold:
-		mouse_is_inside_the_card = false
-		get_parent().get_parent().get_parent().total_gold -= cost
-		emit_signal("joker_bought", card)
-		remove_child(card)
-		buy_button.position.y -= 21
-		buy_button.hide()
-		gold_cost_label.hide()
-		get_parent().get_parent().joker_effect_label.set_text('')
-		get_parent().get_parent().gold_ammount_label.set_text(str(get_parent().get_parent().get_parent().total_gold))
-		_on_area_2d_mouse_exited()
+		var number_of_jokers = 0
+		for joker_place in get_parent().get_parent().jokers.get_children():
+			if joker_place.joker != null: 
+				number_of_jokers += 1
+		if number_of_jokers < 5:
+			mouse_is_inside_the_card = false
+			get_parent().get_parent().get_parent().total_gold -= cost
+			emit_signal("joker_bought", card)
+			remove_child(card)
+			buy_button.position.y -= 21
+			buy_button.hide()
+			gold_cost_label.hide()
+			get_parent().get_parent().joker_effect_label.set_text('')
+			get_parent().get_parent().gold_ammount_label.set_text(str(get_parent().get_parent().get_parent().total_gold))
+			_on_area_2d_mouse_exited()
 
 
 func _on_buy_button_mouse_entered() -> void:

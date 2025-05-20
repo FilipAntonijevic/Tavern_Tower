@@ -51,6 +51,7 @@ var current_selected_joker_for_movement = null
 var is_dragging_a_joker: bool = false
 
 var excavation_cost: int = 1
+
 signal show_board
 
 var main: Main 
@@ -208,7 +209,7 @@ func _ready() -> void:
 
 
 func _on_button_pressed() -> void:
-	play_this_sound_effect("res://sound/effects/button_click.mp3")
+	await play_this_sound_effect("res://sound/effects/button_click.mp3")
 	get_parent().set_jokers(jokers)
 	for joker_place in jokers.get_children():
 		if joker_place.joker != null:
@@ -242,13 +243,14 @@ func _on_exacuviate_pressed() -> void:
 	if excavation_cost <= get_parent().total_gold and drawn_cards.size() < 8:
 		play_this_sound_effect("res://sound/effects/button_click.mp3")
 		get_parent().total_gold -= excavation_cost
-		excavation_cost *= 2
+		excavation_cost += 1
 		excavation_cost_label.set_text("- " + str(excavation_cost) + " gold")
 		gold_ammount_label.set_text(str(get_parent().total_gold))
 		await excavate_card()
 
 func _on_joker_bought(card: Card) -> void:
 	#get_parent().add_joker(card)
+	play_this_sound_effect("res://sound/effects/card_bought.mp3")
 	add_joker(card)
 	original_deck.remove_card_by_value_and_suit(card)
 	drawn_cards.erase(card)

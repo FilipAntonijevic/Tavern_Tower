@@ -1,6 +1,6 @@
 class_name Joker_11_spades extends Node
 
-var joker_effect = "When you clear a stack add 10 to the score."
+var joker_effect = "When you clear a stack add 20 to the score."
 var joker_price: int = 4
 
 var activation_window: String = 'on_card_played'
@@ -18,7 +18,12 @@ func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 			cleared_stacks_counter += 1
 			full_stacks_counter = 18
 			highlight()
-			ui.add_to_score(10)
+			ui.get_parent().enemy.set_visual_aid_label('+20')
+			await get_tree().create_timer(0.3).timeout
+			ui.get_parent().enemy.set_visual_aid_label('')
+			ui.get_parent().enemy.set_score_value(ui.get_parent().enemy.score + 20)
+			await get_tree().create_timer(1).timeout
+			
 	if _activation_window == 'on_cards_dealt':
 		full_stacks_counter = 18
 		cleared_stacks_counter = 0
@@ -30,11 +35,5 @@ func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 
 func highlight():
 	$"../Sprite2D".set_modulate(Color(1,0.1,0.2,1))
-	var timer = Timer.new()
-	timer.wait_time = 0.3
-	timer.one_shot = true
-	add_child(timer)
-	timer.start()
-	await timer.timeout
-	timer.queue_free()	
+	await get_tree().create_timer(0.5).timeout
 	$"../Sprite2D".set_modulate(Color(1,1,1,1))

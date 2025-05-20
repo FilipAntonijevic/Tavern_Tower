@@ -107,7 +107,6 @@ func set_jokers(jokers_parent: Node) -> void:
 	
 		
 func _on_redeal_cards_pressed() -> void:
-	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	play_this_sound_effect("res://sound/effects/shuffle_sound.mp3")
 	redeal_cards_button.hide()
 	await update_coins(enemy_gold - redeal_cost)
@@ -156,7 +155,7 @@ func freeze_jokers() ->void:
 	jokers_are_frozen = true
 	jokers_are_frozen_turn_counter += 1
 	for joker in jokers.get_children():
-		joker.set_modulate(Color(0.65, 0.8, 0.95, 1))
+		joker.set_modulate(Color(0.8, 0.9, 1.0, 1))
 
 func reset_board() -> void:
 	enemy.unlock_stacks()

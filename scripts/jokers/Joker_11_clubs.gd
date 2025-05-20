@@ -1,7 +1,7 @@
 class_name Joker_11_clubs extends Node
 
-var joker_effect = "When you play consecative cards of same suit add 5 to the score."
-var joker_price: int = 7
+var joker_effect = "When you play consecative cards of same suit add 10 to the score."
+var joker_price: int = 5
 
 var activation_window: String = 'on_card_played'
 var last_suit_played: String = 'null'
@@ -10,19 +10,17 @@ func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 	
 	if activation_window == _activation_window:
 		if last_suit_played == _card.card_suit:
-				ui.add_to_score(5)
-				highlight()
+			highlight()
+			ui.get_parent().enemy.set_visual_aid_label('+10')
+			await get_tree().create_timer(0.3).timeout
+			ui.get_parent().enemy.set_visual_aid_label('')
+			ui.get_parent().enemy.set_score_value(ui.get_parent().enemy.score + 10)
+			await get_tree().create_timer(1).timeout
 		else:
 			last_suit_played = _card.card_suit
 		
 
 func highlight():
 	$"../Sprite2D".set_modulate(Color(1,0.1,0.2,1))
-	var timer = Timer.new()
-	timer.wait_time = 0.3
-	timer.one_shot = true
-	add_child(timer)
-	timer.start()
-	await timer.timeout
-	timer.queue_free()	
+	await get_tree().create_timer(0.5).timeout
 	$"../Sprite2D".set_modulate(Color(1,1,1,1))
