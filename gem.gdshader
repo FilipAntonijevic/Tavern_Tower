@@ -15,7 +15,7 @@ void fragment() {
     if (t < shine_duration) {
         shine_pos = t / shine_duration;
     } else {
-        shine_pos = -1.0; 
+        shine_pos = -1.0;
     }
 
     float dist = abs(UV.x - shine_pos);

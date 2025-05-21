@@ -83,7 +83,7 @@ func excavate_card() -> void:
 				get_tree().current_scene.add_child(temp_card_back)
 
 				var tween = get_tree().create_tween()
-				tween.tween_property(temp_card_back, "global_position", card_place.global_position, 0.3)\
+				tween.tween_property(temp_card_back, "global_position", card_place.global_position, 0.27)\
 					.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 				await tween.finished

@@ -19,6 +19,12 @@ class_name Home_screen extends Node2D
 var toggled_on = true
 var in_home_screen_currently = true
 
+var board = null
+var progress_screen = null
+var shop = null
+
+var soundfx_value = 0
+
 func _on_play_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	in_home_screen_currently = false
@@ -29,6 +35,7 @@ func _on_play_pressed() -> void:
 	exit_button.hide()
 
 func _on_legacy_mode_pressed() -> void:
+	set_legacy_mode_soundfx_player_volume()
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	in_home_screen_currently = false
 	legacy_mode.show()
@@ -93,3 +100,27 @@ func play_this_sound_effect(path: String) -> void:
 		soundfx_player.play()
 	else:
 		push_warning("Invalid audio stream at path: " + path)
+
+func set_soundfx_volume_to(volume_db: float) -> void:
+	if board != null:
+		board.soundfx_player.volume_db = volume_db
+		board.ui.soundfx_player.volume_db = volume_db
+	elif shop != null:
+		shop.soundfx_player.volume_db = volume_db
+	elif progress_screen != null:
+		progress_screen.soundfx_player.volume_db = volume_db
+	else:
+		soundfx_player.volume_db = volume_db
+		
+func set_soundfx_volume() -> void:
+	var volume_db = lerp(-80, 0, soundfx_value / 100.0)
+	set_soundfx_volume_to(volume_db)
+	
+func set_home_screen_soundfx_player_volume() -> void:
+	var volume_db = lerp(-80, 0, soundfx_value / 100.0)
+	soundfx_player.volume_db = volume_db
+
+func set_legacy_mode_soundfx_player_volume() -> void:
+	var volume_db = lerp(-80, 0, soundfx_value / 100.0)
+	legacy_mode.soundfx_player.volume_db = volume_db
+	legacy_mode.ui.soundfx_player.volume_db = volume_db

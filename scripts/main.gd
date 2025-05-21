@@ -11,6 +11,7 @@ var enemy_number: int = 1
 var enemy_level: int = 0
 
 var new_scene = null
+var soundfx_volume_db = 0
 
 @onready var jokers = $Jokers
 
@@ -64,16 +65,26 @@ func load_scene(scene_path: String) -> void:
 				joker_place.joker.z_index = 100
 		new_scene.set_jokers(jokers)
 		new_scene.connect("show_progress_bar", Callable(self, "_on_show_progress_bar"))
+		get_parent().board = new_scene
+		get_parent().shop = null
+		get_parent().progress_screen = null
 	elif scene_path == "res://scenes/Shop.tscn":
 		new_scene.set_deck(copy_deck())
 		add_child(new_scene)
 		current_scene = new_scene
 		new_scene.connect("show_board", Callable(self, "_on_show_board"))
+		get_parent().shop = new_scene
+		get_parent().board = null
+		get_parent().progress_screen = null
 	elif scene_path == "res://scenes/progress_screen.tscn":
 		new_scene.connect("go_to_shop", Callable(self, "_on_go_to_shop"))
 		add_child(new_scene)
 		current_scene = new_scene
-		
+		get_parent().progress_screen = new_scene
+		get_parent().board = null
+		get_parent().shop = null
+	get_parent().set_soundfx_volume()
+
 func copy_deck() -> Deck:
 	var deck_copy = Deck.new()
 
@@ -116,5 +127,6 @@ func _on_show_board() -> void:
 func _on_show_progress_bar() -> void:
 	load_scene("res://scenes/progress_screen.tscn")
 
-
+func set_soundfx_volume_to(volume_db: float) -> void:
+	current_scene.soundfx_player.volume_db = volume_db
 	

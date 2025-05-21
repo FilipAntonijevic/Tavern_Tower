@@ -18,7 +18,6 @@ var redeals_left: int = 2
 
 @onready var game_mode = "Legacy_mode"
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	legacy_deck.initialize_deck()
 	ui.set_deck(legacy_deck)
