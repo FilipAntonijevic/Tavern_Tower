@@ -11,13 +11,6 @@ var soundfx_value = 0
 
 signal hide_options_screen()
 
-func _ready() -> void:
-	pass # Replace with function body.
-
-func _process(delta: float) -> void:
-	pass
-
-
 func _on_options_button_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	emit_signal("hide_options_screen")
@@ -32,10 +25,12 @@ func _on_options_button_mouse_exited() -> void:
 
 
 func _on_back_to_main_menu_button_pressed() -> void:
+	GameInfo.save_game()
 	get_parent().set_home_screen_soundfx_player_volume()
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
-	get_parent().in_home_screen_currently = true
+	GameInfo.in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
+	get_parent().main.reset()
 	
 func play_this_sound_effect(path: String) -> void:
 	if path.is_empty():
@@ -48,8 +43,8 @@ func play_this_sound_effect(path: String) -> void:
 		push_warning("Invalid audio stream at path: " + path)
 
 func _on_sound_fx_slider_value_changed(value: float) -> void:
-	get_parent().soundfx_value = value
-	if get_parent().in_home_screen_currently:
+	GameInfo.soundfx_value = value
+	if GameInfo.in_home_screen_currently:
 		get_parent().set_home_screen_soundfx_player_volume()
 	var volume_db = lerp(-80, 0, value / 100.0)
 	soundfx_player.volume_db = volume_db

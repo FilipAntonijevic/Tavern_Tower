@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dsg1p33dye2xt"]
+[gd_scene load_steps=16 format=3 uid="uid://dsg1p33dye2xt"]
 
 [ext_resource type="Script" path="res://scripts/progress_screen.gd" id="1_ioxp5"]
 [ext_resource type="Texture2D" uid="uid://b6om211skohg8" path="res://sprites/progress_screen.png" id="2_iuex6"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://cljn5dnkhvxbj" path="res://sprites/gems/medium_sapphire.png" id="11_5idhi"]
 [ext_resource type="Texture2D" uid="uid://dc7et5bel0rqa" path="res://sprites/gems/big_topaz.png" id="12_kipvv"]
 [ext_resource type="Texture2D" uid="uid://dt6e6shvgk337" path="res://sprites/gems/big_sapphire.png" id="13_ejafj"]
+[ext_resource type="PackedScene" uid="uid://c1ltxtwfc7hjp" path="res://scenes/jokers.tscn" id="14_28c67"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ts7m7"]
 font = ExtResource("5_knw4w")
@@ -581,6 +582,9 @@ texture = ExtResource("13_ejafj")
 visible = false
 position = Vector2(171, 111)
 texture = ExtResource("7_0s376")
+
+[node name="Jokers" parent="." instance=ExtResource("14_28c67")]
+visible = false
 
 [connection signal="mouse_entered" from="home_screen" to="." method="_on_home_screen_mouse_entered"]
 [connection signal="mouse_exited" from="home_screen" to="." method="_on_home_screen_mouse_exited"]

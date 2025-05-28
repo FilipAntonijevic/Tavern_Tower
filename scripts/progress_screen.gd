@@ -10,11 +10,12 @@ class_name Progress_screen extends Node2D
 
 @onready var soundfx_player = $soundfx_player
 @onready var coins_and_gems = $coins_and_gems
+@onready var jokers = $Jokers
 
 signal go_to_shop()
 
 func _ready() -> void:
-	var i = get_parent().enemy_number
+	var i = GameInfo.enemy_number
 	var old_o_label_name = "Label" + str(i)
 	o_labels.find_child(old_o_label_name).hide()
 	
@@ -24,13 +25,13 @@ func _ready() -> void:
 		label.show()
 		i -= 1
 		
-	i = get_parent().enemy_number
+	i = GameInfo.enemy_number
 	await get_tree().create_timer(0.8).timeout
 	var x_label_name = "Label" + str(i)
 	x_labels.find_child(x_label_name).show()
 	play_this_sound_effect("res://sound/effects/x_sound.mp3")
 	
-	if get_parent().enemy_number == 20:
+	if GameInfo.enemy_number == 20:
 		for child in coins_and_gems.get_children():
 			child.show()
 			play_this_sound_effect("res://sound/effects/gem_sound.mp3")
@@ -38,8 +39,8 @@ func _ready() -> void:
 		home_screen_button.show()
 		return
 	else:
-		get_parent().enemy_number += 1
-		i = get_parent().enemy_number
+		GameInfo.enemy_number += 1
+		i = GameInfo.enemy_number
 		await get_tree().create_timer(0.8).timeout
 		var o_label_name = "Label" + str(i)
 		o_labels.find_child(o_label_name).show()
@@ -62,6 +63,12 @@ func _on_button_mouse_entered() -> void:
 func _on_button_mouse_exited() -> void:
 	progress_screen.show()
 	progress_screen_next_button.hide()
+
+func set_jokers(jokers_parent: Node) -> void:
+	for i in range(0,5):
+		if jokers_parent.get_child(i).joker != null:
+			var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
+			jokers.get_child(i).set_joker(joker)
 
 
 func play_this_sound_effect(path: String) -> void:

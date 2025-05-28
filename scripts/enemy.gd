@@ -24,22 +24,21 @@ var level_5_attacks: Array = ["triple_chain", "triple_chain", "double_chain", "d
 var chosen_attacks: Array = []
 
 func level_up()-> void:
-	if goal > 25 and goal <= 100 and get_parent().get_parent().enemy_level == 0:
-		get_parent().get_parent().enemy_level = 1 #level 1
-		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
-	if goal >= 125 and goal <= 200 and get_parent().get_parent().enemy_level == 1:
-		print('Desilose')
-		get_parent().get_parent().enemy_level = 2 # level 2
-		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
-	if goal > 225 and goal <= 300 and get_parent().get_parent().enemy_level == 2:
-		get_parent().get_parent().enemy_level = 3 # level 3
-		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
-	if goal > 325 and goal <= 400 and get_parent().get_parent().enemy_level == 3:
-		get_parent().get_parent().enemy_level = 4 # level 4
-		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
-	if goal > 425 and goal <= 500 and get_parent().get_parent().enemy_level == 4:
-		get_parent().get_parent().enemy_level = 5 # level 5
-		get_parent().update_coins(get_parent().get_parent().enemy_gold + 1)
+	if goal > 25 and goal <= 100 and GameInfo.enemy_level == 0:
+		GameInfo.enemy_level = 1 #level 1
+		get_parent().update_coins(GameInfo.enemy_gold + 1)
+	if goal >= 125 and goal <= 200 and GameInfo.enemy_level == 1:
+		GameInfo.enemy_level = 2 # level 2
+		get_parent().update_coins(GameInfo.enemy_gold + 1)
+	if goal > 225 and goal <= 300 and GameInfo.enemy_level == 2:
+		GameInfo.enemy_level = 3 # level 3
+		get_parent().update_coins(GameInfo.enemy_gold + 1)
+	if goal > 325 and goal <= 400 and GameInfo.enemy_level == 3:
+		GameInfo.enemy_level = 4 # level 4
+		get_parent().update_coins(GameInfo.enemy_gold + 1)
+	if goal > 425 and goal <= 500 and GameInfo.enemy_level == 4:
+		GameInfo.enemy_level = 5 # level 5
+		get_parent().update_coins(GameInfo.enemy_gold + 1)
 	
 	
 func set_score_value(_score: int):
@@ -189,19 +188,19 @@ func shuffle_all_cards_from_the_table()-> void:
 func choose_attacks()-> void:
 	var available_attacks = []
 	chosen_attacks.clear()
-	if get_parent().get_parent().enemy_level == 1:
+	if GameInfo.enemy_level == 1:
 		available_attacks = level_1_attacks.duplicate()
-	if get_parent().get_parent().enemy_level == 2:
+	if GameInfo.enemy_level == 2:
 		available_attacks = level_2_attacks.duplicate()
-	if get_parent().get_parent().enemy_level == 3:
+	if GameInfo.enemy_level == 3:
 		available_attacks = level_3_attacks.duplicate()
-	if get_parent().get_parent().enemy_level == 4:
+	if GameInfo.enemy_level == 4:
 		available_attacks = level_4_attacks.duplicate()
-	if get_parent().get_parent().enemy_level == 5:
+	if GameInfo.enemy_level == 5:
 		available_attacks = level_5_attacks.duplicate()
 	
 	available_attacks.shuffle()
-	for i in range(0, get_parent().get_parent().enemy_level):
+	for i in range(0, GameInfo.enemy_level):
 		chosen_attacks.append(available_attacks.pop_front())
 	 
 

@@ -61,7 +61,7 @@ func set_deck(deck: Deck) -> void:
 	
 func get_random_card_from_deck() -> Card:
 	if get_parent() and original_deck and original_deck.card_collection.size() > 0:
-		var random_index = randi() % get_parent().original_deck.card_collection.size()
+		var random_index = randi() % GameInfo.original_deck.card_collection.size()
 		if original_deck.card_collection.has(random_index):
 			return original_deck.card_collection[random_index]
 		else:
@@ -152,8 +152,6 @@ func _on_mouse_entered_joker(joker: Joker) -> void:
 		var sell_value: int = int(joker.effect.joker_price / 2)
 		sell_joker_label.set_text("Right click to sell for: " + str(sell_value) + " gold.")
 
-
-	
 func _on_mouse_exited_joker() -> void:
 	joker_effect_label.text = ""
 	sell_joker_label.set_text('')
@@ -165,8 +163,8 @@ func _on_joker_sold(joker: Joker) -> void:
 			joker_place.joker = null
 			var card = turn_joker_into_a_card(joker)
 			original_deck.add_card(card)
-			get_parent().total_gold += int(joker.effect.joker_price / 2)
-			gold_ammount_label.set_text(str(get_parent().total_gold))
+			GameInfo.total_gold += int(joker.effect.joker_price / 2)
+			gold_ammount_label.set_text(str(GameInfo.total_gold))
 			joker_effect_label.set_text("Hover a card to see its joker effect")
 			sell_joker_label.set_text("")
 	
@@ -202,21 +200,18 @@ func _ready() -> void:
 	joker_effect_label.z_index = 100
 	load_jokers()
 	
-	gold_ammount_label.set_text(str(get_parent().total_gold))
+	gold_ammount_label.set_text(str(GameInfo.total_gold))
 	for card_place in spawnpoints:
 		card_place.connect("joker_bought", Callable(self, "_on_joker_bought"))
 	
-
-
 func _on_button_pressed() -> void:
 	await play_this_sound_effect("res://sound/effects/button_click.mp3")
 	get_parent().set_jokers(jokers)
 	for joker_place in jokers.get_children():
 		if joker_place.joker != null:
-			#joker_place.remove_child(joker_place.joker)
 			joker_place.joker.free()
 		joker_place.free()
-	get_parent().original_deck = copy_deck()
+	GameInfo.original_deck = copy_deck()
 	emit_signal("show_board") 
 	hide()  
 
@@ -240,22 +235,23 @@ func copy_deck() -> Deck:
 	return deck_copy
 	
 func _on_exacuviate_pressed() -> void:
-	if excavation_cost <= get_parent().total_gold and drawn_cards.size() < 8:
+	if excavation_cost <= GameInfo.total_gold and drawn_cards.size() < 8:
 		play_this_sound_effect("res://sound/effects/button_click.mp3")
-		get_parent().total_gold -= excavation_cost
+		GameInfo.total_gold -= excavation_cost
 		excavation_cost += 1
 		excavation_cost_label.set_text("- " + str(excavation_cost) + " gold")
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		await excavate_card()
 
 func _on_joker_bought(card: Card) -> void:
-	#get_parent().add_joker(card)
 	play_this_sound_effect("res://sound/effects/card_bought.mp3")
 	add_joker(card)
 	original_deck.remove_card_by_value_and_suit(card)
 	drawn_cards.erase(card)
-
-
+	get_parent().set_jokers(jokers)
+	get_parent().save_jokers()
+	GameInfo.save_game()
+	
 func add_joker(card: Card) -> void:
 	var path: String = "res://scenes/jokers/Joker_" + str(card.card_value) + "_" + str(card.card_suit) + ".tscn"
 	var joker_scene = load(path)
@@ -612,10 +608,10 @@ func _on_big_ruby_mouse_exited() -> void:
 	sell_joker_label.set_text("")
 
 func _on_medium_topaz_pressed() -> void:
-	if get_parent().total_gold >= 2:
+	if GameInfo.total_gold >= 2:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 2
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 2
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		topaz_touch = true
 		var new_cursor_texture = load("res://sprites/cursor_topaz.png")
 		Input.set_custom_mouse_cursor(new_cursor_texture)
@@ -625,10 +621,10 @@ func _on_medium_topaz_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_medium_ruby_pressed() -> void:
-	if get_parent().total_gold >= 2:
+	if GameInfo.total_gold >= 2:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 2
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 2
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		ruby_touch = true
 		var new_cursor_texture = load("res://sprites/cursor_ruby.png")
 		Input.set_custom_mouse_cursor(new_cursor_texture)
@@ -638,10 +634,10 @@ func _on_medium_ruby_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_medium_sapphire_pressed() -> void:
-	if get_parent().total_gold >= 2:
+	if GameInfo.total_gold >= 2:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 2
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 2
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		sapphire_touch = true
 		var new_cursor_texture = load("res://sprites/cursor_sapphire.png")
 		Input.set_custom_mouse_cursor(new_cursor_texture)
@@ -651,10 +647,10 @@ func _on_medium_sapphire_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_medium_emerald_pressed() -> void:
-	if get_parent().total_gold >= 2:
+	if GameInfo.total_gold >= 2:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 2
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 2
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		emerald_touch = true
 		var new_cursor_texture = load("res://sprites/cursor_emerald.png")
 		Input.set_custom_mouse_cursor(new_cursor_texture)
@@ -664,10 +660,10 @@ func _on_medium_emerald_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_small_emerald_pressed() -> void:
-	if get_parent().total_gold >= 1:
+	if GameInfo.total_gold >= 1:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 1
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 1
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		if drawn_cards.size() != 0:
 			var random_card = drawn_cards.pick_random()
 			random_card.highlight_emerald_card()
@@ -680,10 +676,10 @@ func _on_small_emerald_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_small_topaz_pressed() -> void:
-	if get_parent().total_gold >= 1:
+	if GameInfo.total_gold >= 1:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 1
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 1
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		if drawn_cards.size() != 0:
 			var random_card = drawn_cards.pick_random()
 			random_card.highlight_topaz_card()
@@ -696,10 +692,10 @@ func _on_small_topaz_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_small_sapphire_pressed() -> void:
-	if get_parent().total_gold >= 1:
+	if GameInfo.total_gold >= 1:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 1
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 1
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		if drawn_cards.size() != 0:
 			var random_card = drawn_cards.pick_random()
 			random_card.highlight_sapphire_card()
@@ -712,10 +708,10 @@ func _on_small_sapphire_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_small_ruby_pressed() -> void:
-	if get_parent().total_gold >= 1:
+	if GameInfo.total_gold >= 1:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 1
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 1
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		if drawn_cards.size() != 0:
 			var random_card = drawn_cards.pick_random()
 			random_card.highlight_ruby_card()
@@ -728,10 +724,10 @@ func _on_small_ruby_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_big_emerald_pressed() -> void:
-	if get_parent().total_gold >= 5:
+	if GameInfo.total_gold >= 5:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 5
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 5
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		for card in drawn_cards:
 			card.highlight_emerald_card()
 			card.topaz = false
@@ -743,10 +739,10 @@ func _on_big_emerald_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_big_topaz_pressed() -> void:
-	if get_parent().total_gold >= 5:
+	if GameInfo.total_gold >= 5:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 5
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 5
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		for card in drawn_cards:
 			card.highlight_topaz_card()
 			card.topaz = true
@@ -758,10 +754,10 @@ func _on_big_topaz_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_big_sapphire_pressed() -> void:
-	if get_parent().total_gold >= 5:
+	if GameInfo.total_gold >= 5:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 5
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 5
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		for card in drawn_cards:
 			card.highlight_sapphire_card()
 			card.topaz = false
@@ -773,10 +769,10 @@ func _on_big_sapphire_pressed() -> void:
 	else:
 		sell_joker_label.set_text("Not enough gold.")
 func _on_big_ruby_pressed() -> void:
-	if get_parent().total_gold >= 5:
+	if GameInfo.total_gold >= 5:
 		play_this_sound_effect("res://sound/effects/gem_sound.mp3")
-		get_parent().total_gold -= 5
-		gold_ammount_label.set_text(str(get_parent().total_gold))
+		GameInfo.total_gold -= 5
+		gold_ammount_label.set_text(str(GameInfo.total_gold))
 		for card in drawn_cards:
 			card.highlight_ruby_card()
 			card.topaz = false
@@ -814,3 +810,9 @@ func play_this_sound_effect(path: String) -> void:
 		soundfx_player.play()
 	else:
 		push_warning("Invalid audio stream at path: " + path)
+
+func set_jokers(jokers_parent: Node) -> void:
+	for i in range(0,5):
+		if jokers_parent.get_child(i).joker != null:
+			var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
+			jokers.get_child(i).set_joker(joker)

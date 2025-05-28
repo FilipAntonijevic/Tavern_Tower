@@ -1,4 +1,4 @@
-extends Node2D
+class_name Board extends Node2D
 
 @onready var ui = $Ui
 var original_deck: Deck = null
@@ -31,11 +31,11 @@ var game_mode = "Classic_mode"
 signal show_progress_bar()
 
 func _ready() -> void:
-	enemy.goal = get_parent().enemy_goal
+	enemy.goal = GameInfo.enemy_goal
 	goal_label.set_text("/ " + str(enemy.goal))
 	enemy.level_up()
 	ui.set_deck(original_deck)
-	update_coins(get_parent().enemy_gold)
+	update_coins(GameInfo.enemy_gold)
 	await redeal_cards()
 
 func set_deck(deck: Deck) -> void:
@@ -49,7 +49,7 @@ func _process(delta: float) -> void:
 		enemy.prepare_new_attacks()
 		enemy.unfreeze_cards()
 		game_control.transition(GameController.GameState.PLAYER_TURN)
-				
+
 	if !game_control.is_running:
 		return
 	
@@ -104,7 +104,6 @@ func set_jokers(jokers_parent: Node) -> void:
 		if jokers_parent.get_child(i).joker != null:
 			var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
 			jokers.get_child(i).set_joker(joker)
-	
 		
 func _on_redeal_cards_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/shuffle_sound.mp3")
@@ -139,7 +138,7 @@ func end_turn() -> void:
 		game_control.transition(GameController.GameState.ENEMY_TURN)
 
 func _on_go_to_shop_pressed() -> void:
-	get_parent().total_gold += enemy_gold
+	GameInfo.total_gold += enemy_gold
 	get_parent().increase_enemy_strength()
 	emit_signal("show_progress_bar")
 	hide()

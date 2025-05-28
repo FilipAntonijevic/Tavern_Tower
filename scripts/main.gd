@@ -1,19 +1,8 @@
 class_name Main extends Node2D
 
-var original_deck: Deck = Deck.new()
-
-var current_scene: Node = null 
-
-var total_gold: int = 1000
-var enemy_gold: int = 5
-var enemy_goal: int = 25
-var enemy_number: int = 1
-var enemy_level: int = 0
-
-var new_scene = null
-var soundfx_volume_db = 0
-
 @onready var jokers = $Jokers
+
+var jokers_array: Array = []
 
 func reset() -> void:
 	var parent = get_parent()
@@ -23,14 +12,21 @@ func reset() -> void:
 	queue_free() 
 	
 func _ready():
-	Engine.max_fps = 60
+	jokers_array = []
+	jokers_array.append(GameInfo.joker_1)
+	jokers_array.append(GameInfo.joker_2)
+	jokers_array.append(GameInfo.joker_3)
+	jokers_array.append(GameInfo.joker_4)
+	jokers_array.append(GameInfo.joker_5)
 	var cursor_texture = load("res://sprites/cursor.png")
 	Input.set_custom_mouse_cursor(cursor_texture)
-	original_deck.initialize_deck()
-	load_scene("res://scenes/Board.tscn")
-
+	GameInfo.original_deck.initialize_deck()
+	if GameInfo.current_scene_name == "Board":
+		load_scene("res://scenes/Board.tscn")
+	elif GameInfo.current_scene_name == "Progress_screen" or GameInfo.current_scene_name == "Shop":
+		load_scene("res://scenes/Shop.tscn")
 func increase_enemy_strength():
-	enemy_goal += 25
+	GameInfo.enemy_goal += 25
 	
 func add_joker(card: Card) -> void:
 	var path: String = "res://scenes/jokers/Joker_" + str(card.card_value) + "_" + str(card.card_suit) + ".tscn"
@@ -48,48 +44,50 @@ func add_joker(card: Card) -> void:
 					return
 					
 func load_scene(scene_path: String) -> void:
-	if current_scene:
-		current_scene.queue_free() 
-		current_scene = null
+	if GameInfo.current_scene:
+		GameInfo.current_scene = null
 	
-	new_scene = load(scene_path).instantiate()
+	GameInfo.new_scene = load(scene_path).instantiate()
 
 	if scene_path == "res://scenes/Board.tscn":
-		new_scene.set_deck(copy_deck())
-		add_child(new_scene)
-		current_scene = new_scene
+		GameInfo.new_scene.set_deck(copy_deck())
+		add_child(GameInfo.new_scene)
+		GameInfo.current_scene = GameInfo.new_scene
 		var i = 0
 		for joker_place in jokers.get_children():
 			if joker_place.joker != null:
 				i+=1
 				joker_place.joker.z_index = 100
-		new_scene.set_jokers(jokers)
-		new_scene.connect("show_progress_bar", Callable(self, "_on_show_progress_bar"))
-		get_parent().board = new_scene
-		get_parent().shop = null
-		get_parent().progress_screen = null
+		GameInfo.new_scene.set_jokers(jokers)
+		GameInfo.new_scene.connect("show_progress_bar", Callable(self, "_on_show_progress_bar"))
+		GameInfo.board = GameInfo.new_scene
+		GameInfo.shop = null
+		GameInfo.progress_screen = null
 	elif scene_path == "res://scenes/Shop.tscn":
-		new_scene.set_deck(copy_deck())
-		add_child(new_scene)
-		current_scene = new_scene
-		new_scene.connect("show_board", Callable(self, "_on_show_board"))
-		get_parent().shop = new_scene
-		get_parent().board = null
-		get_parent().progress_screen = null
+		GameInfo.new_scene.set_deck(copy_deck())
+		add_child(GameInfo.new_scene)
+		GameInfo.current_scene = GameInfo.new_scene
+		GameInfo.new_scene.connect("show_board", Callable(self, "_on_show_board"))
+		GameInfo.shop = GameInfo.new_scene
+		GameInfo.board = null
+		GameInfo.progress_screen = null
 	elif scene_path == "res://scenes/progress_screen.tscn":
-		new_scene.connect("go_to_shop", Callable(self, "_on_go_to_shop"))
-		add_child(new_scene)
-		current_scene = new_scene
-		get_parent().progress_screen = new_scene
-		get_parent().board = null
-		get_parent().shop = null
+		GameInfo.new_scene.connect("go_to_shop", Callable(self, "_on_go_to_shop"))
+		add_child(GameInfo.new_scene)
+		GameInfo.current_scene = GameInfo.new_scene
+		GameInfo.progress_screen = GameInfo.new_scene
+		GameInfo.board = null
+		GameInfo.shop = null
 	get_parent().set_soundfx_volume()
+	save_jokers()
+	print(scene_path)
+	GameInfo.save_game()
 
 func copy_deck() -> Deck:
 	var deck_copy = Deck.new()
 
-	for card_id in original_deck.card_collection.keys():
-		var card = original_deck.card_collection[card_id]
+	for card_id in GameInfo.original_deck.card_collection.keys():
+		var card = GameInfo.original_deck.card_collection[card_id]
 		if is_instance_valid(card):
 			var new_card = card.duplicate() 
 			if card.topaz:
@@ -105,28 +103,44 @@ func copy_deck() -> Deck:
 	return deck_copy
 
 func set_jokers(jokers_shop: Node) -> void:
+	jokers_array = []
 	for joker_place in jokers.get_children():
 		if joker_place.joker != null:
-			#joker_place.remove_child(joker_place.joker)
 			joker_place.joker.free()
 		
 	for i in range(0,5):
 		if jokers_shop.get_child(i).joker != null:
 			var joker = jokers_shop.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
 			jokers.get_child(i).set_joker(joker)
-
+			jokers_array.append(str(joker.card_value) + '_' + joker.card_suit)
+			
 func _on_go_to_shop() -> void:
+	GameInfo.current_scene_name = "Shop"
 	load_scene("res://scenes/Shop.tscn")
-	await new_scene.excavate_card()
-	await new_scene.excavate_card()
-	await new_scene.excavate_card()
+	await GameInfo.new_scene.excavate_card()
+	await GameInfo.new_scene.excavate_card()
+	await GameInfo.new_scene.excavate_card()
 	
 func _on_show_board() -> void:
+	GameInfo.current_scene_name = "Board"
 	load_scene("res://scenes/Board.tscn")
 	
 func _on_show_progress_bar() -> void:
+	GameInfo.current_scene_name = "Progress_screen"
 	load_scene("res://scenes/progress_screen.tscn")
 
 func set_soundfx_volume_to(volume_db: float) -> void:
-	current_scene.soundfx_player.volume_db = volume_db
+	GameInfo.current_scene.soundfx_player.volume_db = volume_db
 	
+func save_jokers() -> void:
+	print('ALOUNUNU ' + str(jokers_array.size()))
+	if jokers_array.size() >= 1:
+		GameInfo.joker_1 = jokers_array[0]
+	if jokers_array.size() >= 2:
+		GameInfo.joker_2 = jokers_array[1]
+	if jokers_array.size() >= 3:
+		GameInfo.joker_3 = jokers_array[2]
+	if jokers_array.size() >= 4:
+		GameInfo.joker_4 = jokers_array[3]
+	if jokers_array.size() == 5:
+		GameInfo.joker_5 = jokers_array[4]

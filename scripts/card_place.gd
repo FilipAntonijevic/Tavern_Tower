@@ -112,7 +112,7 @@ func _on_area_2d_mouse_exited() -> void:
 
 
 func _on_buy_button_pressed() -> void:
-	var total_gold = get_parent().get_parent().get_parent().total_gold
+	var total_gold = GameInfo.total_gold
 	var cost = int(gold_cost_label.get_text())
 	if cost <= total_gold:
 		var number_of_jokers = 0
@@ -121,14 +121,14 @@ func _on_buy_button_pressed() -> void:
 				number_of_jokers += 1
 		if number_of_jokers < 5:
 			mouse_is_inside_the_card = false
-			get_parent().get_parent().get_parent().total_gold -= cost
+			GameInfo.total_gold -= cost
 			emit_signal("joker_bought", card)
 			remove_child(card)
 			buy_button.position.y -= 21
 			buy_button.hide()
 			gold_cost_label.hide()
 			get_parent().get_parent().joker_effect_label.set_text('')
-			get_parent().get_parent().gold_ammount_label.set_text(str(get_parent().get_parent().get_parent().total_gold))
+			get_parent().get_parent().gold_ammount_label.set_text(str(GameInfo.total_gold))
 			_on_area_2d_mouse_exited()
 
 

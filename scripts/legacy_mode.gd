@@ -57,7 +57,7 @@ func redeal_cards() -> void:
 
 func _on_give_up_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
-	get_parent().in_home_screen_currently = true
+	GameInfo.in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
 
 
