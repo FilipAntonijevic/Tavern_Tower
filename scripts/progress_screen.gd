@@ -53,6 +53,7 @@ func check_if_you_won() -> void:
 		pass
 	
 func _on_button_pressed() -> void:
+	next_button.hide()
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	emit_signal("go_to_shop")
 
@@ -83,8 +84,9 @@ func play_this_sound_effect(path: String) -> void:
 
 
 func _on_home_screen_pressed() -> void:
+	home_screen_button.hide()
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
-	get_parent().get_parent().in_home_screen_currently = true
+	GameInfo.in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
 
 

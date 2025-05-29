@@ -100,11 +100,15 @@ func check_if_you_beat_enemy() -> bool:
 	return false 
 	
 func set_jokers(jokers_parent: Node) -> void:
-	for i in range(0,5):
-		if jokers_parent.get_child(i).joker != null:
-			var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
-			jokers.get_child(i).set_joker(joker)
-		
+	if jokers_parent:
+		for i in range(0,5):
+			if jokers_parent.get_child(i).joker != null:
+				var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
+				joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
+				joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
+				joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
+				jokers.get_child(i).set_joker(joker)
+				
 func _on_redeal_cards_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/shuffle_sound.mp3")
 	redeal_cards_button.hide()
@@ -170,7 +174,7 @@ func reset_board() -> void:
 
 func _on_give_up_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
-	get_parent().get_parent().in_home_screen_currently = true
+	GameInfo.in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
 
 

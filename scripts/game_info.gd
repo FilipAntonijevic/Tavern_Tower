@@ -24,6 +24,62 @@ var joker_3: String = ""
 var joker_4: String = ""
 var joker_5: String = ""
 
+var spades_1: String = ""
+var spades_2: String = ""
+var spades_3: String = ""
+var spades_4: String = ""
+var spades_5: String = ""
+var spades_6: String = ""
+var spades_7: String = ""
+var spades_8: String = ""
+var spades_9: String = ""
+var spades_10: String = ""
+var spades_11: String = ""
+var spades_12: String = ""
+var spades_13: String = ""
+
+var diamonds_1: String = ""
+var diamonds_2: String = ""
+var diamonds_3: String = ""
+var diamonds_4: String = ""
+var diamonds_5: String = ""
+var diamonds_6: String = ""
+var diamonds_7: String = ""
+var diamonds_8: String = ""
+var diamonds_9: String = ""
+var diamonds_10: String = ""
+var diamonds_11: String = ""
+var diamonds_12: String = ""
+var diamonds_13: String = ""
+
+var clubs_1: String = ""
+var clubs_2: String = ""
+var clubs_3: String = ""
+var clubs_4: String = ""
+var clubs_5: String = ""
+var clubs_6: String = ""
+var clubs_7: String = ""
+var clubs_8: String = ""
+var clubs_9: String = ""
+var clubs_10: String = ""
+var clubs_11: String = ""
+var clubs_12: String = ""
+var clubs_13: String = ""
+
+var hearts_1: String = ""
+var hearts_2: String = ""
+var hearts_3: String = ""
+var hearts_4: String = ""
+var hearts_5: String = ""
+var hearts_6: String = ""
+var hearts_7: String = ""
+var hearts_8: String = ""
+var hearts_9: String = ""
+var hearts_10: String = ""
+var hearts_11: String = ""
+var hearts_12: String = ""
+var hearts_13: String = ""
+
 func save_game():
 	var file = FileAccess.open("user://game_info.txt", FileAccess.WRITE)
 	if file == null:
@@ -42,10 +98,61 @@ func save_game():
 	file.store_line("joker_3=" + str(joker_3))
 	file.store_line("joker_4=" + str(joker_4))
 	file.store_line("joker_5=" + str(joker_5))
+	
+	file.store_line("spades_1=" + str(spades_1))
+	file.store_line("spades_2=" + str(spades_2))
+	file.store_line("spades_3=" + str(spades_3))
+	file.store_line("spades_4=" + str(spades_4))
+	file.store_line("spades_5=" + str(spades_5))
+	file.store_line("spades_6=" + str(spades_6))
+	file.store_line("spades_7=" + str(spades_7))
+	file.store_line("spades_8=" + str(spades_8))
+	file.store_line("spades_9=" + str(spades_9))
+	file.store_line("spades_10=" + str(spades_10))
+	file.store_line("spades_11=" + str(spades_11))
+	file.store_line("spades_12=" + str(spades_12))
+	file.store_line("spades_13=" + str(spades_13))
+	
+	file.store_line("diamonds_1=" + str(diamonds_1))
+	file.store_line("diamonds_2=" + str(diamonds_2))
+	file.store_line("diamonds_3=" + str(diamonds_3))
+	file.store_line("diamonds_4=" + str(diamonds_4))
+	file.store_line("diamonds_5=" + str(diamonds_5))
+	file.store_line("diamonds_6=" + str(diamonds_6))
+	file.store_line("diamonds_7=" + str(diamonds_7))
+	file.store_line("diamonds_8=" + str(diamonds_8))
+	file.store_line("diamonds_9=" + str(diamonds_9))
+	file.store_line("diamonds_10=" + str(diamonds_10))
+	file.store_line("diamonds_11=" + str(diamonds_11))
+	file.store_line("diamonds_12=" + str(diamonds_12))
+	file.store_line("diamonds_13=" + str(diamonds_13))
+	
+	file.store_line("clubs_1=" + str(clubs_1))
+	file.store_line("clubs_2=" + str(clubs_2))
+	file.store_line("clubs_3=" + str(clubs_3))
+	file.store_line("clubs_4=" + str(clubs_4))
+	file.store_line("clubs_5=" + str(clubs_5))
+	file.store_line("clubs_6=" + str(clubs_6))
+	file.store_line("clubs_7=" + str(clubs_7))
+	file.store_line("clubs_8=" + str(clubs_8))
+	file.store_line("clubs_9=" + str(clubs_9))
+	file.store_line("clubs_10=" + str(clubs_10))
+	file.store_line("clubs_11=" + str(clubs_11))
+	file.store_line("clubs_12=" + str(clubs_12))
+	file.store_line("clubs_13=" + str(clubs_13))
+	
+	file.store_line("hearts_1=" + str(hearts_1))
+	file.store_line("hearts_2=" + str(hearts_2))
+	file.store_line("hearts_3=" + str(hearts_3))
+	file.store_line("hearts_4=" + str(hearts_4))
+	file.store_line("hearts_5=" + str(hearts_5))
+	file.store_line("hearts_6=" + str(hearts_6))
+	file.store_line("hearts_7=" + str(hearts_7))
+	file.store_line("hearts_8=" + str(hearts_8))
+	file.store_line("hearts_9=" + str(hearts_9))
+	file.store_line("hearts_10=" + str(hearts_10))
+	file.store_line("hearts_11=" + str(hearts_11))
+	file.store_line("hearts_12=" + str(hearts_12))
+	file.store_line("hearts_13=" + str(hearts_13))
+
 	file.close()
-	var debug_file = FileAccess.open("user://game_info.txt", FileAccess.READ)
-	if debug_file:
-		print("--- Sadržaj fajla nakon sejva ---")
-		while not debug_file.eof_reached():
-			print(debug_file.get_line())
-		debug_file.close()

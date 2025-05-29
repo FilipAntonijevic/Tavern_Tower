@@ -26,7 +26,7 @@ func _on_options_button_mouse_exited() -> void:
 
 func _on_back_to_main_menu_button_pressed() -> void:
 	GameInfo.save_game()
-	get_parent().set_home_screen_soundfx_player_volume()
+	get_parent().set_soundfx_volume()
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	GameInfo.in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
@@ -45,8 +45,8 @@ func play_this_sound_effect(path: String) -> void:
 func _on_sound_fx_slider_value_changed(value: float) -> void:
 	GameInfo.soundfx_value = value
 	if GameInfo.in_home_screen_currently:
-		get_parent().set_home_screen_soundfx_player_volume()
-	var volume_db = lerp(-80, 0, value / 100.0)
-	soundfx_player.volume_db = volume_db
+		get_parent().set_soundfx_volume()
+	GameInfo.soundfx_volume_db = lerp(-80, 0, value / 100.0)
+	soundfx_player.volume_db = GameInfo.soundfx_volume_db
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
-	get_parent().set_soundfx_volume_to(volume_db)
+	get_parent().set_soundfx_volume_to()

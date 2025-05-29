@@ -21,7 +21,6 @@ var this_jokers_position = null
 func activate(_activation_window: String, deck: Deck, ui: Ui, card: Card):
 	effect.activate(_activation_window, deck, ui, card)
 	
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if not area_2d.is_connected("mouse_entered", Callable(self, "_on_area_2d_mouse_entered")):
 		area_2d.connect("mouse_entered", Callable(self, "_on_area_2d_mouse_entered"))
@@ -33,7 +32,6 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	pass
-
 
 func highlight():
 	card_sprite.set_modulate(Color(0.7,0.7,0.7,1))
@@ -66,7 +64,7 @@ func _on_area_2d_mouse_exited() -> void:
 
 func _unhandled_input(event):
 	
-	if mouse_is_inside_this_joker and get_parent().get_parent().get_parent().name == "Shop":
+	if mouse_is_inside_this_joker and GameInfo.current_scene_name == "Shop":
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and mouse_is_inside_this_joker:
 			emit_signal("joker_sold", self) 
 			

@@ -7,13 +7,13 @@ extends Node2D
 @onready var joker_place_5 = $JokerPlace5
 
 var jokers_positions: Array = []
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	jokers_positions= [joker_place_1.position, joker_place_2.position, joker_place_3.position, joker_place_4.position, joker_place_5.position]
 
 
 func show_popup_window()-> void:
-	if get_parent().name == "board":
+	if GameInfo.current_scene_name == "Board":
 		var i = 0
 		for joker_place in get_children():
 			if joker_place.joker != null and joker_place.mouse_is_inside_the_joker_place:
@@ -23,7 +23,7 @@ func show_popup_window()-> void:
 				popup_window.set_new_position(i)
 			i += 1
 func hide_popup_window()-> void:
-	if get_parent().name == "board":
+	if GameInfo.current_scene_name == "Board":
 		var popup_window = get_parent().popup_window
 		popup_window.hide()
 		popup_window.set_effect_label_text("")

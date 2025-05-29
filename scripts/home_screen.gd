@@ -22,7 +22,9 @@ func _ready() -> void:
 		GameInfo.save_game()
 	else:
 		load_game()
-
+	options_screen._on_sound_fx_slider_value_changed(options_screen.soundfx_slider.value)
+	set_legacy_mode_soundfx_player_volume()
+		
 func load_game():
 	var file = FileAccess.open("user://game_info.txt", FileAccess.READ)
 	if file == null:
@@ -64,14 +66,116 @@ func load_game():
 					GameInfo.joker_4 = str(value)
 				"joker_5":
 					GameInfo.joker_5 = str(value)
+					
+				"spades_1":
+					GameInfo.spades_1 = str(value)
+				"spades_2":
+					GameInfo.spades_2 = str(value)
+				"spades_3":
+					GameInfo.spades_3 = str(value)
+				"spades_4":
+					GameInfo.spades_4 = str(value)
+				"spades_5":
+					GameInfo.spades_5 = str(value)
+				"spades_6":
+					GameInfo.spades_6 = str(value)
+				"spades_7":
+					GameInfo.spades_7 = str(value)
+				"spades_8":
+					GameInfo.spades_8 = str(value)
+				"spades_9":
+					GameInfo.spades_9 = str(value)
+				"spades_10":
+					GameInfo.spades_10 = str(value)
+				"spades_11":
+					GameInfo.spades_11 = str(value)
+				"spades_12":
+					GameInfo.spades_12 = str(value)
+				"spades_13":
+					GameInfo.spades_13 = str(value)
+				
+				"diamonds_1":
+					GameInfo.diamonds_1 = str(value)
+				"diamonds_2":
+					GameInfo.diamonds_2 = str(value)
+				"diamonds_3":
+					GameInfo.diamonds_3 = str(value)
+				"diamonds_4":
+					GameInfo.diamonds_4 = str(value)
+				"diamonds_5":
+					GameInfo.diamonds_5 = str(value)
+				"diamonds_6":
+					GameInfo.diamonds_6 = str(value)
+				"diamonds_7":
+					GameInfo.diamonds_7 = str(value)
+				"diamonds_8":
+					GameInfo.diamonds_8 = str(value)
+				"diamonds_9":
+					GameInfo.diamonds_9 = str(value)
+				"diamonds_10":
+					GameInfo.diamonds_10 = str(value)
+				"diamonds_11":
+					GameInfo.diamonds_11 = str(value)
+				"diamonds_12":
+					GameInfo.diamonds_12 = str(value)
+				"diamonds_13":
+					GameInfo.diamonds_13 = str(value)
+				
+				"clubs_1":
+					GameInfo.clubs_1 = str(value)
+				"clubs_2":
+					GameInfo.clubs_2 = str(value)
+				"clubs_3":
+					GameInfo.clubs_3 = str(value)
+				"clubs_4":
+					GameInfo.clubs_4 = str(value)
+				"clubs_5":
+					GameInfo.clubs_5 = str(value)
+				"clubs_6":
+					GameInfo.clubs_6 = str(value)
+				"clubs_7":
+					GameInfo.clubs_7 = str(value)
+				"clubs_8":
+					GameInfo.clubs_8 = str(value)
+				"clubs_9":
+					GameInfo.clubs_9 = str(value)
+				"clubs_10":
+					GameInfo.clubs_10 = str(value)
+				"clubs_11":
+					GameInfo.clubs_11 = str(value)
+				"clubs_12":
+					GameInfo.clubs_12 = str(value)
+				"clubs_13":
+					GameInfo.clubs_13 = str(value)
+					
+				"hearts_1":
+					GameInfo.hearts_1 = str(value)
+				"hearts_2":
+					GameInfo.hearts_2 = str(value)
+				"hearts_3":
+					GameInfo.hearts_3 = str(value)
+				"hearts_4":
+					GameInfo.hearts_4 = str(value)
+				"hearts_5":
+					GameInfo.hearts_5 = str(value)
+				"hearts_6":
+					GameInfo.hearts_6 = str(value)
+				"hearts_7":
+					GameInfo.hearts_7 = str(value)
+				"hearts_8":
+					GameInfo.hearts_8 = str(value)
+				"hearts_9":
+					GameInfo.hearts_9 = str(value)
+				"hearts_10":
+					GameInfo.hearts_10 = str(value)
+				"hearts_11":
+					GameInfo.hearts_11 = str(value)
+				"hearts_12":
+					GameInfo.hearts_12 = str(value)
+				"hearts_13":
+					GameInfo.hearts_13 = str(value)
 	file.close()
 	load_jokers()
-	var debug_file = FileAccess.open("user://game_info.txt", FileAccess.READ)
-	if debug_file:
-		print("--- Sadržaj fajla nakon loada ---")
-		while not debug_file.eof_reached():
-			print(debug_file.get_line())
-		debug_file.close()
 		
 func _on_play_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
@@ -80,15 +184,15 @@ func _on_play_pressed() -> void:
 	play_button.hide()
 	legacy_button.hide()
 	exit_button.hide()
+	main.save_gemmed_cards()
 	if GameInfo.current_scene_name == "Board":
 		GameInfo.current_scene.set_jokers(main.jokers)
-		#main.load_scene("res://scenes/Board.tscn")
 	if GameInfo.current_scene_name == "Shop" or GameInfo.current_scene_name == "Progress_screen":
 		GameInfo.current_scene.set_jokers(main.jokers)
-		#main.load_scene("res://scenes/Shop.tscn")
 		await GameInfo.new_scene.excavate_card()
 		await GameInfo.new_scene.excavate_card()
 		await GameInfo.new_scene.excavate_card()
+		GameInfo.new_scene.next_button.show()
 		
 func _on_legacy_mode_pressed() -> void:
 	set_legacy_mode_soundfx_player_volume()
@@ -157,29 +261,26 @@ func play_this_sound_effect(path: String) -> void:
 	else:
 		push_warning("Invalid audio stream at path: " + path)
 
-func set_soundfx_volume_to(volume_db: float) -> void:
+func set_soundfx_volume_to() -> void:
 	if GameInfo.board != null:
-		GameInfo.board.soundfx_player.volume_db = volume_db
-		GameInfo.board.ui.soundfx_player.volume_db = volume_db
+		GameInfo.board.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+		GameInfo.board.ui.soundfx_player.volume_db = GameInfo.soundfx_volume_db
 	elif GameInfo.shop != null:
-		GameInfo.shop.soundfx_player.volume_db = volume_db
+		GameInfo.shop.soundfx_player.volume_db = GameInfo.soundfx_volume_db
 	elif GameInfo.progress_screen != null:
-		GameInfo.progress_screen.soundfx_player.volume_db = volume_db
+		GameInfo.progress_screen.soundfx_player.volume_db = GameInfo.soundfx_volume_db
 	else:
-		soundfx_player.volume_db = volume_db
+		soundfx_player.volume_db = GameInfo.soundfx_volume_db
 		
 func set_soundfx_volume() -> void:
-	var volume_db = lerp(-80, 0, GameInfo.soundfx_value / 100.0)
-	set_soundfx_volume_to(volume_db)
-	
-func set_home_screen_soundfx_player_volume() -> void:
-	var volume_db = lerp(-80, 0, GameInfo.soundfx_value / 100.0)
-	soundfx_player.volume_db = volume_db
+	GameInfo.soundfx_volume_db = lerp(-80, 0, GameInfo.soundfx_value / 100.0)
+	soundfx_player.volume_db = GameInfo.soundfx_volume_db
+	set_soundfx_volume_to()
 
 func set_legacy_mode_soundfx_player_volume() -> void:
-	var volume_db = lerp(-80, 0, GameInfo.soundfx_value / 100.0)
-	legacy_mode.soundfx_player.volume_db = volume_db
-	legacy_mode.ui.soundfx_player.volume_db = volume_db
+	GameInfo.soundfx_volume_db = lerp(-80, 0, GameInfo.soundfx_value / 100.0)
+	legacy_mode.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+	legacy_mode.ui.soundfx_player.volume_db = GameInfo.soundfx_volume_db
 
 func load_jokers() -> void:
 	var card_value_1: String

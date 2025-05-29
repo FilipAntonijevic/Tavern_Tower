@@ -130,21 +130,6 @@ func load_jokers() -> void:
 				joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
 				jokers.get_child(i).set_joker(joker)
 	
-	if false:
-		for joker_place in main_jokers.get_children():
-			if joker_place.joker != null: 
-				var new_joker = joker_place.joker.duplicate()
-				for new_joker_place in jokers.get_children():
-					if new_joker_place.joker == null:
-						new_joker_place.remove_child(new_joker)
-						new_joker_place.set_joker(new_joker)
-						#new_joker.position = jokers.jokers_positions[jokers.get_child_count() - 2]
-						new_joker.this_jokers_position = new_joker.position
-						new_joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
-						new_joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
-						new_joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
-						break
-						
 func _on_mouse_entered_joker(joker: Joker) -> void:
 	if joker.has_node("effect"):
 		var child = joker.get_node("effect")
@@ -163,11 +148,13 @@ func _on_joker_sold(joker: Joker) -> void:
 			joker_place.joker = null
 			var card = turn_joker_into_a_card(joker)
 			original_deck.add_card(card)
+			GameInfo.original_deck.add_card(card)
 			GameInfo.total_gold += int(joker.effect.joker_price / 2)
 			gold_ammount_label.set_text(str(GameInfo.total_gold))
-			joker_effect_label.set_text("Hover a card to see its joker effect")
 			sell_joker_label.set_text("")
-	
+			get_parent().set_jokers(jokers)
+			get_parent().save_jokers()
+			GameInfo.save_game()
 
 func turn_joker_into_a_card(joker: Joker) -> Card:
 	var card: Card = card_scene.instantiate()
@@ -450,13 +437,6 @@ func move_jokers_to_the_right(starting_joker_int: int) -> bool:
 						var joker = moving_joker_place.joker
 						var new_joker_place = jokers.get_child(i) 
 						
-						#aniamtion
-						#var tween = get_tree().create_tween()
-						#tween.tween_property(joker, "global_position:x", new_joker_place.global_position.x, 0.5) \
-						#	.set_trans(Tween.TRANS_QUAD) \
-						#	.set_ease(Tween.EASE_OUT)
-						#await tween.finished
-						
 						moving_joker_place.remove_child(joker)
 						moving_joker_place.joker = null
 						new_joker_place.set_joker(joker)
@@ -671,6 +651,8 @@ func _on_small_emerald_pressed() -> void:
 			random_card.emerald = true
 			random_card.ruby = false
 			random_card.sapphire = false
+			var card_name = random_card.card_suit + '_' + str(random_card.card_value)
+			GameInfo.set(card_name, "emerald")
 		small_emerald.global_position = Vector2(-100,-100)
 		_on_small_emerald_mouse_exited()
 	else:
@@ -687,6 +669,8 @@ func _on_small_topaz_pressed() -> void:
 			random_card.emerald = false
 			random_card.ruby = false
 			random_card.sapphire = false
+			var card_name = random_card.card_suit + '_' + str(random_card.card_value)
+			GameInfo.set(card_name, "topaz")
 		small_topaz.global_position = Vector2(-100,-100)
 		_on_small_topaz_mouse_exited()
 	else:
@@ -703,6 +687,8 @@ func _on_small_sapphire_pressed() -> void:
 			random_card.emerald = false
 			random_card.ruby = false
 			random_card.sapphire = true
+			var card_name = random_card.card_suit + '_' + str(random_card.card_value)
+			GameInfo.set(card_name, "sapphire")
 		small_sapphire.global_position = Vector2(-100,-100)
 		_on_small_sapphire_mouse_exited()
 	else:
@@ -719,6 +705,8 @@ func _on_small_ruby_pressed() -> void:
 			random_card.emerald = false
 			random_card.ruby = true
 			random_card.sapphire = false
+			var card_name = random_card.card_suit + '_' + str(random_card.card_value)
+			GameInfo.set(card_name, "ruby")
 		small_ruby.global_position = Vector2(-100,-100)
 		_on_small_ruby_mouse_exited()
 	else:
@@ -734,6 +722,8 @@ func _on_big_emerald_pressed() -> void:
 			card.emerald = true
 			card.ruby = false
 			card.sapphire = false
+			var card_name = card.card_suit + '_' + str(card.card_value)
+			GameInfo.set(card_name, "emerald")
 		big_emerald.global_position = Vector2(-100,-100)
 		_on_big_emerald_mouse_exited()
 	else:
@@ -749,6 +739,8 @@ func _on_big_topaz_pressed() -> void:
 			card.emerald = false
 			card.ruby = false
 			card.sapphire = false
+			var card_name = card.card_suit + '_' + str(card.card_value)
+			GameInfo.set(card_name, "topaz")
 		big_topaz.global_position = Vector2(-100,-100)
 		_on_big_topaz_mouse_exited()
 	else:
@@ -764,6 +756,8 @@ func _on_big_sapphire_pressed() -> void:
 			card.emerald = false
 			card.ruby = false
 			card.sapphire = true
+			var card_name = card.card_suit + '_' + str(card.card_value)
+			GameInfo.set(card_name, "sapphire")
 		big_sapphire.global_position = Vector2(-100,-100)
 		_on_big_sapphire_mouse_exited()
 	else:
@@ -779,6 +773,8 @@ func _on_big_ruby_pressed() -> void:
 			card.emerald = false
 			card.ruby = true
 			card.sapphire = false
+			var card_name = card.card_suit + '_' + str(card.card_value)
+			GameInfo.set(card_name, "ruby")
 		big_ruby.global_position = Vector2(-100,-100)
 		_on_big_ruby_mouse_exited()
 	else:
@@ -812,7 +808,11 @@ func play_this_sound_effect(path: String) -> void:
 		push_warning("Invalid audio stream at path: " + path)
 
 func set_jokers(jokers_parent: Node) -> void:
-	for i in range(0,5):
-		if jokers_parent.get_child(i).joker != null:
-			var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
-			jokers.get_child(i).set_joker(joker)
+	if jokers_parent:
+		for i in range(0,5):
+			if jokers_parent.get_child(i).joker != null:
+				var joker = jokers_parent.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
+				joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
+				joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
+				joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
+				jokers.get_child(i).set_joker(joker)

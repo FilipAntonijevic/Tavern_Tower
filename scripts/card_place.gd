@@ -24,6 +24,8 @@ func _input(event):
 				card.emerald = false
 				card.ruby = false
 				card.sapphire = false
+				var card_name = card.card_suit + '_' + str(card.card_value)
+				GameInfo.set(card_name, "topaz")
 			get_parent().get_parent().topaz_touch = false
 			var cursor_texture = load("res://sprites/cursor.png")
 			Input.set_custom_mouse_cursor(cursor_texture)
@@ -35,6 +37,8 @@ func _input(event):
 				card.emerald = true
 				card.ruby = false
 				card.sapphire = false
+				var card_name = card.card_suit + '_' + str(card.card_value)
+				GameInfo.set(card_name, "emerald")
 			get_parent().get_parent().emerald_touch = false
 			var cursor_texture = load("res://sprites/cursor.png")
 			Input.set_custom_mouse_cursor(cursor_texture)
@@ -46,6 +50,8 @@ func _input(event):
 				card.emerald = false
 				card.ruby = true
 				card.sapphire = false
+				var card_name = card.card_suit + '_' + str(card.card_value)
+				GameInfo.set(card_name, "ruby")
 			get_parent().get_parent().ruby_touch = false
 			var cursor_texture = load("res://sprites/cursor.png")
 			Input.set_custom_mouse_cursor(cursor_texture)
@@ -57,6 +63,8 @@ func _input(event):
 				card.emerald = false
 				card.ruby = false
 				card.sapphire = true
+				var card_name = card.card_suit + '_' + str(card.card_value)
+				GameInfo.set(card_name, "sapphire")
 			get_parent().get_parent().sapphire_touch = false
 			var cursor_texture = load("res://sprites/cursor.png")
 			Input.set_custom_mouse_cursor(cursor_texture)
