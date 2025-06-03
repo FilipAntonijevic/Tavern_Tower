@@ -40,16 +40,13 @@ offset_left = -14.0
 offset_top = -43.0
 offset_right = 15.0
 offset_bottom = -20.0
+mouse_filter = 1
 text = "0"
 label_settings = SubResource("LabelSettings_n7tw4")
 horizontal_alignment = 1
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
-[connection signal="child_entered_tree" from="Area2D/CollisionShape2D" to="." method="_on_collision_shape_2d_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Area2D/CollisionShape2D" to="." method="_on_collision_shape_2d_child_exiting_tree"]
-[connection signal="tree_entered" from="Area2D/CollisionShape2D" to="." method="_on_collision_shape_2d_tree_entered"]
-[connection signal="tree_exited" from="Area2D/CollisionShape2D" to="." method="_on_collision_shape_2d_tree_exited"]
 [connection signal="mouse_entered" from="Buy_button" to="." method="_on_buy_button_mouse_entered"]
 [connection signal="mouse_exited" from="Buy_button" to="." method="_on_buy_button_mouse_exited"]
 [connection signal="pressed" from="Buy_button" to="." method="_on_buy_button_pressed"]

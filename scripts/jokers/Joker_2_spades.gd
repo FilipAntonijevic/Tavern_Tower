@@ -9,6 +9,7 @@ func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 		var array_of_stacks = ui.stacks.get_children()
 		for stack in array_of_stacks:
 			for i in range(stack.cards_in_stack.size() - 1, -1, -1):
+				if stack.cards_in_stack[i] != null:
 					if stack.cards_in_stack[i].card_suit == "spades":
 						var card = stack.cards_in_stack[i]
 						for j in range(i, stack.cards_in_stack.size() - 1):

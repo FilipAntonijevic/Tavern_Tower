@@ -54,11 +54,6 @@ func set_visual_aid_label(aid: String):
 	visual_aid_label.set_text(str(aid))
 
 func reduce_goal_by_score_ammount():
-	if score > 0:
-		progress += score
-		score = 0
-		update_progress_value()
-		set_score_value(score)
 		
 	await get_tree().create_timer(0.5).timeout
 	var initial_score := score
@@ -223,16 +218,17 @@ func lock_random_card():
 	var random_number = randi() % number_of_cards + 1
 	for stack in get_parent().ui.stacks.get_children():
 		for card in stack.cards_in_stack:
-			random_number -= 1
-			if random_number == 0:
-				if card.locked :
-					lock_random_card()
-				else:
-					if card.topaz == false:
-						card.locked = true
-						card.chains.show()
+			if card != null:
+				random_number -= 1
+				if random_number == 0:
+					if card.locked :
+						lock_random_card()
 					else:
-						pass #animacija lomljenja lanaca
+						if card.topaz == false:
+							card.locked = true
+							card.chains.show()
+						else:
+							pass #animacija lomljenja lanaca
 func lock_2_random_cards():
 	lock_random_card()
 	lock_random_card()
@@ -251,8 +247,9 @@ func lock_random_stack():
 func unlock_cards():
 	for stack in get_parent().ui.stacks.get_children():
 		for card in stack.cards_in_stack:
-			card.chains.hide()
-			card.locked = false
+			if card != null:
+				card.chains.hide()
+				card.locked = false
 		
 func unlock_stacks():
 	var i = 1
@@ -262,9 +259,7 @@ func unlock_stacks():
 			get_parent().ui.stacks.array_of_stacks[i].lock_sprite.visible = false
 		i += 1
 		
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#set_goal_value(goal)
 	attack_places = [attack_place_1, attack_place_2, attack_place_3, attack_place_4, attack_place_5]
 
 

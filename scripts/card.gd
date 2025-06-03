@@ -34,7 +34,8 @@ func _ready() -> void:
 	pass 
 	
 func set_card_sprite(path: String):
-	card_sprite.texture = load(path)
+	if card_sprite != null:
+		card_sprite.texture = load(path)
 
 func set_card_suit(suit: String):
 	card_suit = suit

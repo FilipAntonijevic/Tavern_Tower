@@ -15,7 +15,6 @@ func _ready() -> void:
 		buy_button.connect("pressed", Callable(self, "_on_buy_button_pressed"))
 		
 func _input(event):
-
 	if event is InputEventMouseButton && event.button_index == MOUSE_BUTTON_LEFT and event.pressed and mouse_is_inside_the_card:
 		if get_parent().get_parent().topaz_touch == true:
 			if card:
@@ -68,12 +67,10 @@ func _input(event):
 			get_parent().get_parent().sapphire_touch = false
 			var cursor_texture = load("res://sprites/cursor.png")
 			Input.set_custom_mouse_cursor(cursor_texture)
-			
-func _process(delta: float) -> void:
-	pass
 
 func set_card(_card: Card) -> void:
 	add_child(_card)
+	_card.position = Vector2.ZERO
 	buy_button.position.y = 7
 	card = _card
 	gold_cost_label.show()

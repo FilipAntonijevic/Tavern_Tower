@@ -55,17 +55,15 @@ var excavation_cost: int = 1
 signal show_board
 
 var main: Main 
-	
+
 func set_deck(deck: Deck) -> void:
 	original_deck = deck
 	
 func get_random_card_from_deck() -> Card:
 	if get_parent() and original_deck and original_deck.card_collection.size() > 0:
-		var random_index = randi() % GameInfo.original_deck.card_collection.size()
-		if original_deck.card_collection.has(random_index):
-			return original_deck.card_collection[random_index]
-		else:
-			return get_random_card_from_deck()
+		var keys = original_deck.card_collection.keys()
+		var random_key = keys[randi() % keys.size()]
+		return original_deck.card_collection[random_key]
 	else:
 		return null
 
@@ -73,42 +71,43 @@ func excavate_card() -> void:
 	excavate_cards_button.hide()
 	next_button.hide()
 	var card = get_random_card_from_deck()
-	if check_if_card_can_be_excavated(card): 
-		drawn_cards.append(card)  
-		play_this_sound_effect("res://sound/effects/card_flip_and_place_on_the_table_1.mp3")
-		for card_place in spawnpoints:
-			if !card_place.has_node("Card"):
-				var temp_card_back = card_back.instantiate()
-				temp_card_back.global_position = deck.global_position
-				get_tree().current_scene.add_child(temp_card_back)
+	if card != null:
+		if check_if_card_can_be_excavated(card): 
+			await play_this_sound_effect("res://sound/effects/card_flip_and_place_on_the_table_1.mp3")
+			for card_place in spawnpoints:
+				if card_place.card == null:
+					var temp_card_back = card_back.instantiate()
+					temp_card_back.global_position = deck.global_position
+					get_tree().current_scene.add_child(temp_card_back)
 
-				var tween = get_tree().create_tween()
-				tween.tween_property(temp_card_back, "global_position", card_place.global_position, 0.27)\
-					.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+					var tween = get_tree().create_tween()
+					tween.tween_property(temp_card_back, "global_position", card_place.global_position, 0.27)\
+						.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
-				await tween.finished
+					await tween.finished
 
-				var flip_tween = get_tree().create_tween()
-				flip_tween.tween_property(temp_card_back, "scale:x", 0.0, 0.1)\
-					.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+					var flip_tween = get_tree().create_tween()
+					flip_tween.tween_property(temp_card_back, "scale:x", 0.0, 0.1)\
+						.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+					await flip_tween.finished
+					temp_card_back.queue_free()
 
-				await flip_tween.finished
-				temp_card_back.queue_free()
+					drawn_cards.append(card)
+					card.scale.x = 0.0
+					card_place.set_card(card) 
+					card.set_card_sprite(card.card_path)
 
-				card.scale.x = 0.0
-				card_place.set_card(card)
-				card.set_card_sprite(card.card_path)
+					var flip_open = get_tree().create_tween()
+					flip_open.tween_property(card, "scale:x", 1.0, 0.1)\
+						.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+					await flip_open.finished
 
-				var flip_open = get_tree().create_tween()
-				flip_open.tween_property(card, "scale:x", 1.0, 0.1)\
-					.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+					excavate_cards_button.show()
+					next_button.show()
+					return
+		else:
+			excavate_card()
 
-				await flip_open.finished
-				excavate_cards_button.show()
-				next_button.show()
-				return
-	else:
-		excavate_card()
 
 func check_if_card_can_be_excavated(new_card: Card) -> bool:
 	if !new_card:
@@ -127,6 +126,7 @@ func load_jokers() -> void:
 				var joker = main_jokers.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
 				joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
 				joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
+				print('alooo')
 				joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
 				jokers.get_child(i).set_joker(joker)
 	
@@ -142,20 +142,32 @@ func _on_mouse_exited_joker() -> void:
 	sell_joker_label.set_text('')
 
 func _on_joker_sold(joker: Joker) -> void:
+	var i = 0
 	for joker_place in jokers.get_children():
 		if joker_place.joker == joker:
 			joker_place.remove_child(joker)
 			joker_place.joker = null
 			var card = turn_joker_into_a_card(joker)
 			original_deck.add_card(card)
-			GameInfo.original_deck.add_card(card)
+			if i == 0:
+				GameInfo.joker_1 = ""
+			elif i == 1:
+				GameInfo.joker_2 = ""
+			elif i == 2:
+				GameInfo.joker_3 = ""
+			elif i == 3:
+				GameInfo.joker_4 = ""
+			elif i == 4:
+				GameInfo.joker_5 = ""
 			GameInfo.total_gold += int(joker.effect.joker_price / 2)
 			gold_ammount_label.set_text(str(GameInfo.total_gold))
 			sell_joker_label.set_text("")
+			joker_effect_label.set_text("")
 			get_parent().set_jokers(jokers)
 			get_parent().save_jokers()
+			GameInfo.original_deck = copy_deck()
 			GameInfo.save_game()
-
+		i += 1
 func turn_joker_into_a_card(joker: Joker) -> Card:
 	var card: Card = card_scene.instantiate()
 	card.set_card_value(joker.card_value)
@@ -223,7 +235,7 @@ func copy_deck() -> Deck:
 	
 func _on_exacuviate_pressed() -> void:
 	if excavation_cost <= GameInfo.total_gold and drawn_cards.size() < 8:
-		play_this_sound_effect("res://sound/effects/button_click.mp3")
+		await play_this_sound_effect("res://sound/effects/button_click.mp3")
 		GameInfo.total_gold -= excavation_cost
 		excavation_cost += 1
 		excavation_cost_label.set_text("- " + str(excavation_cost) + " gold")
@@ -345,7 +357,6 @@ func assign_new_position_to_previously_dragged_joker(joker: Joker) -> void:
 			joker.global_position = joker_place.global_position
 			joker.z_index = 1
 			return
-		#current_selected_joker_for_movement.global_position = joker.last_joker_position
 
 func update_jokers_positions():
 	if is_dragging_a_joker:
@@ -403,13 +414,6 @@ func move_jokers_to_the_left(starting_joker_int):
 						var moving_joker_place = jokers.get_child(i + 1)
 						var joker = moving_joker_place.joker
 						var new_joker_place = jokers.get_child(i) 
-						
-						#aniamtion
-						#var tween = get_tree().create_tween()
-						#tween.tween_property(joker, "global_position:x", new_joker_place.global_position.x, 0.5) \
-						#	.set_trans(Tween.TRANS_QUAD) \
-						#	.set_ease(Tween.EASE_OUT)
-						#await tween.finished
 						
 						moving_joker_place.remove_child(joker)
 						moving_joker_place.joker = null

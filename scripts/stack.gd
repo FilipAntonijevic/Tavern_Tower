@@ -13,55 +13,62 @@ signal mouse_entered_stack(stack: Stack)
 signal mouse_exited_stack(stack: Stack)
 
 func connect_signals(card: Card):
-	if not card.mouse_entered_card.is_connected(handle_card_touched):
-		card.mouse_entered_card.connect(handle_card_touched)
-	if not card.mouse_exited_card.is_connected(handle_card_untouched):
-		card.mouse_exited_card.connect(handle_card_untouched)
+	if card != null:
+		if not card.mouse_entered_card.is_connected(handle_card_touched):
+			card.mouse_entered_card.connect(handle_card_touched)
+		if not card.mouse_exited_card.is_connected(handle_card_untouched):
+			card.mouse_exited_card.connect(handle_card_untouched)
 	
 func add_card(card: Card) -> bool:
-	if check_if_card_can_be_added():
-		cards_in_stack.push_back(card)
-		add_child(card)
-		card = connect_signals(card)
-		reposition_cards()
-		return true
+	if card != null:
+		if check_if_card_can_be_added():
+			cards_in_stack.push_back(card)
+			add_child(card)
+			card = connect_signals(card)
+			reposition_cards()
+			return true
+		return false
 	return false
 	
 func remove_card(card: Card):
-	cards_in_stack.remove_at(cards_in_stack.find(card))
-	remove_child(card)
-	reposition_cards()
+	if card != null:
+		cards_in_stack.remove_at(cards_in_stack.find(card))
+		remove_child(card)
+		reposition_cards()
 
 func remove_card_from_table(index: int):
 	if index < cards_in_stack.size():
 		var removing_card = cards_in_stack[index]
-		cards_in_stack.remove_at(index)
-		remove_child(removing_card)
-		reposition_cards()
+		if removing_card != null:
+			cards_in_stack.remove_at(index)
+			remove_child(removing_card)
+			reposition_cards()
 		
 
 func remove_card_from_deck_and_table(deck: Deck, index: int):
 	if index < cards_in_stack.size():
 		var removing_card = cards_in_stack[index]
-		remove_card_from_table(index)
+		if removing_card != null:
+			remove_card_from_table(index)
+			deck.remove_card_by_value(removing_card)
+			place_card_on_according_pile(removing_card)
+			update_card_position(removing_card,0)
+			removing_card.unhighlight()
+			reposition_cards()
+			
+func move_card_from_stack_to_a_pile(deck: Deck, removing_card: Card):
+	if removing_card != null:
+		removing_card.z_index = 0
+		cards_in_stack.remove_at(cards_in_stack.find(removing_card))
+		remove_child(removing_card)
 		deck.remove_card_by_value(removing_card)
 		place_card_on_according_pile(removing_card)
 		update_card_position(removing_card,0)
 		removing_card.unhighlight()
 		reposition_cards()
-			
-func move_card_from_stack_to_a_pile(deck: Deck, removing_card: Card):
-	
-	removing_card.z_index = 0
-	cards_in_stack.remove_at(cards_in_stack.find(removing_card))
-	remove_child(removing_card)
-	deck.remove_card_by_value(removing_card)
-	place_card_on_according_pile(removing_card)
-	update_card_position(removing_card,0)
-	removing_card.unhighlight()
-	reposition_cards()
 
 func place_card_on_according_pile(card: Card):
+	if card != null:
 		var spades_pile = get_parent().get_parent().spades_pile
 		var diamonds_pile = get_parent().get_parent().diamonds_pile
 		var clubs_pile = get_parent().get_parent().clubs_pile
@@ -86,13 +93,15 @@ func reposition_cards():
 	var x: float = 0
 	var z = 0
 	for card in cards_in_stack:
-		card.z_index = z
-		update_card_position(card, x)
-		x += 20
-		z += 1
+		if card != null:
+			card.z_index = z
+			update_card_position(card, x)
+			x += 20
+			z += 1
 
 func update_card_position(card: Node2D, x: float):
-	card.set_position(get_card_position(x))
+	if card != null:
+		card.set_position(get_card_position(x))
 	
 
 func get_card_position(x: float) -> Vector2:
@@ -105,22 +114,25 @@ func check_if_card_can_be_added() -> bool:
 	else:
 		return true
 
-func handle_card_touched(card: Card):	
-	touched_cards.push_back(card)
+func handle_card_touched(card: Card):
+	if card != null:
+		touched_cards.push_back(card)
 
 func highlight_cards_of_same_value(original_touched_card: Card):
-	get_parent().touched_card_value = original_touched_card.card_value
-	var deck = get_parent().get_parent().original_deck.card_collection
-	for key in deck:
-		var card = deck[key]
-		if card != null && card.card_sprite != null && card.card_value == original_touched_card.card_value && card != original_touched_card:
-			card.card_sprite.set_modulate(Color(0.8,0.8,0.8,1))
+	if original_touched_card != null:
+		get_parent().touched_card_value = original_touched_card.card_value
+		var deck = get_parent().get_parent().original_deck.card_collection
+		for key in deck:
+			var card = deck[key]
+			if card != null && card.card_sprite != null && card.card_value == original_touched_card.card_value && card != original_touched_card:
+				card.card_sprite.set_modulate(Color(0.8,0.8,0.8,1))
 
 func handle_card_untouched(card: Card):
-	get_parent().touched_card_value = 0
-	var index: int = touched_cards.find(card)
-	if index >= 0:
-		touched_cards.remove_at(index)
+	if card != null:
+		get_parent().touched_card_value = 0
+		var index: int = touched_cards.find(card)
+		if index >= 0:
+			touched_cards.remove_at(index)
 		
 func check_if_card_is_on_top_of_the_stack(card_index: int) -> bool:
 	if card_index == 2:
@@ -140,9 +152,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	
 	for card in cards_in_stack:
-		current_selected_card_index = -1
-		if get_parent().touched_card_value != card.card_value:
-			card.unhighlight()
+		if card != null:
+			current_selected_card_index = -1
+			if get_parent().touched_card_value != card.card_value:
+				card.unhighlight()
 		
 	if !touched_cards.is_empty():
 		var highest_touched_index: int = -1

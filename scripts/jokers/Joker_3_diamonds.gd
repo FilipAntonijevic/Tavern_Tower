@@ -11,16 +11,18 @@ func activate(_activation_window: String, deck: Deck, ui: Ui, _card: Card):
 			for i in range(stack.cards_in_stack.size() - 1, -1, -1):
 				for j1 in range(stack.cards_in_stack.size()): 
 					for j2 in range(stack.cards_in_stack.size() - 1):
-						if stack.cards_in_stack[j2].card_suit == "diamonds" and stack.cards_in_stack[j2 + 1].card_suit == "diamonds":
-							if stack.cards_in_stack[j2].card_value < stack.cards_in_stack[j2 + 1].card_value:
-								var temp = stack.cards_in_stack[j2]
-								stack.cards_in_stack[j2] = stack.cards_in_stack[j2 + 1]
-								stack.cards_in_stack[j2 + 1] = temp
-						if stack.cards_in_stack.size() == 3 and stack.cards_in_stack[0].card_suit == "diamonds" and stack.cards_in_stack[2].card_suit == "diamonds":
-							if stack.cards_in_stack[0].card_value < stack.cards_in_stack[2].card_value:
-								var temp = stack.cards_in_stack[0]
-								stack.cards_in_stack[0] = stack.cards_in_stack[2]
-								stack.cards_in_stack[2] = temp
+						if stack.cards_in_stack[j2] != null:
+							if stack.cards_in_stack[j2].card_suit == "diamonds" and stack.cards_in_stack[j2 + 1].card_suit == "diamonds":
+								if stack.cards_in_stack[j2].card_value < stack.cards_in_stack[j2 + 1].card_value:
+									var temp = stack.cards_in_stack[j2]
+									stack.cards_in_stack[j2] = stack.cards_in_stack[j2 + 1]
+									stack.cards_in_stack[j2 + 1] = temp
+						if stack.cards_in_stack[j2] != null:
+							if stack.cards_in_stack.size() == 3 and stack.cards_in_stack[0].card_suit == "diamonds" and stack.cards_in_stack[2].card_suit == "diamonds":
+								if stack.cards_in_stack[0].card_value < stack.cards_in_stack[2].card_value:
+									var temp = stack.cards_in_stack[0]
+									stack.cards_in_stack[0] = stack.cards_in_stack[2]
+									stack.cards_in_stack[2] = temp
 
 			stack.reposition_cards()
 			

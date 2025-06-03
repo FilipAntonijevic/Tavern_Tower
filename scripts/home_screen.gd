@@ -185,10 +185,12 @@ func _on_play_pressed() -> void:
 	legacy_button.hide()
 	exit_button.hide()
 	main.save_gemmed_cards()
+
 	if GameInfo.current_scene_name == "Board":
-		GameInfo.current_scene.set_jokers(main.jokers)
+		main.load_scene("res://scenes/Board.tscn")
+
 	if GameInfo.current_scene_name == "Shop" or GameInfo.current_scene_name == "Progress_screen":
-		GameInfo.current_scene.set_jokers(main.jokers)
+		main.load_scene("res://scenes/Shop.tscn")
 		await GameInfo.new_scene.excavate_card()
 		await GameInfo.new_scene.excavate_card()
 		await GameInfo.new_scene.excavate_card()
@@ -216,12 +218,20 @@ func _on_options_pressed() -> void:
 		options_screen.show()
 		if GameInfo.in_home_screen_currently:
 			options_screen.back_to_main_menu.hide()
+			options_screen.surrender_button.hide()
+			exit_button.hide()
+			legacy_button.hide()
+			play_button.hide()
 		GameInfo.toggled_on = false
 	else:
 		options_screen.hide()
 		options_screen.back_to_main_menu.show()
+		options_screen.surrender_button.show()
 		GameInfo.toggled_on = true
-
+		exit_button.show()
+		legacy_button.show()
+		play_button.show()
+		
 func _on_play_mouse_entered() -> void:
 	main_menu.hide()
 	main_menu_play_button_bigger.show()
@@ -295,7 +305,7 @@ func load_jokers() -> void:
 		if card.card_suit == card_suit_1 and str(card.card_value) == card_value_1:
 			main.add_joker(card)
 			GameInfo.original_deck.remove_card_by_value_and_suit(card)
-			
+
 	var card_value_2: String
 	var card_suit_2: String
 	var parts_2 = GameInfo.joker_2.split("_")
@@ -347,3 +357,4 @@ func load_jokers() -> void:
 		if card.card_suit == card_suit_5 and str(card.card_value) == card_value_5:
 			main.add_joker(card)
 			GameInfo.original_deck.remove_card_by_value_and_suit(card)
+	

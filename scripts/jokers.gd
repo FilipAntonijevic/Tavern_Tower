@@ -11,7 +11,6 @@ var jokers_positions: Array = []
 func _ready() -> void:
 	jokers_positions= [joker_place_1.position, joker_place_2.position, joker_place_3.position, joker_place_4.position, joker_place_5.position]
 
-
 func show_popup_window()-> void:
 	if GameInfo.current_scene_name == "Board":
 		var i = 0
@@ -22,6 +21,7 @@ func show_popup_window()-> void:
 				popup_window.set_effect_label_text(joker_place.joker.effect.joker_effect)
 				popup_window.set_new_position(i)
 			i += 1
+			
 func hide_popup_window()-> void:
 	if GameInfo.current_scene_name == "Board":
 		var popup_window = get_parent().popup_window

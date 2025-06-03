@@ -6,6 +6,7 @@ var enemy_gold: int = 0
 var redeal_cost: int = 0
 var jokers_are_frozen: bool = false
 var jokers_are_frozen_turn_counter = 0
+var enemy_defeated = false
 
 @onready var soundfx_player = $soundfx_player
 @onready var game_control: GameController = $GameController
@@ -37,9 +38,12 @@ func _ready() -> void:
 	ui.set_deck(original_deck)
 	update_coins(GameInfo.enemy_gold)
 	await redeal_cards()
-
+	enemy_defeated = false
+	
 func set_deck(deck: Deck) -> void:
 	original_deck = deck
+	if ui:
+		ui.set_deck(original_deck)
 
 func _process(delta: float) -> void:
 	if game_control.current_state == GameController.GameState.ENEMY_TURN:
@@ -53,11 +57,13 @@ func _process(delta: float) -> void:
 	if !game_control.is_running:
 		return
 	
-	if check_if_you_beat_enemy():
-		get_parent().total_gold += enemy_gold
+	if check_if_you_beat_enemy() and not enemy_defeated:
+		enemy_defeated = true
+		GameInfo.total_gold += enemy_gold
 		get_parent().increase_enemy_strength()
-		emit_signal("show_progress_bar")
 		hide()
+		emit_signal("show_progress_bar")
+		
 		
 func hide_coins(k: int) -> void:
 	var i = 0
@@ -122,13 +128,7 @@ func redeal_cards() -> void:
 	game_control.current_state = GameController.GameState.PLAYER_TURN
 	ui.clear_stacks()
 	ui.place_cards_from_deck_on_the_table()
-	var timer = Timer.new()
-	timer.wait_time = 1 #treba tacno 0.78 s da se podele sve karte pa tek onda da pocnu da rade jokeri da se ne zbune al bode ako je 0.79 iz nekog razloga
-	timer.one_shot = true
-	add_child(timer)
-	timer.start()
-	await timer.timeout
-	timer.queue_free()
+	await get_tree().create_timer(1).timeout #treba tacno 0.78 s da se podele sve karte pa tek onda da pocnu da rade jokeri da se ne zbune al bode ako je 0.79 iz nekog razloga
 	await handle_jokers('on_cards_dealt', null)
 	check_if_redeal_cards_button_should_turn_into_give_up_button()
 
@@ -144,8 +144,9 @@ func end_turn() -> void:
 func _on_go_to_shop_pressed() -> void:
 	GameInfo.total_gold += enemy_gold
 	get_parent().increase_enemy_strength()
-	emit_signal("show_progress_bar")
 	hide()
+	emit_signal("show_progress_bar")
+	
 
 func handle_jokers(activation_window: String, card: Card):
 	if !jokers_are_frozen:
@@ -173,10 +174,12 @@ func reset_board() -> void:
 
 
 func _on_give_up_pressed() -> void:
+	GameInfo.reset()
+	GameInfo.save_game()
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	GameInfo.in_home_screen_currently = true
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
-
+	get_parent().reset()
 
 func _on_give_up_mouse_entered() -> void:
 	desk_surrender_button.hide()

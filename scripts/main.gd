@@ -21,10 +21,7 @@ func _ready():
 	var cursor_texture = load("res://sprites/cursor.png")
 	Input.set_custom_mouse_cursor(cursor_texture)
 	GameInfo.original_deck.initialize_deck()
-	if GameInfo.current_scene_name == "Board":
-		load_scene("res://scenes/Board.tscn")
-	elif GameInfo.current_scene_name == "Progress_screen" or GameInfo.current_scene_name == "Shop":
-		load_scene("res://scenes/Shop.tscn")
+
 func increase_enemy_strength():
 	GameInfo.enemy_goal += 25
 	
@@ -51,7 +48,6 @@ func load_scene(scene_path: String) -> void:
 		GameInfo.current_scene = null
 	
 	GameInfo.new_scene = load(scene_path).instantiate()
-
 	if scene_path == "res://scenes/Board.tscn":
 		GameInfo.new_scene.set_deck(copy_deck())
 		add_child(GameInfo.new_scene)
@@ -119,7 +115,7 @@ func set_jokers(jokers_shop: Node) -> void:
 			
 func _on_go_to_shop() -> void:
 	GameInfo.current_scene_name = "Shop"
-	load_scene("res://scenes/Shop.tscn")
+	await load_scene("res://scenes/Shop.tscn")
 	await GameInfo.new_scene.excavate_card()
 	await GameInfo.new_scene.excavate_card()
 	await GameInfo.new_scene.excavate_card()

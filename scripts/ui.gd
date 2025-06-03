@@ -175,15 +175,16 @@ func place_card_to_according_pile():
 
 func place_joker_on_according_pile(joker: Joker) -> void:
 	var card = turn_joker_into_a_card(joker)
-	if is_dragging == false and check_if_card_can_be_placed_on_pile(card):
-		await get_parent().handle_jokers('on_this_card_played', card)
-		place_card_on_according_pile(card)
-		if card.topaz == true:
-			get_parent().enemy.remove_upcomming_attacks()
-		calculate_and_add_to_score(card)
-		card.set_card_sprite(card.card_path)
-		remove_joker_from_jokers_array(joker)
-		get_parent().end_turn()
+	if card != null:
+		if is_dragging == false and check_if_card_can_be_placed_on_pile(card):
+			await get_parent().handle_jokers('on_this_card_played', card)
+			place_card_on_according_pile(card)
+			if card.topaz == true:
+				get_parent().enemy.remove_upcomming_attacks()
+			calculate_and_add_to_score(card)
+			card.set_card_sprite(card.card_path)
+			remove_joker_from_jokers_array(joker)
+			get_parent().end_turn()
 
 func place_card_on_according_pile(card: Card):
 		play_random_card_flip_effect()
@@ -279,31 +280,28 @@ func select_card_to_move():
 	
 func place_cards_from_deck_on_the_table() -> void:
 	original_deck = shuffle_deck(original_deck)
-	timer = Timer.new()
-	timer.wait_time = 0.015
-	timer.one_shot = true
-	add_child(timer)
 	
 	for i in range(original_deck.card_collection.size()):
 		var card = original_deck.get_card(i)
 		stacks.add_card_to_a_stack(card)
-		card.set_card_sprite(card.card_path)
-		timer.start()
-		await timer.timeout
-		if card.topaz:
-			card.highlight_topaz_card()
-		if card.emerald:
-			card.highlight_emerald_card()
-		if card.ruby:
-			card.highlight_ruby_card()
-		if card.sapphire:
-			card.highlight_sapphire_card()
-	timer.queue_free()
+		if card != null:
+			card.set_card_sprite(card.card_path)
+			await get_tree().create_timer(0.015).timeout
+			if card.topaz:
+				card.highlight_topaz_card()
+			if card.emerald:
+				card.highlight_emerald_card()
+			if card.ruby:
+				card.highlight_ruby_card()
+			if card.sapphire:
+				card.highlight_sapphire_card()
+
 
 func add_card(path: String):
 	var card: Card = card_scene.instantiate()
-	stacks.add_card(card)
-	card.set_card_sprite(path)
+	if card != null:
+		stacks.add_card(card)
+		card.set_card_sprite(path)
 	
 func shuffle_deck(deck: Deck) -> Deck:
 	var keys = deck.get_keys()

@@ -37,7 +37,11 @@ func _generate_card_id():
 	return id_counter
 	
 func get_card(card_id: int) -> Card:
-	return card_collection[card_id]
+	if card_collection.has(card_id):
+		return card_collection[card_id]
+	else:
+		return null
+
 
 func find_this_card(value: int, suit: String) -> Card:
 	for card_id in card_collection.keys():
