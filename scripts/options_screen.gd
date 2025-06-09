@@ -16,22 +16,12 @@ func _on_options_button_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	emit_signal("hide_options_screen")
 
-
 func _on_options_button_mouse_entered() -> void:
 	options_button.pivot_offset = options_button.size / 2
 	options_button.rotation_degrees = 15
 
 func _on_options_button_mouse_exited() -> void:
 	options_button.rotation = deg_to_rad(0)
-
-
-func _on_back_to_main_menu_button_pressed() -> void:
-	GameInfo.save_game()
-	get_parent().set_soundfx_volume()
-	play_this_sound_effect("res://sound/effects/button_click.mp3")
-	GameInfo.in_home_screen_currently = true
-	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
-	get_parent().main.reset()
 	
 func play_this_sound_effect(path: String) -> void:
 	if path.is_empty():
@@ -45,19 +35,31 @@ func play_this_sound_effect(path: String) -> void:
 
 func _on_sound_fx_slider_value_changed(value: float) -> void:
 	GameInfo.soundfx_value = value
-	if GameInfo.in_home_screen_currently:
-		get_parent().set_soundfx_volume()
 	GameInfo.soundfx_volume_db = lerp(-80, 0, value / 100.0)
 	soundfx_player.volume_db = GameInfo.soundfx_volume_db
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
-	get_parent().set_soundfx_volume_to()
-
+	get_parent().set_soundfx_volume()
+	GameInfo.update_sounfdx_volume()
 
 func _on_surrender_button_pressed() -> void:
 	GameInfo.reset()
+	GameInfo.in_home_screen_currently = true
+	if GameInfo.in_legacy_mode_currently:
+		GameInfo.in_legacy_mode_currently = false
+		GameInfo.legacy_mode = null
 	GameInfo.save_game()
-	get_parent().set_soundfx_volume()
+	get_parent().load_sound_and_music_volume()
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
+	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
+	get_parent().main.reset()
+
+func _on_back_to_main_menu_button_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	GameInfo.in_home_screen_currently = true
+	if GameInfo.in_legacy_mode_currently:
+		GameInfo.in_legacy_mode_currently = false
+		GameInfo.legacy_mode = null
+	GameInfo.save_game()
 	get_tree().change_scene_to_file("res://scenes/home_screen.tscn")
+	get_parent().load_sound_and_music_volume()
 	get_parent().main.reset()

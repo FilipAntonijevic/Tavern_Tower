@@ -1,16 +1,18 @@
 extends Node
 
 var toggled_on = true
+var in_legacy_mode_currently = false
 var in_home_screen_currently = true
 var board = null
 var progress_screen = null
 var shop = null
-var soundfx_value = 0
+var legacy_mode = null
 
 var current_scene_name = "Board"
 var original_deck: Deck = Deck.new()
 var current_scene: Node = null 
 var new_scene = null
+var soundfx_value = 100
 var soundfx_volume_db = 0
 var total_gold: int = 1000
 var enemy_gold: int = 5
@@ -163,13 +165,11 @@ func reset() -> void:
 	board = null
 	progress_screen = null
 	shop = null
-	soundfx_value = 0
 
 	current_scene_name = "Board"
 	original_deck = Deck.new()
 	current_scene = null 
 	new_scene = null
-	soundfx_volume_db = 0
 	total_gold = 1000
 	enemy_gold = 5
 	enemy_goal = 25
@@ -236,3 +236,20 @@ func reset() -> void:
 	hearts_11 = ""
 	hearts_12 = ""
 	hearts_13 = ""
+
+
+func update_sounfdx_volume() -> void:
+	if GameInfo.board != null:
+		GameInfo.board.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+		GameInfo.board.ui.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+	elif GameInfo.shop != null:
+		GameInfo.shop.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+	elif GameInfo.progress_screen != null:
+		GameInfo.progress_screen.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+	if GameInfo.in_legacy_mode_currently:
+		if GameInfo.legacy_mode != null:
+			if GameInfo.legacy_mode.soundfx_player != null:
+				GameInfo.legacy_mode.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+				GameInfo.legacy_mode.ui.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+			else:
+				print("idk why but soundfx_player for legacy mode is null")

@@ -28,8 +28,7 @@ func _ready() -> void:
 		area_2d.connect("mouse_exited", Callable(self, "_on_area_2d_mouse_exited"))
 	if not is_connected("joker_sold", Callable(self, "_on_joker_sold")):
 		connect("joker_sold", Callable(self, "_on_joker_sold"))
-		
-	
+
 func _process(delta: float) -> void:
 	pass
 
@@ -46,7 +45,7 @@ func _on_area_2d_mouse_entered() -> void:
 		mouse_is_inside_this_joker = true
 		emit_signal("mouse_entered_joker", self) 
 		highlight()
-		position.y += 2
+		position.y -= 2
 
 func _on_area_2d_mouse_exited() -> void:
 	if is_dragging:
@@ -60,10 +59,9 @@ func _on_area_2d_mouse_exited() -> void:
 		mouse_is_inside_this_joker = false
 		emit_signal("mouse_exited_joker")
 		unhighlight()
-		position.y -= 2
+		position.y += 2
 
 func _unhandled_input(event):
-	
 	if mouse_is_inside_this_joker and GameInfo.current_scene_name == "Shop":
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and mouse_is_inside_this_joker:
 			emit_signal("joker_sold", self) 

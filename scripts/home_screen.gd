@@ -22,9 +22,9 @@ func _ready() -> void:
 		GameInfo.save_game()
 	else:
 		load_game()
-	options_screen._on_sound_fx_slider_value_changed(options_screen.soundfx_slider.value)
-	set_legacy_mode_soundfx_player_volume()
-		
+	GameInfo.in_home_screen_currently = true
+	load_sound_and_music_volume()
+	
 func load_game():
 	var file = FileAccess.open("user://game_info.txt", FileAccess.READ)
 	if file == null:
@@ -176,10 +176,15 @@ func load_game():
 					GameInfo.hearts_13 = str(value)
 	file.close()
 	load_jokers()
-		
+	load_sound_and_music_volume()
+
+func load_sound_and_music_volume() -> void:
+	set_soundfx_volume()
+
 func _on_play_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	GameInfo.in_home_screen_currently = false
+	GameInfo.update_sounfdx_volume()
 	main.show()
 	play_button.hide()
 	legacy_button.hide()
@@ -195,16 +200,23 @@ func _on_play_pressed() -> void:
 		await GameInfo.new_scene.excavate_card()
 		await GameInfo.new_scene.excavate_card()
 		GameInfo.new_scene.next_button.show()
-		
+
 func _on_legacy_mode_pressed() -> void:
-	set_legacy_mode_soundfx_player_volume()
-	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	GameInfo.in_home_screen_currently = false
-	legacy_mode.show()
+	GameInfo.in_legacy_mode_currently = true
+
+	GameInfo.legacy_mode = load("res://scenes/legacy_mode.tscn").instantiate()
+	get_tree().current_scene.add_child(GameInfo.legacy_mode)
+
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
+	GameInfo.legacy_mode.show()
+
 	play_button.hide()
 	legacy_button.hide()
 	exit_button.hide()
-	
+
+	GameInfo.update_sounfdx_volume()
+
 func _on_exit_button_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	get_tree().quit()
@@ -222,15 +234,18 @@ func _on_options_pressed() -> void:
 			exit_button.hide()
 			legacy_button.hide()
 			play_button.hide()
+		elif GameInfo.in_legacy_mode_currently:
+			options_screen.surrender_button.hide()
 		GameInfo.toggled_on = false
 	else:
 		options_screen.hide()
 		options_screen.back_to_main_menu.show()
 		options_screen.surrender_button.show()
 		GameInfo.toggled_on = true
-		exit_button.show()
-		legacy_button.show()
-		play_button.show()
+		if GameInfo.in_home_screen_currently:
+			exit_button.show()
+			legacy_button.show()
+			play_button.show()
 		
 func _on_play_mouse_entered() -> void:
 	main_menu.hide()
@@ -270,27 +285,12 @@ func play_this_sound_effect(path: String) -> void:
 		soundfx_player.play()
 	else:
 		push_warning("Invalid audio stream at path: " + path)
-
-func set_soundfx_volume_to() -> void:
-	if GameInfo.board != null:
-		GameInfo.board.soundfx_player.volume_db = GameInfo.soundfx_volume_db
-		GameInfo.board.ui.soundfx_player.volume_db = GameInfo.soundfx_volume_db
-	elif GameInfo.shop != null:
-		GameInfo.shop.soundfx_player.volume_db = GameInfo.soundfx_volume_db
-	elif GameInfo.progress_screen != null:
-		GameInfo.progress_screen.soundfx_player.volume_db = GameInfo.soundfx_volume_db
-	else:
-		soundfx_player.volume_db = GameInfo.soundfx_volume_db
 		
 func set_soundfx_volume() -> void:
+	options_screen.soundfx_slider.value = GameInfo.soundfx_value
 	GameInfo.soundfx_volume_db = lerp(-80, 0, GameInfo.soundfx_value / 100.0)
 	soundfx_player.volume_db = GameInfo.soundfx_volume_db
-	set_soundfx_volume_to()
-
-func set_legacy_mode_soundfx_player_volume() -> void:
-	GameInfo.soundfx_volume_db = lerp(-80, 0, GameInfo.soundfx_value / 100.0)
-	legacy_mode.soundfx_player.volume_db = GameInfo.soundfx_volume_db
-	legacy_mode.ui.soundfx_player.volume_db = GameInfo.soundfx_volume_db
+	GameInfo.update_sounfdx_volume()
 
 func load_jokers() -> void:
 	var card_value_1: String

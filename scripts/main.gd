@@ -80,6 +80,7 @@ func load_scene(scene_path: String) -> void:
 	save_jokers()
 	save_gemmed_cards()
 	GameInfo.save_game()
+	GameInfo.update_sounfdx_volume()
 
 func copy_deck() -> Deck:
 	save_gemmed_cards()

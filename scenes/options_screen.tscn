@@ -1,10 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://dpyw8mdapligj"]
+[gd_scene load_steps=15 format=3 uid="uid://dpyw8mdapligj"]
 
 [ext_resource type="Script" path="res://scripts/options_screen.gd" id="1_x67xk"]
 [ext_resource type="Texture2D" uid="uid://dmq4x1tv03bbn" path="res://sprites/options_screen.png" id="2_g5ava"]
 [ext_resource type="Texture2D" uid="uid://cvndpmgbm515q" path="res://sprites/options_sprite.png" id="3_nrluh"]
 [ext_resource type="Material" uid="uid://d3voebh36ka7u" path="res://new_shader_material.tres" id="4_8nbqq"]
 [ext_resource type="FontFile" uid="uid://cit1npgi7fd48" path="res://ff-comma-trial/FFCommaTrial-Regular.ttf" id="5_avlnm"]
+[ext_resource type="Texture2D" uid="uid://du65ptokavkfj" path="res://hslider_resources/normal_arrow.png" id="6_tsgi2"]
+[ext_resource type="Texture2D" uid="uid://c7lw6vmd00o1e" path="res://hslider_resources/arrow_pressed.png" id="7_lo80q"]
+[ext_resource type="Texture2D" uid="uid://dmnaxbrwhfg8m" path="res://hslider_resources/slider.png" id="8_hr70x"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qrw0b"]
 font = ExtResource("5_avlnm")
@@ -12,6 +15,20 @@ font_size = 24
 
 [sub_resource type="LabelSettings" id="LabelSettings_y4png"]
 font = ExtResource("5_avlnm")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mky8e"]
+texture = ExtResource("8_hr70x")
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qdkxp"]
+texture = ExtResource("8_hr70x")
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_xi4x6"]
 font = ExtResource("5_avlnm")
@@ -67,6 +84,11 @@ offset_left = 277.0
 offset_top = 113.0
 offset_right = 537.0
 offset_bottom = 129.0
+theme_override_icons/grabber = ExtResource("6_tsgi2")
+theme_override_icons/grabber_highlight = ExtResource("7_lo80q")
+theme_override_icons/grabber_disabled = ExtResource("7_lo80q")
+theme_override_icons/tick = ExtResource("7_lo80q")
+theme_override_styles/slider = SubResource("StyleBoxTexture_mky8e")
 value = 100.0
 
 [node name="music_volume_slider" type="HSlider" parent="."]
@@ -74,6 +96,11 @@ offset_left = 277.0
 offset_top = 84.0
 offset_right = 537.0
 offset_bottom = 100.0
+theme_override_icons/grabber = ExtResource("6_tsgi2")
+theme_override_icons/grabber_highlight = ExtResource("7_lo80q")
+theme_override_icons/grabber_disabled = ExtResource("7_lo80q")
+theme_override_icons/tick = ExtResource("7_lo80q")
+theme_override_styles/slider = SubResource("StyleBoxTexture_qdkxp")
 value = 100.0
 
 [node name="back_to_main_menu" type="Node2D" parent="."]

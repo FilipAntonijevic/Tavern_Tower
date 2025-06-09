@@ -126,7 +126,6 @@ func load_jokers() -> void:
 				var joker = main_jokers.get_child(i).joker.duplicate(DUPLICATE_SCRIPTS | DUPLICATE_GROUPS | DUPLICATE_SIGNALS)
 				joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
 				joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
-				print('alooo')
 				joker.connect("joker_sold", Callable(self, "_on_joker_sold"))
 				jokers.get_child(i).set_joker(joker)
 	
@@ -142,6 +141,7 @@ func _on_mouse_exited_joker() -> void:
 	sell_joker_label.set_text('')
 
 func _on_joker_sold(joker: Joker) -> void:
+	play_this_sound_effect("res://sound/effects/card_bought.mp3")
 	var i = 0
 	for joker_place in jokers.get_children():
 		if joker_place.joker == joker:
