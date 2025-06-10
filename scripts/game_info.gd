@@ -172,7 +172,7 @@ func reset() -> void:
 	original_deck = Deck.new()
 	current_scene = null 
 	new_scene = null
-	total_gold = 1000
+	total_gold = 0
 	enemy_gold = 5
 	enemy_goal = 25
 	enemy_number = 1

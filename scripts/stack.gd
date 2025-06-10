@@ -148,7 +148,6 @@ func _ready() -> void:
 	lock_sprite.z_index = 10
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	
 	for card in cards_in_stack:

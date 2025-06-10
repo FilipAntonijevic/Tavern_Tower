@@ -261,8 +261,3 @@ func unlock_stacks():
 		
 func _ready() -> void:
 	attack_places = [attack_place_1, attack_place_2, attack_place_3, attack_place_4, attack_place_5]
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

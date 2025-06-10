@@ -2,15 +2,6 @@ class_name Popup_window extends Node2D
 
 @onready var effect_label = $effect_label
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 func set_effect_label_text(effect: String)-> void:
 	effect_label.set_text(effect)
 

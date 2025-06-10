@@ -87,8 +87,10 @@ func turn_card_into_a_joker(card: Card) -> Joker:
 			joker.card_value = card.card_value
 			joker.card_suit = card.card_suit
 			joker.card_path = card.card_path
-			joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
-			joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
+			if not joker.is_connected("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker")):
+				joker.connect("mouse_entered_joker", Callable(self, "_on_mouse_entered_joker"))
+			if not joker.is_connected("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker")):
+				joker.connect("mouse_exited_joker", Callable(self, "_on_mouse_exited_joker"))
 			return joker
 	return null
 	

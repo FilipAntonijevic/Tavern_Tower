@@ -52,7 +52,7 @@ var is_dragging_a_joker: bool = false
 
 var excavation_cost: int = 1
 
-signal show_board
+signal show_board()
 
 var main: Main 
 
@@ -73,7 +73,7 @@ func excavate_card() -> void:
 	var card = get_random_card_from_deck()
 	if card != null:
 		if check_if_card_can_be_excavated(card): 
-			await play_this_sound_effect("res://sound/effects/card_flip_and_place_on_the_table_1.mp3")
+			play_this_sound_effect("res://sound/effects/card_flip_and_place_on_the_table_1.mp3")
 			for card_place in spawnpoints:
 				if card_place.card == null:
 					var temp_card_back = card_back.instantiate()
@@ -204,7 +204,7 @@ func _ready() -> void:
 		card_place.connect("joker_bought", Callable(self, "_on_joker_bought"))
 	
 func _on_button_pressed() -> void:
-	await play_this_sound_effect("res://sound/effects/button_click.mp3")
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	get_parent().set_jokers(jokers)
 	for joker_place in jokers.get_children():
 		if joker_place.joker != null:
@@ -235,7 +235,7 @@ func copy_deck() -> Deck:
 	
 func _on_exacuviate_pressed() -> void:
 	if excavation_cost <= GameInfo.total_gold and drawn_cards.size() < 8:
-		await play_this_sound_effect("res://sound/effects/button_click.mp3")
+		play_this_sound_effect("res://sound/effects/button_click.mp3")
 		GameInfo.total_gold -= excavation_cost
 		excavation_cost += 1
 		excavation_cost_label.set_text("- " + str(excavation_cost) + " gold")

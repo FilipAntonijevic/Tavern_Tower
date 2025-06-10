@@ -54,7 +54,7 @@ func check_if_you_won() -> void:
 	
 func _on_button_pressed() -> void:
 	next_button.hide()
-	await play_this_sound_effect("res://sound/effects/button_click.mp3")
+	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	emit_signal("go_to_shop")
 
 func _on_button_mouse_entered() -> void:

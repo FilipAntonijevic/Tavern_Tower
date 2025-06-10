@@ -13,9 +13,6 @@ func set_joker(_joker: Joker) -> void:
 	add_child(_joker)
 	joker = _joker
 
-func turn_joker_into_a_card(joker: Joker) -> Card:
-	return null
-
 func _on_area_2d_mouse_entered() -> void:
 	if this_area_is_entered == false:
 		this_area_is_entered = true

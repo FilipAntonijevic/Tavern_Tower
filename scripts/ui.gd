@@ -42,9 +42,6 @@ func _ready() -> void:
 	card_dealing_timer.wait_time = 0.25
 	card_dealing_timer.one_shot = true
 	add_child(card_dealing_timer)
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
 
 func _input(event):
 	if get_parent().game_mode == "Legacy_mode":
