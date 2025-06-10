@@ -92,6 +92,8 @@ func save_game():
 	file.store_line("in_home_screen_currently=" + str(in_home_screen_currently))
 	file.store_line("soundfx_value=" + str(soundfx_value))
 	file.store_line("soundfx_volume_db=" + str(soundfx_volume_db))
+	file.store_line("music_value=" + str(music_value))
+	file.store_line("music_volume_db=" + str(music_volume_db))
 	file.store_line("total_gold=" + str(total_gold))
 	file.store_line("enemy_gold=" + str(enemy_gold))
 	file.store_line("enemy_goal=" + str(enemy_goal))

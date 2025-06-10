@@ -51,6 +51,10 @@ func load_game():
 					GameInfo.soundfx_value = int(value)
 				"soundfx_volume_db":
 					GameInfo.soundfx_volume_db = float(value)
+				"music_value":
+					GameInfo.music_value = int(value)
+				"music_volume_db":
+					GameInfo.music_volume_db = float(value)
 				"total_gold":
 					GameInfo.total_gold = int(value)
 				"enemy_gold":
@@ -225,6 +229,7 @@ func _on_legacy_mode_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
+	GameInfo.save_game()
 	get_tree().quit()
 
 func _input(event):
