@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dwcdvyi73goev"]
+[gd_scene load_steps=11 format=3 uid="uid://dwcdvyi73goev"]
 
 [ext_resource type="Script" path="res://scripts/home_screen.gd" id="1_78h3v"]
 [ext_resource type="PackedScene" uid="uid://8kt4knn54gs0" path="res://scenes/legacy_mode.tscn" id="2_6ylac"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dpyw8mdapligj" path="res://scenes/options_screen.tscn" id="5_c0edd"]
 [ext_resource type="Texture2D" uid="uid://bl3a346sd6y61" path="res://sprites/main_menu_play_button_bigger.png" id="5_rury6"]
 [ext_resource type="Texture2D" uid="uid://clnvlhh77liw0" path="res://sprites/main_menu_exit_button_bigger.png" id="7_mu6ix"]
+[ext_resource type="AudioStream" uid="uid://bwbee61vjnrm4" path="res://sound/music/medieval_song.mp3" id="10_lgcng"]
 
 [node name="HomeScreen" type="Node2D"]
 script = ExtResource("1_78h3v")
@@ -80,6 +81,8 @@ position = Vector2(320, 180)
 texture = ExtResource("7_mu6ix")
 
 [node name="music_player" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_lgcng")
+autoplay = true
 
 [node name="soundfx_player" type="AudioStreamPlayer2D" parent="."]
 
@@ -96,3 +99,4 @@ texture = ExtResource("7_mu6ix")
 [connection signal="mouse_entered" from="Exit_button" to="." method="_on_exit_button_mouse_entered"]
 [connection signal="mouse_exited" from="Exit_button" to="." method="_on_exit_button_mouse_exited"]
 [connection signal="pressed" from="Exit_button" to="." method="_on_exit_button_pressed"]
+[connection signal="finished" from="music_player" to="." method="_on_music_player_finished"]

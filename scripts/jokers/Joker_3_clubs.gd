@@ -1,6 +1,6 @@
 class_name Joker_3_clubs extends Node2D
 
-var joker_effect = "Sort all clubs cards in each stack."
+var joker_effect = "Sort all club cards in each stack."
 var joker_price: int = 5
 
 var activation_window = 'on_cards_dealt'

@@ -7,6 +7,7 @@ class_name Options_screen extends Node2D
 @onready var soundfx_player = $soundfx_player
 
 @onready var soundfx_slider = $sound_fx_slider
+@onready var music_volume_slider = $music_volume_slider
 
 var soundfx_value = 0
 
@@ -40,6 +41,11 @@ func _on_sound_fx_slider_value_changed(value: float) -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	get_parent().set_soundfx_volume()
 	GameInfo.update_sounfdx_volume()
+
+func _on_music_volume_slider_value_changed(value: float) -> void:
+	GameInfo.music_value = value
+	GameInfo.music_volume_db = lerp(-80, 0, value / 100.0)
+	get_parent().set_music_volume_to()
 
 func _on_surrender_button_pressed() -> void:
 	GameInfo.reset()

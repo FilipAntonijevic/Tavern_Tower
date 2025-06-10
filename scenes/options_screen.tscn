@@ -153,6 +153,7 @@ flat = true
 [connection signal="mouse_exited" from="Options_button" to="." method="_on_options_button_mouse_exited"]
 [connection signal="pressed" from="Options_button" to="." method="_on_options_button_pressed"]
 [connection signal="value_changed" from="sound_fx_slider" to="." method="_on_sound_fx_slider_value_changed"]
+[connection signal="value_changed" from="music_volume_slider" to="." method="_on_music_volume_slider_value_changed"]
 [connection signal="pressed" from="back_to_main_menu/Back_to_main_menu_button" to="." method="_on_back_to_main_menu_button_pressed"]
 [connection signal="mouse_entered" from="surrender/surrender_button" to="." method="_on_surrender_button_mouse_entered"]
 [connection signal="mouse_exited" from="surrender/surrender_button" to="." method="_on_surrender_button_mouse_exited"]

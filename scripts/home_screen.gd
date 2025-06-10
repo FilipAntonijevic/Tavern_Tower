@@ -24,6 +24,11 @@ func _ready() -> void:
 		load_game()
 	GameInfo.in_home_screen_currently = true
 	load_sound_and_music_volume()
+
+func set_music_volume_to() -> void:
+	options_screen.music_volume_slider.value = GameInfo.music_value
+	GameInfo.music_volume_db = lerp(-80, 0, GameInfo.music_value / 100.0)
+	music_player.volume_db = GameInfo.music_volume_db
 	
 func load_game():
 	var file = FileAccess.open("user://game_info.txt", FileAccess.READ)
@@ -180,7 +185,8 @@ func load_game():
 
 func load_sound_and_music_volume() -> void:
 	set_soundfx_volume()
-
+	set_music_volume_to()
+	
 func _on_play_pressed() -> void:
 	play_this_sound_effect("res://sound/effects/button_click.mp3")
 	GameInfo.in_home_screen_currently = false
@@ -358,3 +364,7 @@ func load_jokers() -> void:
 			main.add_joker(card)
 			GameInfo.original_deck.remove_card_by_value_and_suit(card)
 	
+
+
+func _on_music_player_finished() -> void:
+	music_player.play()
