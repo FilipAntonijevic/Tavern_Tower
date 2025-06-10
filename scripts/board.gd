@@ -141,13 +141,6 @@ func end_turn() -> void:
 	if game_control.current_state == GameController.GameState.PLAYER_TURN:
 		game_control.transition(GameController.GameState.ENEMY_TURN)
 
-func _on_go_to_shop_pressed() -> void:
-	GameInfo.total_gold += enemy_gold
-	get_parent().increase_enemy_strength()
-	hide()
-	emit_signal("show_progress_bar")
-	
-
 func handle_jokers(activation_window: String, card: Card):
 	if !jokers_are_frozen:
 		for joker_place in jokers.get_children():

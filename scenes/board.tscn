@@ -182,13 +182,6 @@ position = Vector2(-50, 27)
 [node name="DebuffPlace5" parent="enemy" instance=ExtResource("7_g21js")]
 position = Vector2(-20, 27)
 
-[node name="Go_to_shop" type="Button" parent="."]
-offset_left = 445.0
-offset_top = 304.0
-offset_right = 516.0
-offset_bottom = 341.0
-text = "shop"
-
 [node name="paper" type="Sprite2D" parent="."]
 z_index = 1
 position = Vector2(383, 9)
@@ -294,4 +287,3 @@ texture = ExtResource("18_mgewy")
 [connection signal="mouse_entered" from="give_up" to="." method="_on_give_up_mouse_entered"]
 [connection signal="mouse_exited" from="give_up" to="." method="_on_give_up_mouse_exited"]
 [connection signal="pressed" from="give_up" to="." method="_on_give_up_pressed"]
-[connection signal="pressed" from="Go_to_shop" to="." method="_on_go_to_shop_pressed"]
