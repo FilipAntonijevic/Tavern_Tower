@@ -27,4 +27,23 @@ There is also Legacy mode, that offers a pure, traditional, solitaire experience
 
 ## Installation & Running (development)
 
+Windows
+
+Download Tavern_Tower.zip.
+Extract the .zip (right‑click → Extract/Extract All or use 7‑Zip).
+Open the extracted Tavern_Tower folder.
+Double‑click Tavern_tower.exe to run.
+
+Linux — running the Windows .exe with Wine
+
+Install Wine (example commands):
+    Ubuntu/Debian: sudo apt update && sudo apt install wine64 winetricks -y
+    Fedora: sudo dnf install wine
+    Arch: sudo pacman -S wine
+Extract and enter the folder:
+    unzip Tavern_Tower.zip
+    cd Tavern_Tower
+Run the Windows executable with Wine:
+    wine Tavern_tower.exe
+
 
